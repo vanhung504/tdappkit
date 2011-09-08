@@ -51,6 +51,7 @@
     if ([v isInFullScreenMode]) {
         [self willExitFullScreenMode];
         [v exitFullScreenModeWithOptions:nil];
+        [win makeKeyAndOrderFront:nil];
         fullScreen = NO;
         [self didExitFullScreenMode];
     } else {
@@ -58,6 +59,7 @@
         fullScreen = YES;
         NSDictionary *opts = [self fullScreenOptions];
         [v enterFullScreenMode:[win screen] withOptions:opts];
+        [win orderOut:nil];
         [self didEnterFullScreenMode];
     }
 }
