@@ -10,9 +10,38 @@
 #import <TDAppKit/TDTabbedDocument.h>
 #import <TDAppKit/TDUtils.h>
 
+@interface NSWindow ()
+- (void)toggleFullScreen:(id)sender;
+@end
+
+@interface TDTabbedDocumentController ()
+- (void)postLion_toggleFullScreen:(id)sender;
+- (void)preLion_toggleFullScreen:(id)sender;
+@end
+
 @implementation TDTabbedDocumentController
 
 - (IBAction)toggleFullScreen:(id)sender {
+    if (TDIsLionOrLater()) {
+        [self postLion_toggleFullScreen:sender];
+    } else {
+        [self preLion_toggleFullScreen:sender];
+    }
+}
+
+
+- (void)postLion_toggleFullScreen:(id)sender {
+    TDTabbedDocument *doc = [self frontDocument];
+    if (!doc) {
+        return;
+    }
+    NSWindow *win = [[[doc windowControllers] objectAtIndex:0] window];
+
+    [win toggleFullScreen:nil];
+}
+
+
+- (void)preLion_toggleFullScreen:(id)sender {
     TDTabbedDocument *doc = [self frontDocument];
     if (!doc) {
         doc = [self openUntitledDocumentAndDisplay:YES error:nil];
@@ -21,9 +50,6 @@
     NSView *v = [win contentView];
     if ([v isInFullScreenMode]) {
         [self willExitFullScreenMode];
-        if (TDIsLionOrLater()) {
-            [win makeKeyAndOrderFront:nil];
-        }
         [v exitFullScreenModeWithOptions:nil];
         fullScreen = NO;
         [self didExitFullScreenMode];
@@ -32,9 +58,6 @@
         fullScreen = YES;
         NSDictionary *opts = [self fullScreenOptions];
         [v enterFullScreenMode:[win screen] withOptions:opts];
-        if (TDIsLionOrLater()) {
-            [win orderOut:nil];
-        }
         [self didEnterFullScreenMode];
     }
 }
@@ -70,11 +93,14 @@
 
 
 - (void)willEnterFullScreenMode {
-    
+
 }
 
 
 - (void)didEnterFullScreenMode {
+    if (TDIsLionOrLater()) {
+        fullScreen = YES;
+    }
     
 }
 
@@ -84,6 +110,10 @@
 }
 
 - (void)didExitFullScreenMode {
+    if (TDIsLionOrLater()) {
+        fullScreen = NO;
+    }
+    
     
 }
 
