@@ -8,6 +8,7 @@
 
 #import <TDAppKit/TDTabbedDocumentController.h>
 #import <TDAppKit/TDTabbedDocument.h>
+#import <TDAppKit/TDUtils.h>
 
 @implementation TDTabbedDocumentController
 
@@ -20,6 +21,9 @@
     NSView *v = [win contentView];
     if ([v isInFullScreenMode]) {
         [self willExitFullScreenMode];
+        if (TDIsLionOrLater()) {
+            [win makeKeyAndOrderFront:nil];
+        }
         [v exitFullScreenModeWithOptions:nil];
         fullScreen = NO;
         [self didExitFullScreenMode];
@@ -28,6 +32,9 @@
         fullScreen = YES;
         NSDictionary *opts = [self fullScreenOptions];
         [v enterFullScreenMode:[win screen] withOptions:opts];
+        if (TDIsLionOrLater()) {
+            [win orderOut:nil];
+        }
         [self didEnterFullScreenMode];
     }
 }
