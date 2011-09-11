@@ -870,6 +870,20 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
         dropIndex--;
         dropVisibleIndex--;
     }
+    
+    // begin
+    // adding this guard as stablility enhancement in Fake 1.8.2
+    // not sure why it's necessary, but it is to prevent dragging out of workflow items array bounds
+    
+    NSUInteger totalCount = [items count];
+    NSUInteger dragCount = [draggingIndexes count];
+    NSUInteger nonDraggedCount = totalCount - dragCount;
+    if (dropIndex > nonDraggedCount || NSNotFound == dropIndex) {
+        dropIndex = nonDraggedCount;
+    }
+    
+    // end
+    
     self.itemFrames = nil;
     
     suppressLayout = YES;
