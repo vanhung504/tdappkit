@@ -62,6 +62,37 @@
 }
 
 
+#pragma mark -
+#pragma mark Lion FullScreen
+
+//NSWindowWillEnterFullScreenNotification
+//NSWindowDidEnterFullScreenNotification
+//NSWindowWillExitFullScreenNotification
+//NSWindowDidExitFullScreenNotification
+
+- (void)windowWillEnterFullScreen:(NSNotification *)n {
+    fullScreenTransitioning = YES;
+}
+
+
+- (void)windowDidEnterFullScreen:(NSNotification *)n {
+    fullScreen = YES;
+    fullScreenTransitioning = NO;
+}
+
+
+- (void)windowWillExitFullScreen:(NSNotification *)n {
+    fullScreenTransitioning = YES;
+
+}
+
+
+- (void)windowDidExitFullScreen:(NSNotification *)n {
+    fullScreen = NO;
+    fullScreenTransitioning = NO;
+}
+
+
 //#pragma mark -
 //#pragma mark TDTabsListViewControllerDelegate
 //
@@ -101,5 +132,15 @@
 //    [doc newTab:nil];
 //}
 //
+
+- (BOOL)isFullScreen {
+    return fullScreen;
+}
+
+
+- (BOOL)isFullScreenTransitioning {
+    return fullScreenTransitioning;
+}
+
 @synthesize tabsListViewController;
 @end
