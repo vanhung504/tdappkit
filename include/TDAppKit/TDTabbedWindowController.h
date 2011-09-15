@@ -12,9 +12,20 @@
 
 @interface TDTabbedWindowController : NSWindowController {
     TDTabsListViewController *tabsListViewController;
+    BOOL fullScreen; // Lion only
+    BOOL fullScreenTransitioning; // Lion only
 }
 
 //- (IBAction)performClose:(id)sender; // maps to -closeTab:. must do this for framework calls
+
+- (BOOL)isFullScreen; // Lion only
+- (BOOL)isFullScreenTransitioning; // Lion only
+
+// make SL compiler happy
+- (void)windowWillEnterFullScreen:(NSNotification *)n;
+- (void)windowDidEnterFullScreen:(NSNotification *)n;
+- (void)windowWillExitFullScreen:(NSNotification *)n;
+- (void)windowDidExitFullScreen:(NSNotification *)n;
 
 @property (nonatomic, retain) TDTabsListViewController *tabsListViewController;
 @end
