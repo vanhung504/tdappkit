@@ -191,7 +191,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 
 
 - (TDListItem *)itemAtVisibleIndex:(NSUInteger)i {
-    if (i < 0 || i >= [items count]) return nil;
+    if (NSNotFound == i || i >= [items count]) return nil;
     
     return [items objectAtIndex:i];
 }
@@ -778,7 +778,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
         
     NSUInteger itemCount = [items count];
     //if (dropIndex < 0 || NSNotFound == dropIndex) {// || dropIndex > itemCount) {
-    if (dropIndex < 0 || NSNotFound == dropIndex || dropIndex > itemCount) {
+    if (NSNotFound == dropIndex || dropIndex > itemCount) {
         dropIndex = itemCount;
     }
     
