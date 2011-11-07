@@ -611,7 +611,8 @@ enum {
 
         for( theIndex = 1; theIndex <= theNumOfItems; theIndex++)
         {
-                if( theDescriptor = [self descriptorAtIndex:theIndex] )
+            theDescriptor = [self descriptorAtIndex:theIndex];
+                if( theDescriptor )
                 {
                         [theArray addObject:[theDescriptor objectValue]];
                 }

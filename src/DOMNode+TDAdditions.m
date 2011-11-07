@@ -29,7 +29,7 @@
                 return (DOMElement *)curr;
             }
         }
-    } while (curr = [curr parentNode]);
+    } while ((curr = [curr parentNode]));
     
     return nil;
 }
