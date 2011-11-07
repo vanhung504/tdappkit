@@ -165,7 +165,9 @@ enum {
  */
 + (id)descriptorWithURL:(NSURL *)aURL
 {
-        return [self descriptorWithDescriptorType:typeFileURL data:[NSData dataWithBytes:(void *)aURL length:sizeof(NSURL)]];
+    NSString *str = [aURL absoluteString];
+    NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+    return [self descriptorWithDescriptorType:typeFileURL data:data];
 }
 
 /*
@@ -670,12 +672,12 @@ enum {
 {
         id                                      theURL = nil;
         OSAError                        theError;
+        unsigned int    theSize;
 
         switch([self descriptorType])
         {
                 case typeAlias:                                                 //      alias record
                 {
-                        unsigned int    theSize;
                         Handle                  theAliasHandle;
                         FSRef                           theTarget;
                         Boolean                 theWasChanged;
@@ -694,8 +696,18 @@ enum {
                         break;
                 }
                 case typeFileURL:                                       // ???          NOT IMPLEMENTED YET
-                        NSLog(@"NOT IMPLEMENTED YET: Attempt to create a NSURL from 'typeFileURL' AEDesc" );
-                        break;
+                        //NSLog(@"NOT IMPLEMENTED YET: Attempt to create a NSURL from 'typeFileURL' AEDesc" );
+            {
+                void *theBytes;
+                theError = AEGetDescData([self aeDesc], &theBytes, theSize);
+                if (theSize) {
+                    NSString *str = [[[NSString alloc] initWithBytes:theBytes length:theSize encoding:NSUTF8StringEncoding] autorelease];
+                    if (str) {
+                        theURL = [NSURL URLWithString:str];
+                    }
+                    break;
+                }
+            }
         }
 
         return theURL;
