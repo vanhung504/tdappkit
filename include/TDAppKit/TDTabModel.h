@@ -33,8 +33,8 @@
 - (BOOL)wantsNewImage;
 - (void)setNeedsNewImage:(BOOL)yn;
 
-//- (void)updateChangeCount:(NSDocumentChangeType)changeType;
-//- (BOOL)isDocumentEdited;
+- (void)updateChangeCount:(NSDocumentChangeType)changeType;
+- (BOOL)isDocumentEdited;
 
 @property (nonatomic, retain) id representedObject;
 @property (nonatomic, assign) TDTabbedDocument *document; // weak ref

@@ -9,6 +9,7 @@
 #import <TDAppKit/TDTabModel.h>
 #import <TDAppKit/TDTabbedDocument.h>
 #import <TDAppKit/TDTabViewController.h>
+#import <TDAppKit/TDUtils.h>
 
 @interface TDTabModel ()
 
@@ -52,42 +53,44 @@
 }
 
 
-//- (BOOL)isDocumentEdited {
-//    NSAssert(changeCount != NSNotFound, @"invalid changeCount");
-//    //NSLog(@"%d", changeCount);
-//    BOOL yn = changeCount != 0;
-//    [[[[document windowControllers] objectAtIndex:0] window] setDocumentEdited:yn];
-//    return yn;
-//}
-//
-//
-//- (void)updateChangeCount:(NSDocumentChangeType)type {
-//    NSAssert(changeCount != NSNotFound, @"invalid changeCount");
-//
-//    switch (type) {
-//        case NSChangeDone:
-//            changeCount++;
-//            break;
-//        case NSChangeUndone:
-//            changeCount--;
-//            break;
-//        case NSChangeRedone:
-//            changeCount++;
-//            break;
-//        case NSChangeCleared:
-//            changeCount = 0;
-//            break;
-//        case NSChangeReadOtherContents:
-//            break;
-//        case NSChangeAutosaved:
-//            break;
-//        default:
-//            NSAssert(0, @"unknown changeType");
-//            break;
-//    }
-//
-//    NSAssert(changeCount != NSNotFound, @"invalid changeCount");
-//}
+- (BOOL)isDocumentEdited {
+    NSAssert(!TDIsLionOrLater(), @"");
+    NSAssert(changeCount != NSNotFound, @"invalid changeCount");
+    //NSLog(@"%d", changeCount);
+    BOOL yn = changeCount != 0;
+    [[[[document windowControllers] objectAtIndex:0] window] setDocumentEdited:yn];
+    return yn;
+}
+
+
+- (void)updateChangeCount:(NSDocumentChangeType)type {
+    NSAssert(!TDIsLionOrLater(), @"");
+    NSAssert(changeCount != NSNotFound, @"invalid changeCount");
+
+    switch (type) {
+        case NSChangeDone:
+            changeCount++;
+            break;
+        case NSChangeUndone:
+            changeCount--;
+            break;
+        case NSChangeRedone:
+            changeCount++;
+            break;
+        case NSChangeCleared:
+            changeCount = 0;
+            break;
+        case NSChangeReadOtherContents:
+            break;
+        case NSChangeAutosaved:
+            break;
+        default:
+            NSAssert(0, @"unknown changeType");
+            break;
+    }
+
+    NSAssert(changeCount != NSNotFound, @"invalid changeCount");
+}
 
 
 - (NSDictionary *)plist {

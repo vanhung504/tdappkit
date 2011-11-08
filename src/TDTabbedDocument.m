@@ -9,6 +9,7 @@
 #import <TDAppKit/TDTabbedDocument.h>
 #import <TDAppKit/TDTabModel.h>
 #import <TDAppKit/TDTabViewController.h>
+#import <TDAppKit/TDUtils.h>
 
 static NSMutableDictionary *sDocuments = nil;
 
@@ -108,17 +109,22 @@ static NSMutableDictionary *sDocuments = nil;
 }
 
 
-//- (BOOL)isDocumentEdited {
-//    BOOL yn = [self.selectedTabModel isDocumentEdited];
-//    //return [super isDocumentEdited];
-//    return yn;
-//}
+- (BOOL)isDocumentEdited {
+    if (TDIsLionOrLater()) {
+        return [super isDocumentEdited];
+    } else {
+        BOOL yn = [self.selectedTabModel isDocumentEdited];
+        return yn;
+    }
+}
 
 
-//- (void)updateChangeCount:(NSDocumentChangeType)type {
-//    [self.selectedTabModel updateChangeCount:type];
-//    [super updateChangeCount:type];
-//}    
+- (void)updateChangeCount:(NSDocumentChangeType)type {
+    if (!TDIsLionOrLater()) {
+        [self.selectedTabModel updateChangeCount:type];
+    }
+    [super updateChangeCount:type];
+}    
 
 
 #pragma mark -
@@ -398,7 +404,9 @@ static NSMutableDictionary *sDocuments = nil;
         }
         self.selectedTabModel = tm;
     
-        //[[[[self windowControllers] objectAtIndex:0] window] setDocumentEdited:[tm isDocumentEdited]];
+        if (!TDIsLionOrLater()) {
+            [[[[self windowControllers] objectAtIndex:0] window] setDocumentEdited:[tm isDocumentEdited]];
+        }
 
         [self selectedTabIndexDidChange];
         
