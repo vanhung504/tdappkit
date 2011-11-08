@@ -108,17 +108,17 @@ static NSMutableDictionary *sDocuments = nil;
 }
 
 
-- (BOOL)isDocumentEdited {
-    BOOL yn = [self.selectedTabModel isDocumentEdited];
-    //return [super isDocumentEdited];
-    return yn;
-}
+//- (BOOL)isDocumentEdited {
+//    BOOL yn = [self.selectedTabModel isDocumentEdited];
+//    //return [super isDocumentEdited];
+//    return yn;
+//}
 
 
-- (void)updateChangeCount:(NSDocumentChangeType)type {
-    [self.selectedTabModel updateChangeCount:type];
-    [super updateChangeCount:type];
-}    
+//- (void)updateChangeCount:(NSDocumentChangeType)type {
+//    [self.selectedTabModel updateChangeCount:type];
+//    [super updateChangeCount:type];
+//}    
 
 
 #pragma mark -
@@ -352,14 +352,14 @@ static NSMutableDictionary *sDocuments = nil;
 
 
 - (void)tabsViewController:(TDTabsListViewController *)tvc didCloseTabModelAtIndex:(NSUInteger)i {
-    TDTabModel *tm = [models objectAtIndex:i];
-    if (tm.isDocumentEdited) {
-        // runs 'sure you want to close?' dialog
-        self.selectedTabIndex = i;
-        [self closeTab:nil];
-    } else {
+//    TDTabModel *tm = [models objectAtIndex:i];
+//    if (tm.isDocumentEdited) {
+//        // runs 'sure you want to close?' dialog
+//        self.selectedTabIndex = i;
+//        [self closeTab:nil];
+//    } else {
         [self removeTabModelAtIndex:i];
-    }
+//    }
 }
 
 
@@ -398,7 +398,7 @@ static NSMutableDictionary *sDocuments = nil;
         }
         self.selectedTabModel = tm;
     
-        [[[[self windowControllers] objectAtIndex:0] window] setDocumentEdited:[tm isDocumentEdited]];
+        //[[[[self windowControllers] objectAtIndex:0] window] setDocumentEdited:[tm isDocumentEdited]];
 
         [self selectedTabIndexDidChange];
         
