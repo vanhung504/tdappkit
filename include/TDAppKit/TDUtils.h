@@ -31,3 +31,5 @@ NSNib *TDLoadNib(id owner, NSString *nibName, NSBundle *bundle);
 BOOL TDIsLionOrLater();
 BOOL TDIsSnowLeopardOrLater();
 void TDGetSystemVersion(NSUInteger *major, NSUInteger *minor, NSUInteger *bugfix);
+
+NSStringEncoding TDNSStringEncodingFromTextEncodingName(NSString *encName);

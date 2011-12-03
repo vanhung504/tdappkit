@@ -179,3 +179,8 @@ fail:
     if (minor) *minor = 0;
     if (bugfix) *bugfix = 0;
 }
+
+
+NSStringEncoding TDNSStringEncodingFromTextEncodingName(NSString *encName) {
+    return CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)encName));
+}
