@@ -32,6 +32,7 @@
     return ctx;
 }
 
+
 - (JSValueRef)valueForEvaluatingScript:(NSString *)script error:(NSString **)outErrMsg inContext:(JSGlobalContextRef)ctx {
     if (!ctx) {
         ctx = [self javaScriptContext];    
@@ -74,7 +75,6 @@
 
 
 - (BOOL)javaScriptEvalsTrue:(NSString *)script error:(NSString **)outErrMsg {
-    // get context
     JSGlobalContextRef ctx = [[self mainFrame] globalContext];
     
     NSString *sourceURLString = [self mainFrameURL];
@@ -89,7 +89,6 @@
     
     if ([xpath length]) {
         
-        // get doc
         DOMDocument *doc = [self mainFrameDocument];
         if (!doc) {
             if (outErrMsg) {
