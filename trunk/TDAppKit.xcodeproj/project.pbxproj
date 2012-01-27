@@ -1022,6 +1022,7 @@
 					i386,
 					x86_64,
 				);
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1052,7 +1053,7 @@
 					i386,
 					x86_64,
 				);
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				CODE_SIGN_IDENTITY = "";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1067,7 +1068,6 @@
 				INFOPLIST_FILE = res/conf/Info.plist;
 				INSTALL_PATH = "build/$(CONFIGURATION)";
 				PRODUCT_NAME = TDAppKit;
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
