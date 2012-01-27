@@ -36,16 +36,16 @@
     [nc addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidBecomeMainNotification object:[self window]];
     [nc addObserver:self selector:@selector(windowDidResignMain:) name:NSWindowDidResignMainNotification object:[self window]];
     
-    NSColor *bgColor = [NSColor colorWithDeviceWhite:.77 alpha:1];
-    self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:.7] endingColor:bgColor] autorelease];
-    bgColor = [NSColor colorWithDeviceWhite:.93 alpha:1];
-    self.nonMainBgGradient = [[[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:.7] endingColor:bgColor] autorelease];
-    self.mainTopBorderColor = [NSColor colorWithDeviceWhite:.53 alpha:1];
-    self.nonMainTopBorderColor = [NSColor colorWithDeviceWhite:.78 alpha:1];
-    self.mainTopBevelColor = [NSColor colorWithDeviceWhite:.88 alpha:1];
-    self.nonMainTopBevelColor = [NSColor colorWithDeviceWhite:.99 alpha:1];
+    NSColor *bgColor = [NSColor colorWithDeviceWhite:0.77 alpha:1.0];
+    self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:0.7] endingColor:bgColor] autorelease];
+    bgColor = [NSColor colorWithDeviceWhite:0.93 alpha:1.0];
+    self.nonMainBgGradient = [[[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:0.7] endingColor:bgColor] autorelease];
+    self.mainTopBorderColor = [NSColor colorWithDeviceWhite:0.53 alpha:1.0];
+    self.nonMainTopBorderColor = [NSColor colorWithDeviceWhite:0.78 alpha:1.0];
+    self.mainTopBevelColor = [NSColor colorWithDeviceWhite:0.88 alpha:1.0];
+    self.nonMainTopBevelColor = [NSColor colorWithDeviceWhite:0.99 alpha:1.0];
     self.mainBottomBevelColor = [NSColor lightGrayColor];
-    self.nonMainBottomBevelColor = [NSColor colorWithDeviceWhite:.99 alpha:1];
+    self.nonMainBottomBevelColor = [NSColor colorWithDeviceWhite:0.99 alpha:1.0];
 }
 
 
