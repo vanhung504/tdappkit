@@ -44,6 +44,8 @@ extern NSString *const TDListItemPboardType;
     BOOL displaysClippedItems;
     BOOL allowsMultipleSelection;
     
+    BOOL needsReload;
+    
     NSMutableArray *items;
     NSMutableArray *unusedItems;
     TDListItemQueue *queue;
