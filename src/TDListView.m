@@ -130,8 +130,18 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 #pragma mark Public
 
 - (void)reloadData {
-    [self layoutItems];
-    [self setNeedsDisplay:YES];
+    NSAssert([[NSThread currentThread] isMainThread], @"");
+    needsReload = YES;
+    [self performSelector:@selector(reloadConditionally) withObject:nil afterDelay:0.0];
+}
+
+
+- (void)reloadConditionally {
+    if (needsReload) {
+        [self layoutItems];
+        [self setNeedsDisplay:YES];
+        needsReload = NO;
+    }
 }
 
 
