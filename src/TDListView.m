@@ -131,18 +131,25 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 
 - (void)reloadData {
     NSAssert([[NSThread currentThread] isMainThread], @"");
-    needsReload = YES;
-    [self performSelector:@selector(reloadConditionally) withObject:nil afterDelay:0.0];
+    [self layoutItems];
+    [self setNeedsDisplay:YES];
 }
 
 
-- (void)reloadConditionally {
-    if (needsReload) {
-        [self layoutItems];
-        [self setNeedsDisplay:YES];
-        needsReload = NO;
-    }
-}
+//- (void)reloadData {
+//    NSAssert([[NSThread currentThread] isMainThread], @"");
+//    needsReload = YES;
+//    [self performSelector:@selector(reloadConditionally) withObject:nil afterDelay:0.0];
+//}
+//
+//
+//- (void)reloadConditionally {
+//    if (needsReload) {
+//        [self layoutItems];
+//        [self setNeedsDisplay:YES];
+//        needsReload = NO;
+//    }
+//}
 
 
 - (TDListItem *)dequeueReusableItemWithIdentifier:(NSString *)s {
