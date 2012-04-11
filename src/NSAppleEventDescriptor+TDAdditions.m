@@ -65,8 +65,6 @@
 
 
 - (OSErr)sendToOwnProcessWaitReply:(AppleEvent *)replyEvt {
-    //[self setDescriptor:[NSAppleEventDescriptor descriptorWithString:@"foobar"] forKeyword:'iTod'];
-    
     const AppleEvent *aevt = [self aeDesc];
     
     OSErr err = noErr; 
