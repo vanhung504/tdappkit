@@ -104,20 +104,20 @@ static NSImage *sProgressImage = nil;
         [paraStyle setLineBreakMode:NSLineBreakByTruncatingTail];
         
         NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
-        [shadow setShadowColor:[NSColor colorWithCalibratedWhite:0 alpha:.4]];
-        [shadow setShadowOffset:NSMakeSize(0, -1)];
-        [shadow setShadowBlurRadius:0];
+        [shadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.4]];
+        [shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
+        [shadow setShadowBlurRadius:0.0];
         
         sSelectedTitleAttrs = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               [NSFont boldSystemFontOfSize:10], NSFontAttributeName,
+                               [NSFont boldSystemFontOfSize:10.0], NSFontAttributeName,
                                [NSColor whiteColor], NSForegroundColorAttributeName,
                                paraStyle, NSParagraphStyleAttributeName,
                                shadow, NSShadowAttributeName,
                                nil];
         
         sTitleAttrs = [[NSDictionary alloc] initWithObjectsAndKeys:
-                       [NSFont boldSystemFontOfSize:10], NSFontAttributeName,
-                       [NSColor colorWithDeviceWhite:.3 alpha:1], NSForegroundColorAttributeName,
+                       [NSFont boldSystemFontOfSize:10.0], NSFontAttributeName,
+                       [NSColor colorWithDeviceWhite:0.3 alpha:1.0], NSForegroundColorAttributeName,
                        paraStyle, NSParagraphStyleAttributeName,
                        nil];
         
@@ -132,8 +132,8 @@ static NSImage *sProgressImage = nil;
         sSelectedOuterRectStrokeColor = [[NSColor colorWithDeviceRed:91.0/255.0 green:100.0/255.0 blue:115.0/255.0 alpha:1.0] retain];
         
         // inner round rect stroke
-        sSelectedInnerRectStrokeColor = [[sSelectedOuterRectStrokeColor colorWithAlphaComponent:.8] retain];
-        sInnerRectStrokeColor = [[NSColor colorWithDeviceWhite:.7 alpha:1] retain];
+        sSelectedInnerRectStrokeColor = [[sSelectedOuterRectStrokeColor colorWithAlphaComponent:0.8] retain];
+        sInnerRectStrokeColor = [[NSColor colorWithDeviceWhite:0.7 alpha:1.0] retain];
         
         sProgressImage = [[NSImage imageNamed:@"progress_indicator.png" inBundleForClass:self] retain];
     }
@@ -187,11 +187,12 @@ static NSImage *sProgressImage = nil;
 - (void)layoutSubviews {
     CGRect bounds = [self bounds];
     if (showsCloseButton) {
-        [closeButton setTag:tabModel.index];
-        [closeButton setTarget:tabsListViewController];
+        [self.closeButton setTag:tabModel.index];
+        [self.closeButton setTarget:tabsListViewController];
         [self.closeButton setFrame:[self closeButtonRectForBounds:bounds]];
     }
     if (showsProgressIndicator) {
+        [self.progressIndicator sizeToFit];
         [self.progressIndicator setFrameOrigin:[self progressIndicatorRectForBounds:bounds].origin];
     }
 }
@@ -280,7 +281,7 @@ static NSImage *sProgressImage = nil;
         
         [tabModel.image setFlipped:[self isFlipped]];
         
-        img = [tabModel.image scaledImageOfSize:imgSize alpha:alpha hiRez:hiRez cornerRadius:NORMAL_RADIUS progress:0];
+        img = [tabModel.image scaledImageOfSize:imgSize alpha:alpha hiRez:hiRez cornerRadius:NORMAL_RADIUS progress:0.0];
         tabModel.scaledImage = img;
     }
     
@@ -304,6 +305,10 @@ static NSImage *sProgressImage = nil;
     // stroke again over image
     TDDrawRoundRect(thumbRect, NORMAL_RADIUS, 1.0, nil, strokeColor);
     
+    if (showsCloseButton) {
+        [closeButton setNeedsDisplay:YES];
+    }
+    
     if (showsProgressIndicator) {
         if (tabModel.isBusy) {
             [progressIndicator startAnimation:self];
@@ -312,10 +317,6 @@ static NSImage *sProgressImage = nil;
         }
         
         [progressIndicator setNeedsDisplay:YES];
-    }
-    
-    if (showsCloseButton) {
-        [closeButton setNeedsDisplay:YES];
     }
     
     drawHiRez = NO; // reset
@@ -405,8 +406,7 @@ static NSImage *sProgressImage = nil;
 
 - (NSButton *)closeButton {
     if (!closeButton) {
-        CGRect bounds = [self bounds];
-        self.closeButton = [[[NSButton alloc] initWithFrame:[self closeButtonRectForBounds:bounds]] autorelease];
+        self.closeButton = [[[NSButton alloc] initWithFrame:CGRectZero] autorelease];
         [closeButton setButtonType:NSMomentaryChangeButton];
         [closeButton setBordered:NO];
         [closeButton setAction:@selector(closeTabButtonClick:)];
@@ -423,13 +423,11 @@ static NSImage *sProgressImage = nil;
 
 - (NSProgressIndicator *)progressIndicator {
     if (!progressIndicator) {
-        CGRect bounds = [self bounds];
-        self.progressIndicator = [[[NSProgressIndicator alloc] initWithFrame:[self progressIndicatorRectForBounds:bounds]] autorelease];
+        self.progressIndicator = [[[NSProgressIndicator alloc] initWithFrame:CGRectZero] autorelease];
         [progressIndicator setStyle:NSProgressIndicatorSpinningStyle];
         [progressIndicator setControlSize:NSSmallControlSize];
         [progressIndicator setDisplayedWhenStopped:NO];
         [progressIndicator setIndeterminate:YES];
-        [progressIndicator sizeToFit];
         [self addSubview:progressIndicator];
     }
     return progressIndicator;
