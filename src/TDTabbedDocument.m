@@ -229,7 +229,7 @@ static NSMutableDictionary *sDocuments = nil;
     }
     
     // notify
-    [self didAddTabModel:tm];
+    [self didAddTabModelAtIndex:i];
 }
 
 
@@ -263,7 +263,9 @@ static NSMutableDictionary *sDocuments = nil;
 
 
 - (void)removeTabModel:(TDTabModel *)tm {
-    [self removeTabModelAtIndex:[models indexOfObject:tm]];
+    NSInteger i = [models indexOfObject:tm];
+    [self willRemoveTabModelAtIndex:i];
+    [self removeTabModelAtIndex:i];
 }
 
 
@@ -280,12 +282,12 @@ static NSMutableDictionary *sDocuments = nil;
 #pragma mark -
 #pragma mark Subclass
 
-- (void)didAddTabModel:(TDTabModel *)tm {
+- (void)didAddTabModelAtIndex:(NSInteger)i {
     
 }
 
 
-- (void)willRemoveTabModel:(TDTabModel *)tm {
+- (void)willRemoveTabModelAtIndex:(NSInteger)i {
     
 }
 
