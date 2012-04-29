@@ -124,4 +124,5 @@
 @synthesize title;
 @synthesize index;
 @synthesize selected;
+@synthesize busy;
 @end
