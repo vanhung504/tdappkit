@@ -21,6 +21,8 @@
     NSString *title;
     NSUInteger index;
     BOOL selected;
+    BOOL busy;
+    
     BOOL needsNewImage;
     
     NSUInteger changeCount;
@@ -44,4 +46,5 @@
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, assign) NSUInteger index;
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
+@property (nonatomic, assign, getter=isBusy) BOOL busy;
 @end

@@ -81,6 +81,8 @@ static NSImage *sProgressImage = nil;
 @end
 
 @interface TDTabListItem ()
+- (void)layoutSubviews;
+
 - (NSImage *)imageNamed:(NSString *)name scaledToSize:(NSSize)size;
 - (void)startObserveringModel:(TDTabModel *)m;
 - (void)stopObserveringModel:(TDTabModel *)m;
@@ -151,12 +153,13 @@ static NSImage *sProgressImage = nil;
 
 - (id)initWithFrame:(NSRect)frame reuseIdentifier:(NSString *)s {
     if (self = [super initWithFrame:frame reuseIdentifier:s]) {
-        self.closeButton = [[[NSButton alloc] initWithFrame:NSMakeRect(7, 5, 10, 10)] autorelease];
+        
+        self.closeButton = [[[NSButton alloc] initWithFrame:CGRectZero] autorelease];
         [closeButton setButtonType:NSMomentaryChangeButton];
         [closeButton setBordered:NO];
         [closeButton setAction:@selector(closeTabButtonClick:)];
         
-        NSSize imgSize = NSMakeSize(10, 10);
+        NSSize imgSize = NSMakeSize(10.0, 10.0);
         [closeButton setImage:[self imageNamed:@"close_button" scaledToSize:imgSize]];
         [closeButton setAlternateImage:[self imageNamed:@"close_button_pressed" scaledToSize:imgSize]];
         [self addSubview:closeButton];
@@ -191,12 +194,63 @@ static NSImage *sProgressImage = nil;
 
 
 #pragma mark -
-#pragma mark Events
+#pragma mark Drawing/Layout
 
-- (void)drawHiRezLater {
-    //NSLog(@"%s YES %@", __PRETTY_FUNCTION__, tabModel);
-    drawHiRez = NO;
-    [self startDrawHiRezTimer];
+- (void)resizeSubviewsWithOldSize:(NSSize)oldSize {
+    [self layoutSubviews];
+}
+
+
+- (void)layoutSubviews {
+    CGRect bounds = [self bounds];
+    if (showsCloseButton) {
+        [closeButton setFrame:[self closeButtonRectForBounds:bounds]];
+    }
+    if (showsProgressIndicator) {
+        [progressIndicator setFrame:[self progressIndicatorRectForBounds:bounds]];
+    }
+}
+
+
+- (CGRect)borderRectForBounds:(CGRect)bounds {
+    CGRect r = CGRectInset(bounds, 2.5, 1.5);
+    return r;
+}
+
+    
+- (CGRect)closeButtonRectForBounds:(CGRect)bounds {
+    CGRect r = CGRectMake(7.0, 5.0, 10.0, 10.0);
+    return r;
+}
+
+
+- (CGRect)titleRectForBounds:(CGRect)bounds {
+    CGRect r = CGRectInset(bounds, 13.5, 3.5);
+    r.size.height = 13.0;
+    
+    if (showsCloseButton) {
+        r.origin.x += 8.0;
+    }
+    
+    return r;
+}
+
+
+- (CGRect)progressIndicatorRectForBounds:(CGRect)bounds {
+    CGRect r = CGRectZero;
+    return r;
+}
+
+
+- (CGRect)thumbnailRectForBounds:(CGRect)bounds {
+    CGRect r = CGRectInset(bounds, 6.5, 5.5);
+    r = NSOffsetRect(r, 0.0, 12.0);
+    r.size.height -= 10.0;
+    
+    r.size.width = floor(r.size.width - THUMBNAIL_DIFF);
+    r.size.height = floor(r.size.height - THUMBNAIL_DIFF);
+
+    return r;
 }
 
 
@@ -210,19 +264,17 @@ static NSImage *sProgressImage = nil;
     // outer round rect
     if (bounds.size.width < 24.0) return; // dont draw anymore when you're really small. looks bad.
     
-    NSRect roundRect = NSInsetRect(bounds, 2.5, 1.5);
+    NSRect borderRect = [self borderRectForBounds:bounds];
     
     if (tabModel.isSelected) {
-        CGFloat radius = (bounds.size.width < 32) ? SMALL_RADIUS : NORMAL_RADIUS;
-        TDDrawRoundRect(roundRect, radius, 1, sSelectedOuterRectFillGradient, sSelectedOuterRectStrokeColor);
+        CGFloat radius = (bounds.size.width < 32.0) ? SMALL_RADIUS : NORMAL_RADIUS;
+        TDDrawRoundRect(borderRect, radius, 1.0, sSelectedOuterRectFillGradient, sSelectedOuterRectStrokeColor);
     }
     
     // title
     if (bounds.size.width < 40.0) return; // dont draw anymore when you're really small. looks bad.
     
-    NSRect titleRect = NSInsetRect(roundRect, 11, 2);
-    titleRect.origin.x += 8; // make room for close button
-    titleRect.size.height = 13;
+    NSRect titleRect = [self titleRectForBounds:bounds];
     NSUInteger opts = NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin;
     NSDictionary *attrs = tabModel.isSelected ? sSelectedTitleAttrs : sTitleAttrs;
     [tabModel.title drawWithRect:titleRect options:opts attributes:attrs];
@@ -230,16 +282,11 @@ static NSImage *sProgressImage = nil;
     // inner round rect
     if (bounds.size.width < 55.0) return; // dont draw anymore when you're really small. looks bad.
     
-    roundRect = NSInsetRect(roundRect, 4, 4);
-    roundRect = NSOffsetRect(roundRect, 0, 12);
-    roundRect.size.height -= 10;
-    
-    NSSize imgSize = roundRect.size;
-    imgSize.width = floor(imgSize.width - THUMBNAIL_DIFF);
-    imgSize.height = floor(imgSize.height - THUMBNAIL_DIFF);
+    CGRect thumbRect = [self thumbnailRectForBounds:bounds];
+    CGSize imgSize = thumbRect.size;
     
     NSImage *img = tabModel.scaledImage;
-    if (!img || !NSEqualSizes(imgSize, [img size])) {
+    if (!img || !CGSizeEqualToSize(imgSize, [img size])) {
         CGFloat alpha = 1;
         BOOL hiRez = YES;
         if (NO /*!drawHiRez || tabModel.isLoading*/) {
@@ -260,43 +307,61 @@ static NSImage *sProgressImage = nil;
     
     // put white behind the image
     NSColor *strokeColor = tabModel.isSelected ? sSelectedInnerRectStrokeColor : sInnerRectStrokeColor;
-    TDDrawRoundRect(roundRect, NORMAL_RADIUS, 1, sInnerRectFillGradient, strokeColor);
+    TDDrawRoundRect(thumbRect, NORMAL_RADIUS, 1.0, sInnerRectFillGradient, strokeColor);
     
     if (!img) {
         return;
     }
     
-    NSRect srcRect = NSMakeRect(0, 0, imgSize.width, imgSize.height);
-    NSRect destRect = NSOffsetRect(srcRect, floor(roundRect.origin.x + THUMBNAIL_DIFF/2), floor(roundRect.origin.y + THUMBNAIL_DIFF/2));
+    CGRect srcRect = CGRectMake(0.0, 0.0, imgSize.width, imgSize.height);
+    CGRect destRect = CGRectOffset(srcRect, floor(thumbRect.origin.x + THUMBNAIL_DIFF / 2.0), floor(thumbRect.origin.y + THUMBNAIL_DIFF / 2.0));
     [img drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1];
     
     // stroke again over image
-    TDDrawRoundRect(roundRect, NORMAL_RADIUS, 1, nil, strokeColor);
+    TDDrawRoundRect(thumbRect, NORMAL_RADIUS, 1.0, nil, strokeColor);
     
-    //    if (tabModel.isLoading) {
-    //        [progressIndicator setFrameOrigin:NSMakePoint(NSMaxX(bounds) - 26, 20)];
-    //        [progressIndicator startAnimation:self];
-    //    } else {
-    //        [progressIndicator stopAnimation:self];
-    //    }
-    //    [progressIndicator setNeedsDisplay:YES];
+    if (showsProgressIndicator && tabModel.isBusy) {
+        [progressIndicator setFrameOrigin:NSMakePoint(NSMaxX(bounds) - 26, 20)];
+        [progressIndicator startAnimation:self];
+    } else {
+        [progressIndicator stopAnimation:self];
+    }
+    [progressIndicator setNeedsDisplay:YES];
     [closeButton setNeedsDisplay:YES];
     
     drawHiRez = NO; // reset
 }
 
 
-- (void)setTabModel:(TDTabModel *)tm {
-    if (tm != tabModel) {
-        [self willChangeValueForKey:@"tabModel"];
-        [self stopObserveringModel:tabModel];
-        
-        [tabModel autorelease];
-        tabModel = [tm retain];
-        
-        [self startObserveringModel:tabModel];
-        [self didChangeValueForKey:@"tabModel"];
+#pragma mark -
+#pragma mark Draw HiRez
+
+- (void)drawHiRezLater {
+    //NSLog(@"%s YES %@", __PRETTY_FUNCTION__, tabModel);
+    drawHiRez = NO;
+    [self startDrawHiRezTimer];
+}
+
+
+- (void)startDrawHiRezTimer {
+    //NSLog(@"%s %@", __PRETTY_FUNCTION__, tabModel);
+    [self killDrawHiRezTimer];
+    self.drawHiRezTimer = [NSTimer scheduledTimerWithTimeInterval:.3 target:self selector:@selector(drawHiRezTimerFired:) userInfo:nil repeats:NO];
+}
+
+
+- (void)drawHiRezTimerFired:(NSTimer *)t {
+    if ([drawHiRezTimer isValid]) {
+        //NSLog(@"%s %@", __PRETTY_FUNCTION__, tabModel);
+        drawHiRez = YES;
+        [super setNeedsDisplay:YES]; // call super to avoid setting flag
     }
+}
+
+
+- (void)killDrawHiRezTimer {
+    [drawHiRezTimer invalidate];
+    self.drawHiRezTimer = nil;
 }
 
 
@@ -332,30 +397,27 @@ static NSImage *sProgressImage = nil;
 }
 
 
-- (void)startDrawHiRezTimer {
-    //NSLog(@"%s %@", __PRETTY_FUNCTION__, tabModel);
-    [self killDrawHiRezTimer];
-    self.drawHiRezTimer = [NSTimer scheduledTimerWithTimeInterval:.3 target:self selector:@selector(drawHiRezTimerFired:) userInfo:nil repeats:NO];
-}
+#pragma mark -
+#pragma mark Properties
 
-
-- (void)drawHiRezTimerFired:(NSTimer *)t {
-    if ([drawHiRezTimer isValid]) {
-        //NSLog(@"%s %@", __PRETTY_FUNCTION__, tabModel);
-        drawHiRez = YES;
-        [super setNeedsDisplay:YES]; // call super to avoid setting flag
+- (void)setTabModel:(TDTabModel *)tm {
+    if (tm != tabModel) {
+        [self willChangeValueForKey:@"tabModel"];
+        [self stopObserveringModel:tabModel];
+        
+        [tabModel autorelease];
+        tabModel = [tm retain];
+        
+        [self startObserveringModel:tabModel];
+        [self didChangeValueForKey:@"tabModel"];
     }
-}
-
-
-- (void)killDrawHiRezTimer {
-    [drawHiRezTimer invalidate];
-    self.drawHiRezTimer = nil;
 }
 
 @synthesize tabModel;
 @synthesize closeButton;
 @synthesize progressIndicator;
 @synthesize tabsListViewController;
+@synthesize showsCloseButton;
+@synthesize showsProgressIndicator;
 @synthesize drawHiRezTimer;
 @end
