@@ -154,23 +154,6 @@ static NSImage *sProgressImage = nil;
 - (id)initWithFrame:(NSRect)frame reuseIdentifier:(NSString *)s {
     if (self = [super initWithFrame:frame reuseIdentifier:s]) {
         
-        self.closeButton = [[[NSButton alloc] initWithFrame:CGRectZero] autorelease];
-        [closeButton setButtonType:NSMomentaryChangeButton];
-        [closeButton setBordered:NO];
-        [closeButton setAction:@selector(closeTabButtonClick:)];
-        
-        NSSize imgSize = NSMakeSize(10.0, 10.0);
-        [closeButton setImage:[self imageNamed:@"close_button" scaledToSize:imgSize]];
-        [closeButton setAlternateImage:[self imageNamed:@"close_button_pressed" scaledToSize:imgSize]];
-        [self addSubview:closeButton];
-        
-        //        self.progressIndicator = [[[NSProgressIndicator alloc] initWithFrame:NSZeroRect] autorelease];
-        //        [progressIndicator setStyle:NSProgressIndicatorSpinningStyle];
-        //        [progressIndicator setControlSize:NSSmallControlSize];
-        //        [progressIndicator setDisplayedWhenStopped:NO];
-        //        [progressIndicator setIndeterminate:YES];
-        //        [progressIndicator sizeToFit];
-        //        [self addSubview:progressIndicator];
     }
     return self;
 }
@@ -204,10 +187,12 @@ static NSImage *sProgressImage = nil;
 - (void)layoutSubviews {
     CGRect bounds = [self bounds];
     if (showsCloseButton) {
-        [closeButton setFrame:[self closeButtonRectForBounds:bounds]];
+        [closeButton setTag:tabModel.index];
+        [closeButton setTarget:tabsListViewController];
+        [self.closeButton setFrame:[self closeButtonRectForBounds:bounds]];
     }
     if (showsProgressIndicator) {
-        [progressIndicator setFrame:[self progressIndicatorRectForBounds:bounds]];
+        [self.progressIndicator setFrameOrigin:[self progressIndicatorRectForBounds:bounds].origin];
     }
 }
 
@@ -237,7 +222,8 @@ static NSImage *sProgressImage = nil;
 
 
 - (CGRect)progressIndicatorRectForBounds:(CGRect)bounds {
-    CGRect r = CGRectZero;
+    CGSize size = [progressIndicator bounds].size;
+    CGRect r = CGRectMake(CGRectGetMaxX(bounds) - 26.0, 20.0, size.width, size.height);
     return r;
 }
 
@@ -256,8 +242,6 @@ static NSImage *sProgressImage = nil;
 
 - (void)drawRect:(NSRect)dirtyRect {
     //NSLog(@"%s %@", __PRETTY_FUNCTION__, tabModel);
-    [closeButton setTag:tabModel.index];
-    [closeButton setTarget:tabsListViewController];
     
     NSRect bounds = [self bounds];
     
@@ -320,14 +304,19 @@ static NSImage *sProgressImage = nil;
     // stroke again over image
     TDDrawRoundRect(thumbRect, NORMAL_RADIUS, 1.0, nil, strokeColor);
     
-    if (showsProgressIndicator && tabModel.isBusy) {
-        [progressIndicator setFrameOrigin:NSMakePoint(NSMaxX(bounds) - 26, 20)];
-        [progressIndicator startAnimation:self];
-    } else {
-        [progressIndicator stopAnimation:self];
+    if (showsProgressIndicator) {
+        if (tabModel.isBusy) {
+            [progressIndicator startAnimation:self];
+        } else {
+            [progressIndicator stopAnimation:self];
+        }
+        
+        [progressIndicator setNeedsDisplay:YES];
     }
-    [progressIndicator setNeedsDisplay:YES];
-    [closeButton setNeedsDisplay:YES];
+    
+    if (showsCloseButton) {
+        [closeButton setNeedsDisplay:YES];
+    }
     
     drawHiRez = NO; // reset
 }
@@ -411,6 +400,39 @@ static NSImage *sProgressImage = nil;
         [self startObserveringModel:tabModel];
         [self didChangeValueForKey:@"tabModel"];
     }
+}
+
+
+- (NSButton *)closeButton {
+    if (!closeButton) {
+        CGRect bounds = [self bounds];
+        self.closeButton = [[[NSButton alloc] initWithFrame:[self closeButtonRectForBounds:bounds]] autorelease];
+        [closeButton setButtonType:NSMomentaryChangeButton];
+        [closeButton setBordered:NO];
+        [closeButton setAction:@selector(closeTabButtonClick:)];
+        
+        NSSize imgSize = NSMakeSize(10.0, 10.0);
+        [closeButton setImage:[self imageNamed:@"close_button" scaledToSize:imgSize]];
+        [closeButton setAlternateImage:[self imageNamed:@"close_button_pressed" scaledToSize:imgSize]];
+        [self addSubview:closeButton];
+
+    }
+    return closeButton;
+}
+
+
+- (NSProgressIndicator *)progressIndicator {
+    if (!progressIndicator) {
+        CGRect bounds = [self bounds];
+        self.progressIndicator = [[[NSProgressIndicator alloc] initWithFrame:[self progressIndicatorRectForBounds:bounds]] autorelease];
+        [progressIndicator setStyle:NSProgressIndicatorSpinningStyle];
+        [progressIndicator setControlSize:NSSmallControlSize];
+        [progressIndicator setDisplayedWhenStopped:NO];
+        [progressIndicator setIndeterminate:YES];
+        [progressIndicator sizeToFit];
+        [self addSubview:progressIndicator];
+    }
+    return progressIndicator;
 }
 
 @synthesize tabModel;
