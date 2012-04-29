@@ -272,12 +272,12 @@ static NSImage *sProgressImage = nil;
     
     NSImage *img = tabModel.scaledImage;
     if (!img || !CGSizeEqualToSize(imgSize, [img size])) {
-        CGFloat alpha = 1;
+        CGFloat alpha = 1.0;
         BOOL hiRez = YES;
-        if (NO /*!drawHiRez || tabModel.isLoading*/) {
-            //alpha = .4;
-            hiRez = NO;
-        }
+//        if (!drawHiRez || tabModel.isBusy) {
+//            //alpha = 0.4;
+//            hiRez = NO;
+//        }
         
         [tabModel.image setFlipped:[self isFlipped]];
         
@@ -336,7 +336,7 @@ static NSImage *sProgressImage = nil;
 - (void)startDrawHiRezTimer {
     //NSLog(@"%s %@", __PRETTY_FUNCTION__, tabModel);
     [self killDrawHiRezTimer];
-    self.drawHiRezTimer = [NSTimer scheduledTimerWithTimeInterval:.3 target:self selector:@selector(drawHiRezTimerFired:) userInfo:nil repeats:NO];
+    self.drawHiRezTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(drawHiRezTimerFired:) userInfo:nil repeats:NO];
 }
 
 
