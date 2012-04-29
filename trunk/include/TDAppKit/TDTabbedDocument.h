@@ -39,8 +39,8 @@
 - (NSUInteger)indexOfTabModel:(TDTabModel *)tm;
 
 // subclass
-- (void)didAddTabModel:(TDTabModel *)tm;
-- (void)willRemoveTabModel:(TDTabModel *)tm;
+- (void)didAddTabModelAtIndex:(NSInteger)i;
+- (void)willRemoveTabModelAtIndex:(NSInteger)i;
 - (void)selectedTabIndexWillChange;
 - (void)selectedTabIndexDidChange;
 
