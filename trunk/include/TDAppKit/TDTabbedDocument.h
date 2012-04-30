@@ -22,7 +22,7 @@
 
 //- (IBAction)performClose:(id)sender;
 - (IBAction)closeTab:(id)sender;
-- (IBAction)closeWindow:(id)sender;
+//- (IBAction)closeWindow:(id)sender;
 
 - (IBAction)newTab:(id)sender;
 - (IBAction)newBackgroundTab:(id)sender;
