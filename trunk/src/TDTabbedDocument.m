@@ -312,7 +312,7 @@ static NSMutableDictionary *sDocuments = nil;
     TDTabModel *tm = [self tabModelAtIndex:i];
     NSMenu *menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
     NSMenuItem *item = nil;
-    item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Close Tab", @"")
+    item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Close Page", @"")
                                        action:@selector(takeTabIndexToCloseFrom:) 
                                 keyEquivalent:@""] autorelease];
     [item setTarget:self];
@@ -321,7 +321,7 @@ static NSMutableDictionary *sDocuments = nil;
     [item setTag:i];
     [menu addItem:item];
     
-    item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Move Tab to New Window", @"")
+    item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Move Page to New Document", @"")
                                        action:@selector(takeTabIndexToMoveToNewWindowFrom:) 
                                 keyEquivalent:@""] autorelease];
     [item setTarget:self];
