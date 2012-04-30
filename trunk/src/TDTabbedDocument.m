@@ -21,6 +21,7 @@ static NSMutableDictionary *sDocuments = nil;
 
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, retain) NSMutableArray *models;
+@property (nonatomic, retain) NSMutableArray *representedObjects;
 @property (nonatomic, retain, readwrite) TDTabModel *selectedTabModel;
 @end
 
@@ -72,6 +73,7 @@ static NSMutableDictionary *sDocuments = nil;
         //[[self class] addDocument:self];
         
         self.models = [NSMutableArray array];
+        self.representedObjects = [NSMutableArray array];
         selectedTabIndex = NSNotFound;
     }
     return self;
@@ -86,6 +88,7 @@ static NSMutableDictionary *sDocuments = nil;
     
     self.identifier = nil;
     self.models = nil;
+    self.representedObjects = nil;
     self.selectedTabModel = nil;
     [super dealloc];
 }
@@ -251,14 +254,20 @@ static NSMutableDictionary *sDocuments = nil;
     TDTabModel *tm = [[[models objectAtIndex:i] retain] autorelease];
     [models removeObjectAtIndex:i];
     
+    [[[representedObjects objectAtIndex:i] retain] autorelease];
+    [representedObjects removeObjectAtIndex:i];
+    
     TDTabViewController *tvc = tm.tabViewController;
     [[tvc view] removeFromSuperview]; // ?? 
 
     // ??
     tm.tabViewController.tabModel = nil;
     tm.tabViewController = nil;
+    tm.representedObject = nil;
     
     self.selectedTabIndex = newIndex;
+    
+    [self updateChangeCount:NSChangeDone]; // ??
 }
 
 
@@ -282,12 +291,12 @@ static NSMutableDictionary *sDocuments = nil;
 #pragma mark -
 #pragma mark Subclass
 
-- (void)didAddTabModelAtIndex:(NSInteger)i {
+- (void)didAddTabModelAtIndex:(NSUInteger)i {
     
 }
 
 
-- (void)willRemoveTabModelAtIndex:(NSInteger)i {
+- (void)willRemoveTabModelAtIndex:(NSUInteger)i {
     
 }
 
@@ -418,6 +427,7 @@ static NSMutableDictionary *sDocuments = nil;
 
 @synthesize identifier;
 @synthesize models;
+@synthesize representedObjects;
 @synthesize selectedTabIndex;
 @synthesize selectedTabModel;
 @end
