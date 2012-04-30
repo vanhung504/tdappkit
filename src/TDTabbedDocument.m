@@ -144,19 +144,19 @@ static NSMutableDictionary *sDocuments = nil;
 }
               
               
-- (IBAction)closeWindow:(id)sender {
-    [super close];
-    [[[[self windowControllers] objectAtIndex:0] window] orderOut:self];
-}
-
-
-- (void)close {
-    if ([models count] > 1) {
-        [self removeTabModelAtIndex:self.selectedTabIndex];
-    } else {
-        [self closeWindow:nil];
-    }
-}
+//- (IBAction)closeWindow:(id)sender {
+//    [super close];
+//    [[[[self windowControllers] objectAtIndex:0] window] orderOut:self];
+//}
+//
+//
+//- (void)close {
+//    if ([models count] > 1) {
+//        [self removeTabModelAtIndex:self.selectedTabIndex];
+//    } else {
+//        [self closeWindow:nil];
+//    }
+//}
 
 
 - (IBAction)newTab:(id)sender {
@@ -242,7 +242,8 @@ static NSMutableDictionary *sDocuments = nil;
     NSUInteger c = [models count];
 
     if (1 == c) {
-        [self closeWindow:self];
+        //        [self closeWindow:self];
+        [self close];
         return;
     }
     
@@ -318,10 +319,14 @@ static NSMutableDictionary *sDocuments = nil;
 
 
 - (NSMenu *)contextMenuForTabModelAtIndex:(NSUInteger)i {
+    if (0 == i && 1 == [models count]) {
+        return nil;
+    }
+    
     TDTabModel *tm = [self tabModelAtIndex:i];
     NSMenu *menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
     NSMenuItem *item = nil;
-    item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Close Page", @"")
+    item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Remove Page", @"")
                                        action:@selector(takeTabIndexToCloseFrom:) 
                                 keyEquivalent:@""] autorelease];
     [item setTarget:self];

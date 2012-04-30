@@ -19,14 +19,14 @@
 }
 
 
-- (IBAction)performClose:(id)sender {
-    [super performClose:sender];
-//    [[[self windowController] document] performClose:sender];
-}
-
-
-- (void)close {
-    [[[self windowController] document] close];
-}
+//- (IBAction)performClose:(id)sender {
+//    [super performClose:sender];
+////    [[[self windowController] document] performClose:sender];
+//}
+//
+//
+//- (void)close {
+//    [[[self windowController] document] close];
+//}
 
 @end
