@@ -26,6 +26,8 @@
 
 - (IBAction)newTab:(id)sender;
 - (IBAction)newBackgroundTab:(id)sender;
+- (IBAction)selectPreviousTab:(id)sender;
+- (IBAction)selectNextTab:(id)sender;
 
 - (IBAction)takeTabIndexToCloseFrom:(id)sender;
 - (IBAction)takeTabIndexToMoveToNewWindowFrom:(id)sender;

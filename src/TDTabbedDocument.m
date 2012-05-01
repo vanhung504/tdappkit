@@ -171,6 +171,26 @@ static NSMutableDictionary *sDocuments = nil;
 }
 
 
+- (IBAction)selectPreviousTab:(id)sender {
+    NSInteger c = [models count];
+    NSUInteger i = self.selectedTabIndex - 1;
+    
+    i = (i == -1) ? c - 1 : i;
+    
+    self.selectedTabIndex = i;
+}
+
+
+- (IBAction)selectNextTab:(id)sender {
+    NSInteger c = [models count];
+    NSUInteger i = self.selectedTabIndex + 1;
+    
+    i = (i % c);
+    
+    self.selectedTabIndex = i;
+}
+
+
 - (IBAction)takeTabIndexToCloseFrom:(id)sender {
     NSUInteger i = [sender tag];
     [self removeTabModelAtIndex:i];
