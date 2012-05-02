@@ -14,6 +14,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+CGRect TDRectOutset(CGRect r, CGFloat dx, CGFloat dy);
 NSBezierPath *TDGetRoundRect(NSRect r, CGFloat radius, CGFloat lineWidth);
 NSBezierPath *TDDrawRoundRect(NSRect r, CGFloat radius, CGFloat lineWidth, NSGradient *fillGradient, NSColor *strokeColor);
 void TDAddRoundRect(CGContextRef ctx, CGRect rect, CGFloat radius);

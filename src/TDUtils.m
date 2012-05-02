@@ -16,6 +16,14 @@
 #import <TDAppKit/NSBezierPath+TDAdditions.h>
 #import <QuartzCore/QuartzCore.h>
 
+CGRect TDRectOutset(CGRect r, CGFloat dx, CGFloat dy) {
+    r.origin.x -= dx;
+    r.origin.y -= dy;
+    r.size.width += dx * 2.0;
+    r.size.height += dy * 2.0;
+    return r;
+}
+
 NSBezierPath *TDGetRoundRect(NSRect r, CGFloat radius, CGFloat lineWidth) {
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundRect:r radius:radius];
     [path setLineWidth:lineWidth];

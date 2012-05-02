@@ -26,6 +26,7 @@
 }
 
 + (NSString *)reuseIdentifier;
++ (NSFont *)titleFont;
 
 - (void)drawHiRezLater;
 
