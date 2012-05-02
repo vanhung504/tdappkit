@@ -18,7 +18,6 @@
     
     NSImage *image;
     NSImage *scaledImage;
-    NSString *title;
     NSUInteger index;
     BOOL selected;
     BOOL busy;

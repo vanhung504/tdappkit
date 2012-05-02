@@ -23,6 +23,7 @@
 @interface TDTabbedDocument ()
 + (TDTabbedDocument *)documentForIdentifier:(NSString *)identifier;
 @property (nonatomic, copy, readonly) NSString *identifier;
+@property (nonatomic, retain) NSMutableArray *representedObjects;
 @end
 
 @interface TDTabsListViewController ()
@@ -172,7 +173,6 @@
 #pragma mark TDListViewDelegate Drag
 
 - (BOOL)listView:(TDListView *)lv canDragItemsAtIndexes:(NSIndexSet *)set withEvent:(NSEvent *)evt slideBack:(BOOL *)slideBack {
-    return NO;
     *slideBack = YES;
     return YES;
 }
@@ -251,8 +251,13 @@
         oldIndex = [[plist objectForKey:TAB_MODEL_INDEX_KEY] unsignedIntegerValue];
     }
     
+    id repObj = [[[[oldDoc representedObjects] objectAtIndex:oldIndex] retain] autorelease];
+    
     [oldDoc removeTabModelAtIndex:oldIndex];
     [newDoc addTabModel:tm atIndex:newIndex];
+    
+    tm.representedObject = repObj;
+    [[newDoc representedObjects] insertObject:repObj atIndex:newIndex];
         
     [self updateAllTabModelsFromIndex:newIndex];
     newDoc.selectedTabIndex = newIndex;
