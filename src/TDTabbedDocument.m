@@ -240,7 +240,9 @@ static NSMutableDictionary *sDocuments = nil;
     // create model
     TDTabModel *tm = [[[TDTabModel alloc] init] autorelease];
     tm.representedObject = [[self newRepresentedObject] autorelease];
-    tm.title = [NSString stringWithFormat:NSLocalizedString(@"Page %d", @""), i + 1];
+	
+	NSString *name = [self localizedDisplayNameForTab];
+    tm.title = [NSString stringWithFormat:NSLocalizedString(@"%D %d", @""), name, i + 1];
     [self addTabModel:tm atIndex:i];
 }
 
@@ -257,7 +259,8 @@ static NSMutableDictionary *sDocuments = nil;
 	if (hasSetUpTabsList) {
 		NSUndoManager *mgr = [self undoManager];
 		[[mgr prepareWithInvocationTarget:self] removeTabModelAtIndex:i];
-		[mgr setActionName:NSLocalizedString(@"Add Page", @"")];
+		NSString *name = [self localizedDisplayNameForTab];
+		[mgr setActionName:[NSString stringWithFormat:NSLocalizedString(@"Add %@", @""), name]];
 	}
     
     // set index
@@ -363,6 +366,11 @@ static NSMutableDictionary *sDocuments = nil;
 - (id)newRepresentedObject {
     NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
     return nil;
+}
+
+
+- (NSString *)localizedDisplayNameForTab {
+	return NSLocalizedString(@"Tab", @"");
 }
 
 

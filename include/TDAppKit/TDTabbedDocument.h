@@ -48,6 +48,7 @@
 - (void)selectedTabIndexWillChange;
 - (void)selectedTabIndexDidChange;
 - (id)newRepresentedObject;
+- (NSString *)localizedDisplayNameForTab;
 
 - (TDTabViewController *)newTabViewController;
 - (NSMenu *)contextMenuForTabModelAtIndex:(NSUInteger)i;
