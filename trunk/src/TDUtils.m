@@ -140,6 +140,7 @@ NSNib *TDLoadNib(id owner, NSString *nibName, NSBundle *bundle) {
     return nib;
 }
 
+
 BOOL TDIsLionOrLater() {
     NSUInteger major, minor, bugfix;
     TDGetSystemVersion(&major, &minor, &bugfix);
