@@ -120,7 +120,9 @@
 
 
 - (void)setTitle:(NSString *)title {
+    [self willChangeValueForKey:@"title"];
     [representedObject setValue:[[title copy] autorelease] forKey:@"title"];
+    [self didChangeValueForKey:@"title"];
 }
 
 @synthesize representedObject;

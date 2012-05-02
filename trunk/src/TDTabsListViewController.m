@@ -370,13 +370,43 @@
     
     [fieldEditor setNeedsDisplay:YES];
     
-    tm.title = nil;
+//    tm.title = nil;
     
     [[self view] addSubview:fieldEditor];
     [listView reloadData];
     
     [win makeFirstResponder:fieldEditor];
+
+    [self tryInvalidateRestorableState];
 }
+
+
+- (void)tryInvalidateRestorableState {
+    if ([self respondsToSelector:@selector(invalidateRestorableState)]) {
+        [self invalidateRestorableState];
+    }
+}
+
+
+//- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+//    [super encodeRestorableStateWithCoder:coder];
+//    
+//    BOOL isEditingText = NO;
+//    if (1 == [objs count]) {
+//        isEditingText = [[objs objectAtIndex:0] isEditingText];
+//    }
+//    [coder encodeBool:isEditingText forKey:@"JotTabViewControllerIsEditingText"];
+//    [coder encodeInteger:editingIndex forKey:@"JotTabViewControllerEditingIndex"];
+//}
+//
+//
+//- (void)restoreStateWithCoder:(NSCoder *)coder {
+//    [super restoreStateWithCoder:coder];
+//    
+//    BOOL isEditingText = [coder decodeBoolForKey:@"JotSelectedObjectIsEditingText"];
+//    editingIndex = [coder decodeIntegerForKey:@"JotSelectedObjectEditingIndex"];
+//    
+//}
 
 
 #pragma mark -
@@ -386,10 +416,14 @@
     NSTextField *fieldEditor = [n object];
     
     TDTabModel *tm = [delegate tabsViewController:self tabModelAtIndex:editingIndex];
+
+    [[[[self.view window] undoManager] prepareWithInvocationTarget:tm] setTitle:tm.title];
+    
     tm.title = [fieldEditor stringValue];
     
     [fieldEditor removeFromSuperview];
     [[listView window] endEditingFor:listView];
+    [self tryInvalidateRestorableState];
 }
 
 
