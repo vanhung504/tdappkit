@@ -412,8 +412,10 @@
     
     TDTabModel *tm = [delegate tabsViewController:self tabModelAtIndex:editingIndex];
 
-    [[[[self.view window] undoManager] prepareWithInvocationTarget:tm] setTitle:tm.title];
-    
+//	NSUndoManager *mgr = [[self.view window] undoManager];
+//	[[mgr prepareWithInvocationTarget:tm] setTitle:tm.title];
+//	[mgr setActionName:NSLocalizedString(@"Change Page Title", @"")];
+
     tm.title = [fieldEditor stringValue];
     
     [fieldEditor removeFromSuperview];
