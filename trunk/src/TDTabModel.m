@@ -120,9 +120,11 @@
 		[self willChangeValueForKey:@"title"];
 		
 		if (title) {
+			NSString *name = [document localizedDisplayNameForTab];
+			
 			NSUndoManager *mgr = [[[[self tabViewController] view] window] undoManager];
 			[[mgr prepareWithInvocationTarget:self] setTitle:title];
-			[mgr setActionName:NSLocalizedString(@"Change Page Title", @"")];
+			[mgr setActionName:[NSString stringWithFormat:NSLocalizedString(@"Change %@ Title", @""), name]];
 		}
 
 		[title autorelease];
