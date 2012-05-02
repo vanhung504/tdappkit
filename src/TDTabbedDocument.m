@@ -288,7 +288,7 @@ static NSMutableDictionary *sDocuments = nil;
 
     if (1 == c) {
         //        [self closeWindow:self];
-        [self close];
+        //[self close];
         return;
     }
     
