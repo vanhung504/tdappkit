@@ -119,9 +119,11 @@
 	if (s != title) {
 		[self willChangeValueForKey:@"title"];
 		
-		NSUndoManager *mgr = [[[[self tabViewController] view] window] undoManager];
-		[[mgr prepareWithInvocationTarget:self] setTitle:title];
-		[mgr setActionName:NSLocalizedString(@"Change Page Title", @"")];
+		if (title) {
+			NSUndoManager *mgr = [[[[self tabViewController] view] window] undoManager];
+			[[mgr prepareWithInvocationTarget:self] setTitle:title];
+			[mgr setActionName:NSLocalizedString(@"Change Page Title", @"")];
+		}
 
 		[title autorelease];
 		title = [s copy];
