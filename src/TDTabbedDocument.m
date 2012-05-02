@@ -8,7 +8,7 @@
 
 #import <TDAppKit/TDTabbedDocument.h>
 #import <TDAppKit/TDTabModel.h>
-//#import <TDAppKit/TDTabbedWindowController.h>
+#import <TDAppKit/TDTabbedWindowController.h>
 #import <TDAppKit/TDTabViewController.h>
 #import <TDAppKit/TDUtils.h>
 
@@ -19,10 +19,10 @@ static NSMutableDictionary *sDocuments = nil;
 + (void)addDocument:(TDTabbedDocument *)doc;
 + (void)removeDocument:(TDTabbedDocument *)doc;
 + (NSString *)nextUniqueID;
+- (void)tabListViewWasSetUp:(TDTabbedWindowController *)wc;
 
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, retain) NSMutableArray *models;
-@property (nonatomic, retain) NSMutableArray *representedObjects;
 @property (nonatomic, retain, readwrite) TDTabModel *selectedTabModel;
 @end
 
@@ -74,7 +74,6 @@ static NSMutableDictionary *sDocuments = nil;
         //[[self class] addDocument:self];
         
         self.models = [NSMutableArray array];
-        self.representedObjects = [NSMutableArray array];
         selectedTabIndex = NSNotFound;
     }
     return self;
@@ -89,7 +88,6 @@ static NSMutableDictionary *sDocuments = nil;
     
     self.identifier = nil;
     self.models = nil;
-    self.representedObjects = nil;
     self.selectedTabModel = nil;
     [super dealloc];
 }
@@ -101,6 +99,23 @@ static NSMutableDictionary *sDocuments = nil;
 - (void)makeWindowControllers {
 
 }
+
+
+- (void)tabListViewWasSetUp:(TDTabbedWindowController *)wc {
+    NSParameterAssert([wc isKindOfClass:[TDTabbedWindowController class]]);
+    
+    NSArray *mods = [[self.tabModels copy] autorelease];
+    self.models = [NSMutableArray arrayWithCapacity:[mods count]];
+    
+    if ([mods count]) {
+        for (TDTabModel *tm in mods) {
+            [self addTabModel:tm];
+        }
+    } else {
+        [self newTab:nil];
+    }
+}
+
 
 
 - (void)shouldCloseWindowController:(NSWindowController *)wc delegate:(id)delegate shouldCloseSelector:(SEL)sel contextInfo:(void *)ctx {
@@ -222,6 +237,8 @@ static NSMutableDictionary *sDocuments = nil;
 - (void)addTabModelAtIndex:(NSUInteger)i {
     // create model
     TDTabModel *tm = [[[TDTabModel alloc] init] autorelease];
+    tm.representedObject = [[self newRepresentedObject] autorelease];
+    tm.title = [NSString stringWithFormat:NSLocalizedString(@"Page %d", @""), i + 1];
     [self addTabModel:tm atIndex:i];
 }
 
@@ -235,6 +252,10 @@ static NSMutableDictionary *sDocuments = nil;
     NSParameterAssert(tm);
     NSParameterAssert(NSNotFound != i && i >= 0 && i <= [models count]);
     
+    NSUndoManager *mgr = [self undoManager];
+    [[mgr prepareWithInvocationTarget:self] removeTabModelAtIndex:i];
+    [mgr setActionName:NSLocalizedString(@"Add Page", @"")];
+    
     // set index
     tm.index = i;
     
@@ -243,7 +264,8 @@ static NSMutableDictionary *sDocuments = nil;
     tvc.tabModel = tm;
     tm.tabViewController = tvc;
     tm.document = self;
-    
+    tm.index = i;
+
     // add or insert
     BOOL isAppend = (i == [models count]);
     if (isAppend) {
@@ -251,6 +273,8 @@ static NSMutableDictionary *sDocuments = nil;
     } else {
         [models insertObject:tm atIndex:i];
     }
+    
+    self.selectedTabIndex = i;
     
     // notify
     [self didAddTabModelAtIndex:i];
@@ -272,21 +296,14 @@ static NSMutableDictionary *sDocuments = nil;
     if (i == c - 1) {
         newIndex--;
     }
-    
-    NSUndoManager *mgr = [self undoManager];
-    
+        
     TDTabModel *tm = [[[models objectAtIndex:i] retain] autorelease];
-    id obj = [[[representedObjects objectAtIndex:i] retain] autorelease];
-    NSAssert(obj == tm.representedObject, @"");
 
-//    [mgr beginUndoGrouping];
-    [[mgr prepareWithInvocationTarget:self] undoActionWithModel:tm representedObject:obj atIndex:i];
+    NSUndoManager *mgr = [self undoManager];
+    [[mgr prepareWithInvocationTarget:self] addTabModel:tm atIndex:i];
     [mgr setActionName:NSLocalizedString(@"Remove Page", @"")];
-//    [mgr endUndoGrouping];
     
     [models removeObjectAtIndex:i];
-    
-    [representedObjects removeObjectAtIndex:i];
     
     TDTabViewController *tvc = tm.tabViewController;
     [[tvc view] removeFromSuperview]; // ?? 
@@ -294,22 +311,8 @@ static NSMutableDictionary *sDocuments = nil;
     // ??
     tm.tabViewController.tabModel = nil;
     tm.tabViewController = nil;
-    tm.representedObject = nil;
     
     self.selectedTabIndex = newIndex;
-    
-//    [self updateChangeCount:NSChangeDone]; // ??
-}
-
-
-- (void)undoActionWithModel:(TDTabModel *)tm representedObject:(id)obj atIndex:(NSUInteger)i {
-    [representedObjects insertObject:obj atIndex:i];
-    [self addTabModel:tm atIndex:i];
-    
-    self.selectedTabIndex = i;
-    
-//    TDTabbedWindowController *wc = (TDTabbedWindowController *)[[self windowControllers] objectAtIndex:0];
-//    [[[wc tabsListViewController] listView] reloadData];
 }
 
 
@@ -350,6 +353,12 @@ static NSMutableDictionary *sDocuments = nil;
 
 - (void)selectedTabIndexDidChange {
     
+}
+
+
+- (id)newRepresentedObject {
+    NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
+    return nil;
 }
 
 
@@ -473,7 +482,6 @@ static NSMutableDictionary *sDocuments = nil;
 
 @synthesize identifier;
 @synthesize models;
-@synthesize representedObjects;
 @synthesize selectedTabIndex;
 @synthesize selectedTabModel;
 @end

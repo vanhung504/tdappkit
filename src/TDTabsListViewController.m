@@ -23,7 +23,6 @@
 @interface TDTabbedDocument ()
 + (TDTabbedDocument *)documentForIdentifier:(NSString *)identifier;
 @property (nonatomic, copy, readonly) NSString *identifier;
-@property (nonatomic, retain) NSMutableArray *representedObjects;
 @end
 
 @interface TDTabsListViewController ()
@@ -188,8 +187,9 @@
     [pboard declareTypes:[NSArray arrayWithObjects:TDTabPboardType, TDListItemPboardType, nil] owner:self];
 
     // write
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:draggingTabModel];
     NSDictionary *plist = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [draggingTabModel plist], TAB_MODEL_KEY,
+                           data, TAB_MODEL_KEY,
                            [NSNumber numberWithInteger:i], TAB_MODEL_INDEX_KEY,
                            doc.identifier, DOC_ID_KEY,
                            nil];
@@ -247,18 +247,13 @@
         }
     } else {
         oldDoc = [TDTabbedDocument documentForIdentifier:[plist objectForKey:DOC_ID_KEY]];
-        tm = [TDTabModel tabModelFromPlist:[plist objectForKey:TAB_MODEL_KEY]];
+        tm = [NSKeyedUnarchiver unarchiveObjectWithData:[plist objectForKey:TAB_MODEL_KEY]];
         oldIndex = [[plist objectForKey:TAB_MODEL_INDEX_KEY] unsignedIntegerValue];
     }
-    
-    id repObj = [[[[oldDoc representedObjects] objectAtIndex:oldIndex] retain] autorelease];
     
     [oldDoc removeTabModelAtIndex:oldIndex];
     [newDoc addTabModel:tm atIndex:newIndex];
     
-    tm.representedObject = repObj;
-    [[newDoc representedObjects] insertObject:repObj atIndex:newIndex];
-        
     [self updateAllTabModelsFromIndex:newIndex];
     newDoc.selectedTabIndex = newIndex;
     
