@@ -15,7 +15,6 @@
 @interface TDTabbedDocument : NSDocument  <TDTabsListViewControllerDelegate> {
     NSString *identifier;
     NSMutableArray *models;
-    NSMutableArray *representedObjects;
     TDTabModel *selectedTabModel;
     NSUInteger selectedTabIndex;
 }
@@ -46,6 +45,7 @@
 - (void)willRemoveTabModelAtIndex:(NSUInteger)i;
 - (void)selectedTabIndexWillChange;
 - (void)selectedTabIndexDidChange;
+- (id)newRepresentedObject;
 
 - (TDTabViewController *)newTabViewController;
 - (NSMenu *)contextMenuForTabModelAtIndex:(NSUInteger)i;

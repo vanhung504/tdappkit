@@ -17,11 +17,20 @@
 
 @implementation TDTabModel
 
-+ (TDTabModel *)tabModelFromPlist:(NSDictionary *)plist {
-    TDTabModel *m = [[[self alloc] init] autorelease];
-    m.index = [[plist objectForKey:@"index"] integerValue];
-    m.selected = [[plist objectForKey:@"selected"] boolValue];
-    return m;
+- (id)initWithCoder:(NSCoder *)coder {
+    self.title = [coder decodeObjectForKey:@"title"];
+    self.representedObject = [coder decodeObjectForKey:@"representedObject"];
+    self.index = [coder decodeIntegerForKey:@"index"];
+    self.selected = [coder decodeBoolForKey:@"selected"];
+    return self;
+}
+
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:title forKey:@"title"];
+    [coder encodeObject:representedObject forKey:@"representedObject"];
+    [coder encodeInteger:index forKey:@"index"];
+    [coder encodeBool:selected forKey:@"selected"];
 }
 
 
@@ -91,14 +100,6 @@
 }
 
 
-- (NSDictionary *)plist {
-    NSMutableDictionary *d = [NSMutableDictionary dictionaryWithCapacity:3];
-    [d setObject:[NSNumber numberWithInteger:index] forKey:@"index"];
-    [d setObject:[NSNumber numberWithInteger:selected] forKey:@"selected"];
-    return d;
-}
-
-
 - (BOOL)wantsNewImage {
     if (needsNewImage || !image) {
         needsNewImage = NO;
@@ -113,18 +114,7 @@
     needsNewImage = yn;
 }
 
-
-- (NSString *)title {
-    return [representedObject valueForKey:@"title"];
-}
-
-
-- (void)setTitle:(NSString *)title {
-    [self willChangeValueForKey:@"title"];
-    [representedObject setValue:[[title copy] autorelease] forKey:@"title"];
-    [self didChangeValueForKey:@"title"];
-}
-
+@synthesize title;
 @synthesize representedObject;
 @synthesize document;
 @synthesize tabViewController;

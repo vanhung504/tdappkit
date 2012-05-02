@@ -11,7 +11,8 @@
 @class TDTabbedDocument;
 @class TDTabViewController;
 
-@interface TDTabModel : NSObject {
+@interface TDTabModel : NSObject <NSCoding> {
+    NSString *title;
     id representedObject;
     TDTabbedDocument *document;
     TDTabViewController *tabViewController;
@@ -27,22 +28,18 @@
     NSUInteger changeCount;
 }
 
-+ (TDTabModel *)tabModelFromPlist:(NSDictionary *)plist;
-
-- (NSDictionary *)plist;
-
 - (BOOL)wantsNewImage;
 - (void)setNeedsNewImage:(BOOL)yn;
 
 - (void)updateChangeCount:(NSDocumentChangeType)changeType;
 - (BOOL)isDocumentEdited;
 
+@property (nonatomic, copy) NSString *title;
 @property (nonatomic, retain) id representedObject;
 @property (nonatomic, assign) TDTabbedDocument *document; // weak ref
 @property (nonatomic, retain) TDTabViewController *tabViewController;
 @property (nonatomic, retain) NSImage *image;
 @property (nonatomic, retain) NSImage *scaledImage;
-@property (nonatomic, copy) NSString *title;
 @property (nonatomic, assign) NSUInteger index;
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
 @property (nonatomic, assign, getter=isBusy) BOOL busy;

@@ -11,6 +11,10 @@
 #import <TDAppKit/TDTabbedDocument.h>
 #import <TDAppKit/TDTabModel.h>
 
+@interface TDTabbedDocument ()
+- (void)tabListViewWasSetUp:(TDTabbedWindowController *)wc;
+@end
+
 @interface TDTabbedWindowController ()
 - (void)setUpTabsListView;
 @end
@@ -56,9 +60,12 @@
 
 
 - (void)setUpTabsListView {
+    if (tabsListViewController) return;
+    
     self.tabsListViewController = [[[TDTabsListViewController alloc] init] autorelease];
     TDTabbedDocument *doc = (TDTabbedDocument *)[self document];
     tabsListViewController.delegate = doc;
+    [doc tabListViewWasSetUp:self];
 }
 
 
