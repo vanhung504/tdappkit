@@ -17,6 +17,8 @@
     NSMutableArray *models;
     TDTabModel *selectedTabModel;
     NSUInteger selectedTabIndex;
+	
+	BOOL hasSetUpTabsList;
 }
 
 //- (IBAction)performClose:(id)sender;

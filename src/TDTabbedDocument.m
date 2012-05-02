@@ -114,6 +114,8 @@ static NSMutableDictionary *sDocuments = nil;
     } else {
         [self newTab:nil];
     }
+	
+	hasSetUpTabsList = YES;
 }
 
 
@@ -252,9 +254,11 @@ static NSMutableDictionary *sDocuments = nil;
     NSParameterAssert(tm);
     NSParameterAssert(NSNotFound != i && i >= 0 && i <= [models count]);
     
-    NSUndoManager *mgr = [self undoManager];
-    [[mgr prepareWithInvocationTarget:self] removeTabModelAtIndex:i];
-    [mgr setActionName:NSLocalizedString(@"Add Page", @"")];
+	if (hasSetUpTabsList) {
+		NSUndoManager *mgr = [self undoManager];
+		[[mgr prepareWithInvocationTarget:self] removeTabModelAtIndex:i];
+		[mgr setActionName:NSLocalizedString(@"Add Page", @"")];
+	}
     
     // set index
     tm.index = i;
