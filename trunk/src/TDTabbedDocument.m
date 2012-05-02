@@ -8,6 +8,7 @@
 
 #import <TDAppKit/TDTabbedDocument.h>
 #import <TDAppKit/TDTabModel.h>
+//#import <TDAppKit/TDTabbedWindowController.h>
 #import <TDAppKit/TDTabViewController.h>
 #import <TDAppKit/TDUtils.h>
 
@@ -272,10 +273,19 @@ static NSMutableDictionary *sDocuments = nil;
         newIndex--;
     }
     
+    NSUndoManager *mgr = [self undoManager];
+    
     TDTabModel *tm = [[[models objectAtIndex:i] retain] autorelease];
+    id obj = [[[representedObjects objectAtIndex:i] retain] autorelease];
+    NSAssert(obj == tm.representedObject, @"");
+
+//    [mgr beginUndoGrouping];
+    [[mgr prepareWithInvocationTarget:self] undoActionWithModel:tm representedObject:obj atIndex:i];
+    [mgr setActionName:NSLocalizedString(@"Remove Page", @"")];
+//    [mgr endUndoGrouping];
+    
     [models removeObjectAtIndex:i];
     
-    [[[representedObjects objectAtIndex:i] retain] autorelease];
     [representedObjects removeObjectAtIndex:i];
     
     TDTabViewController *tvc = tm.tabViewController;
@@ -288,7 +298,18 @@ static NSMutableDictionary *sDocuments = nil;
     
     self.selectedTabIndex = newIndex;
     
-    [self updateChangeCount:NSChangeDone]; // ??
+//    [self updateChangeCount:NSChangeDone]; // ??
+}
+
+
+- (void)undoActionWithModel:(TDTabModel *)tm representedObject:(id)obj atIndex:(NSUInteger)i {
+    [representedObjects insertObject:obj atIndex:i];
+    [self addTabModel:tm atIndex:i];
+    
+    self.selectedTabIndex = i;
+    
+//    TDTabbedWindowController *wc = (TDTabbedWindowController *)[[self windowControllers] objectAtIndex:0];
+//    [[[wc tabsListViewController] listView] reloadData];
 }
 
 
