@@ -15,7 +15,7 @@
 #define TAB_MODEL_INDEX_KEY @"tabModelIndex"
 #define DOC_ID_KEY @"tabbedDocumentIdentifier"
 
-#define ASPECT_RATIO .7
+#define ASPECT_RATIO 0.7
 
 #define TDTabPboardType @"TDTabPboardType"
 
@@ -147,6 +147,7 @@
 #pragma mark TDListViewDelegate Drag
 
 - (BOOL)listView:(TDListView *)lv canDragItemsAtIndexes:(NSIndexSet *)set withEvent:(NSEvent *)evt slideBack:(BOOL *)slideBack {
+    return NO;
     *slideBack = YES;
     return YES;
 }
