@@ -22,11 +22,13 @@
 - (void)tabsViewControllerWantsNewTab:(TDTabsListViewController *)tvc;
 @end
 
-@interface TDTabsListViewController : TDViewController <TDListViewDataSource, TDListViewDelegate> {
+@interface TDTabsListViewController : TDViewController <TDListViewDataSource, TDListViewDelegate, NSTextFieldDelegate> {
     id <TDTabsListViewControllerDelegate> delegate;
     NSScrollView *scrollView;
     TDListView *listView;
+    BOOL allowsTabTitleEditing;
 
+    NSUInteger editingIndex;
     TDTabModel *draggingTabModel;
 }
 
@@ -35,5 +37,6 @@
 @property (nonatomic, assign) id <TDTabsListViewControllerDelegate> delegate; // weak ref
 @property (nonatomic, retain) IBOutlet NSScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet TDListView *listView;
+@property (nonatomic, assign) BOOL allowsTabTitleEditing;
 @property (nonatomic, retain) TDTabModel *draggingTabModel;
 @end

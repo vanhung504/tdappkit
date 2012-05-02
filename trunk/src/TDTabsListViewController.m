@@ -10,6 +10,7 @@
 #import <TDAppKit/TDTabbedDocument.h>
 #import <TDAppKit/TDTabModel.h>
 #import <TDAppKit/TDTabListItem.h>
+#import <TDAppKit/TDUtils.h>
 
 #define TAB_MODEL_KEY @"tabModel"
 #define TAB_MODEL_INDEX_KEY @"tabModelIndex"
@@ -127,6 +128,11 @@
 
 
 - (void)listView:(TDListView *)lv didSelectItemsAtIndexes:(NSIndexSet *)set {
+    NSResponder *resp = [[lv window] firstResponder];
+    if ([resp isKindOfClass:[NSTextView class]]) {
+        [[lv window] makeFirstResponder:nil];
+    }
+
     [delegate tabsViewController:self didSelectTabModelAtIndex:[set firstIndex]];
 }
 
@@ -140,6 +146,25 @@
     NSUInteger i = [set firstIndex];
     NSMenu *menu = [delegate tabsViewController:self contextMenuForTabModelAtIndex:i];
     return menu;
+}
+
+
+- (void)listView:(TDListView *)lv itemWasDoubleClickedAtIndex:(NSUInteger)i {
+    if (!allowsTabTitleEditing) return;
+    
+    NSEvent *evt = [[lv window] currentEvent];
+    CGPoint p = [evt locationInWindow];
+    p = [lv convertPoint:p fromView:nil];
+    
+    TDTabListItem *li = (TDTabListItem *)[lv hitTest:p];
+
+    p = [li convertPoint:p fromView:lv];
+    CGRect r = [li titleRectForBounds:[li bounds]];
+    
+    if (CGRectContainsPoint(r, p)) {
+        r = [li convertRect:r toView:[self view]];
+        [self beginEditingTabTitle:li atIndex:i inRect:r];
+    }
 }
 
 
@@ -320,6 +345,49 @@
 }
 
 
+- (void)beginEditingTabTitle:(TDTabListItem *)li atIndex:(NSUInteger)i inRect:(CGRect)titleRect {    
+    editingIndex = i;
+    
+    TDTabModel *tm = [delegate tabsViewController:self tabModelAtIndex:i];
+    
+    NSString *str = [tm.title stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+    str = str ? str : @"";
+    
+    NSWindow *win = [li window];
+    titleRect = TDRectOutset(titleRect, 2.0, 2.0);
+    NSTextField *fieldEditor = [[[NSTextField alloc] initWithFrame:titleRect] autorelease];
+    [fieldEditor setFont:[TDTabListItem titleFont]];
+    [fieldEditor setAlignment:NSLeftTextAlignment];
+    [fieldEditor setDrawsBackground:YES];
+    [fieldEditor setBackgroundColor:[NSColor whiteColor]];
+    [fieldEditor setStringValue:str];
+    [fieldEditor setDelegate:self];
+    
+    [fieldEditor setNeedsDisplay:YES];
+    
+    tm.title = nil;
+    
+    [[self view] addSubview:fieldEditor];
+    [listView reloadData];
+    
+    [win makeFirstResponder:fieldEditor];
+}
+
+
+#pragma mark -
+#pragma mark NSTextDelegate
+
+- (void)controlTextDidEndEditing:(NSNotification *)n {
+    NSTextField *fieldEditor = [n object];
+    
+    TDTabModel *tm = [delegate tabsViewController:self tabModelAtIndex:editingIndex];
+    tm.title = [fieldEditor stringValue];
+    
+    [fieldEditor removeFromSuperview];
+    [[listView window] endEditingFor:listView];
+}
+
+
 #pragma mark -
 #pragma mark Properties
 
@@ -330,5 +398,6 @@
 @synthesize delegate;
 @synthesize scrollView;
 @synthesize listView;
+@synthesize allowsTabTitleEditing;
 @synthesize draggingTabModel;
 @end

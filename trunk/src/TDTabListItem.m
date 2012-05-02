@@ -145,6 +145,11 @@ static NSImage *sProgressImage = nil;
 }
 
 
++ (NSFont *)titleFont {
+    return [sTitleAttrs objectForKey:NSFontAttributeName];
+}
+
+
 - (id)init {
     self = [self initWithFrame:NSZeroRect reuseIdentifier:[[self class] reuseIdentifier]];
     return self;
