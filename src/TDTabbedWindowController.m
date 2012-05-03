@@ -55,7 +55,6 @@
 - (void)windowDidLoad {
     [super windowDidLoad];
     
-    [self setUpTabsListView];
 }
 
 
