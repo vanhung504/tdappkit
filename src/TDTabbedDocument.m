@@ -114,8 +114,8 @@ static NSMutableDictionary *sDocuments = nil;
     } else {
         [self newTab:nil];
     }
-	
-	hasSetUpTabsList = YES;
+    
+    hasSetUpTabsList = YES;
 }
 
 
@@ -240,9 +240,9 @@ static NSMutableDictionary *sDocuments = nil;
     // create model
     TDTabModel *tm = [[[TDTabModel alloc] init] autorelease];
     tm.representedObject = [[self newRepresentedObject] autorelease];
-	
-	NSString *name = [self localizedDisplayNameForTab];
-    tm.title = [NSString stringWithFormat:NSLocalizedString(@"%D %d", @""), name, i + 1];
+    
+    NSString *name = [self localizedDisplayNameForTab];
+    tm.title = [NSString stringWithFormat:NSLocalizedString(@"%@ %d", @""), name, i + 1];
     [self addTabModel:tm atIndex:i];
 }
 
@@ -256,12 +256,12 @@ static NSMutableDictionary *sDocuments = nil;
     NSParameterAssert(tm);
     NSParameterAssert(NSNotFound != i && i >= 0 && i <= [models count]);
     
-	if (hasSetUpTabsList) {
-		NSUndoManager *mgr = [self undoManager];
-		[[mgr prepareWithInvocationTarget:self] removeTabModelAtIndex:i];
-		NSString *name = [self localizedDisplayNameForTab];
-		[mgr setActionName:[NSString stringWithFormat:NSLocalizedString(@"Add %@", @""), name]];
-	}
+    if (hasSetUpTabsList) {
+        NSUndoManager *mgr = [self undoManager];
+        [[mgr prepareWithInvocationTarget:self] removeTabModelAtIndex:i];
+        NSString *name = [self localizedDisplayNameForTab];
+        [mgr setActionName:[NSString stringWithFormat:NSLocalizedString(@"Add %@", @""), name]];
+    }
     
     // set index
     tm.index = i;
@@ -370,7 +370,7 @@ static NSMutableDictionary *sDocuments = nil;
 
 
 - (NSString *)localizedDisplayNameForTab {
-	return NSLocalizedString(@"Tab", @"");
+    return NSLocalizedString(@"Tab", @"");
 }
 
 
