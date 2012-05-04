@@ -87,22 +87,22 @@
 
 
 - (NSRect)titleRectForBounds:(NSRect)bounds{
-    return [self.style tabListItem:self borderRectForBounds:bounds];
+    return [self.style tabListItem:self titleRectForBounds:bounds];
 }
 
 
 - (NSRect)closeButtonRectForBounds:(NSRect)bounds{
-    return [self.style tabListItem:self borderRectForBounds:bounds];
+    return [self.style tabListItem:self closeButtonRectForBounds:bounds];
 }
 
 
 - (NSRect)progressIndicatorRectForBounds:(NSRect)bounds{
-    return [self.style tabListItem:self borderRectForBounds:bounds];
+    return [self.style tabListItem:self progressIndicatorRectForBounds:bounds];
 }
 
 
 - (NSRect)thumbnailRectForBounds:(NSRect)bounds{
-    return [self.style tabListItem:self borderRectForBounds:bounds];
+    return [self.style tabListItem:self thumbnailRectForBounds:bounds];
 }
 
 
