@@ -21,6 +21,8 @@ static NSMutableDictionary *sDocuments = nil;
 + (NSString *)nextUniqueID;
 - (void)tabListViewWasSetUp:(TDTabbedWindowController *)wc;
 
+- (TDTabbedWindowController *)tabbedWindowController;
+
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, retain) NSMutableArray *models;
 @property (nonatomic, retain, readwrite) TDTabModel *selectedTabModel;
@@ -157,14 +159,19 @@ static NSMutableDictionary *sDocuments = nil;
 
 
 - (IBAction)closeTab:(id)sender {
-    [[[[self windowControllers] objectAtIndex:0] window] performClose:self];
-//    [self removeTabModelAtIndex:self.selectedTabIndex];
+    if (self.userMustConfirmTabClose) {
+        TDTabbedWindowController *wc = [self tabbedWindowController];
+        [wc runConfirmTabCloseSheet:nil];
+    } else {
+        NSUInteger i = self.selectedTabIndex;
+        [self removeTabModelAtIndex:i];
+    }
 }
               
               
 //- (IBAction)closeWindow:(id)sender {
 //    [super close];
-//    [[[[self windowControllers] objectAtIndex:0] window] orderOut:self];
+//    [[[self tabbedWindowController] window] orderOut:self];
 //}
 //
 //
@@ -210,8 +217,13 @@ static NSMutableDictionary *sDocuments = nil;
 
 
 - (IBAction)takeTabIndexToCloseFrom:(id)sender {
-    NSUInteger i = [sender tag];
-    [self removeTabModelAtIndex:i];
+    if (self.userMustConfirmTabClose) {
+        TDTabbedWindowController *wc = [self tabbedWindowController];
+        [wc runConfirmTabCloseSheet:sender];
+    } else {
+        NSUInteger i = [sender tag];
+        [self removeTabModelAtIndex:i];
+    }
 }
 
 
@@ -294,7 +306,7 @@ static NSMutableDictionary *sDocuments = nil;
     NSUInteger c = [models count];
 
     if (1 == c) {
-        //        [self closeWindow:self];
+        //[self closeWindow:self];
         //[self close];
         return;
     }
@@ -308,7 +320,9 @@ static NSMutableDictionary *sDocuments = nil;
 
     NSUndoManager *mgr = [self undoManager];
     [[mgr prepareWithInvocationTarget:self] addTabModel:tm atIndex:i];
-    [mgr setActionName:NSLocalizedString(@"Remove Page", @"")];
+    NSString *fmt = NSLocalizedString(@"Remove %@", @"");
+    NSString *arg = [self localizedDisplayNameForTab];
+    [mgr setActionName:[NSString stringWithFormat:fmt, arg]];
     
     [models removeObjectAtIndex:i];
     
@@ -460,6 +474,11 @@ static NSMutableDictionary *sDocuments = nil;
 #pragma mark -
 #pragma mark Properties
 
+- (TDTabbedWindowController *)tabbedWindowController {
+    return [[self windowControllers] objectAtIndex:0];
+}
+
+
 - (NSArray *)tabModels {
     return [[models copy] autorelease];
 }
@@ -488,7 +507,7 @@ static NSMutableDictionary *sDocuments = nil;
         self.selectedTabModel = tm;
     
         if (!TDIsLionOrLater()) {
-            [[[[self windowControllers] objectAtIndex:0] window] setDocumentEdited:[tm isDocumentEdited]];
+            [[[self tabbedWindowController] window] setDocumentEdited:[tm isDocumentEdited]];
         }
 
         [self selectedTabIndexDidChange];
@@ -501,4 +520,5 @@ static NSMutableDictionary *sDocuments = nil;
 @synthesize models;
 @synthesize selectedTabIndex;
 @synthesize selectedTabModel;
+@synthesize userMustConfirmTabClose;
 @end

@@ -14,9 +14,12 @@
     TDTabsListViewController *tabsListViewController;
     BOOL fullScreen; // Lion only
     BOOL fullScreenTransitioning; // Lion only
+    NSPanel *confirmTabCloseSheet;
 }
 
 //- (IBAction)performClose:(id)sender; // maps to -closeTab:. must do this for framework calls
+- (IBAction)runConfirmTabCloseSheet:(id)sender;
+- (IBAction)orderOutConfirmTabCloseSheet:(id)sender;
 
 - (BOOL)isFullScreen; // Lion only
 - (BOOL)isFullScreenTransitioning; // Lion only
@@ -28,4 +31,5 @@
 - (void)windowDidExitFullScreen:(NSNotification *)n;
 
 @property (nonatomic, retain) TDTabsListViewController *tabsListViewController;
+@property (nonatomic, retain) IBOutlet NSPanel *confirmTabCloseSheet;
 @end
