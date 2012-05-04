@@ -171,15 +171,15 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
     if (!allowsTabTitleEditing) return;
     
     NSEvent *evt = [[lv window] currentEvent];
-    CGPoint p = [evt locationInWindow];
+    NSPoint p = [evt locationInWindow];
     p = [lv convertPoint:p fromView:nil];
     
     TDTabListItem *li = (TDTabListItem *)[lv hitTest:p];
 
     p = [li convertPoint:p fromView:lv];
-    CGRect r = [li titleRectForBounds:[li bounds]];
+    NSRect r = [li titleRectForBounds:[li bounds]];
     
-    if (CGRectContainsPoint(r, p)) {
+    if (NSPointInRect(p, r)) {
         r = [li convertRect:r toView:[self view]];
         [self beginEditingTabTitle:li atIndex:i inRect:r];
     }
@@ -363,7 +363,7 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
 }
 
 
-- (void)beginEditingTabTitle:(TDTabListItem *)li atIndex:(NSUInteger)i inRect:(CGRect)titleRect {    
+- (void)beginEditingTabTitle:(TDTabListItem *)li atIndex:(NSUInteger)i inRect:(NSRect)titleRect {    
     editingIndex = i;
     
     TDTabModel *tm = [delegate tabsViewController:self tabModelAtIndex:i];
@@ -372,7 +372,7 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
     str = str ? str : @"";
     
     NSWindow *win = [li window];
-    titleRect = TDRectOutset(titleRect, 2.0, 2.0);
+    titleRect = TDNSRectOutset(titleRect, 2.0, 2.0);
     NSTextField *fieldEditor = [[[NSTextField alloc] initWithFrame:titleRect] autorelease];
     
     Class cls = NSClassFromString([sClassNameForListItemStyleDict objectForKey:self.listItemStyle]);

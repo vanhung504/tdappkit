@@ -14,11 +14,11 @@
 
 + (NSFont *)titleFont;
 
-- (CGRect)tabListItem:(TDTabListItem *)item borderRectForBounds:(CGRect)bounds;
-- (CGRect)tabListItem:(TDTabListItem *)item titleRectForBounds:(CGRect)bounds;
-- (CGRect)tabListItem:(TDTabListItem *)item closeButtonRectForBounds:(CGRect)bounds;
-- (CGRect)tabListItem:(TDTabListItem *)item progressIndicatorRectForBounds:(CGRect)bounds;
-- (CGRect)tabListItem:(TDTabListItem *)item thumbnailRectForBounds:(CGRect)bounds;
+- (NSRect)tabListItem:(TDTabListItem *)item borderRectForBounds:(NSRect)bounds;
+- (NSRect)tabListItem:(TDTabListItem *)item titleRectForBounds:(NSRect)bounds;
+- (NSRect)tabListItem:(TDTabListItem *)item closeButtonRectForBounds:(NSRect)bounds;
+- (NSRect)tabListItem:(TDTabListItem *)item progressIndicatorRectForBounds:(NSRect)bounds;
+- (NSRect)tabListItem:(TDTabListItem *)item thumbnailRectForBounds:(NSRect)bounds;
 
 - (void)layoutSubviewsInTabListItem:(TDTabListItem *)item;
 - (void)drawTabListItem:(TDTabListItem *)item inContext:(CGContextRef)ctx;

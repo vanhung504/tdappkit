@@ -81,20 +81,20 @@ static NSImage *sProgressImage = nil;
 }
 
 
-- (CGRect)tabListItem:(TDTabListItem *)item borderRectForBounds:(CGRect)bounds {
-    CGRect r = CGRectInset(bounds, 2.5, 1.5);
+- (NSRect)tabListItem:(TDTabListItem *)item borderRectForBounds:(NSRect)bounds {
+    NSRect r = NSInsetRect(bounds, 2.5, 1.5);
     return r;
 }
 
 
-- (CGRect)tabListItem:(TDTabListItem *)item closeButtonRectForBounds:(CGRect)bounds {
-    CGRect r = CGRectMake(7.0, 5.0, 10.0, 10.0);
+- (NSRect)tabListItem:(TDTabListItem *)item closeButtonRectForBounds:(NSRect)bounds {
+    NSRect r = NSMakeRect(7.0, 5.0, 10.0, 10.0);
     return r;
 }
 
 
-- (CGRect)tabListItem:(TDTabListItem *)item titleRectForBounds:(CGRect)bounds {
-    CGRect r = CGRectInset(bounds, 13.5, 3.5);
+- (NSRect)tabListItem:(TDTabListItem *)item titleRectForBounds:(NSRect)bounds {
+    NSRect r = NSInsetRect(bounds, 13.5, 3.5);
     r.size.height = 13.0;
     
     if (item.showsCloseButton) {
@@ -105,15 +105,15 @@ static NSImage *sProgressImage = nil;
 }
 
 
-- (CGRect)tabListItem:(TDTabListItem *)item progressIndicatorRectForBounds:(CGRect)bounds {
-    CGSize size = [item.progressIndicator bounds].size;
-    CGRect r = CGRectMake(CGRectGetMaxX(bounds) - 26.0, 20.0, size.width, size.height);
+- (NSRect)tabListItem:(TDTabListItem *)item progressIndicatorRectForBounds:(NSRect)bounds {
+    NSSize size = [item.progressIndicator bounds].size;
+    NSRect r = NSMakeRect(NSMaxX(bounds) - 26.0, 20.0, size.width, size.height);
     return r;
 }
 
 
-- (CGRect)tabListItem:(TDTabListItem *)item thumbnailRectForBounds:(CGRect)bounds {
-    CGRect r = CGRectInset(bounds, 6.5, 5.5);
+- (NSRect)tabListItem:(TDTabListItem *)item thumbnailRectForBounds:(NSRect)bounds {
+    NSRect r = NSInsetRect(bounds, 6.5, 5.5);
     r = NSOffsetRect(r, 0.0, 12.0);
     r.size.height -= 10.0;
     
@@ -127,7 +127,7 @@ static NSImage *sProgressImage = nil;
 - (void)layoutSubviewsInTabListItem:(TDTabListItem *)item {
     currentItem = item;
     
-    CGRect bounds = [item bounds];
+    NSRect bounds = [item bounds];
     if (item.showsCloseButton) {
         [item.closeButton setFrame:[self tabListItem:item closeButtonRectForBounds:bounds]];
     }
@@ -163,11 +163,11 @@ static NSImage *sProgressImage = nil;
     // inner round rect
     if (bounds.size.width < 55.0) return; // dont draw anymore when you're really small. looks bad.
     
-    CGRect thumbRect = [self tabListItem:item thumbnailRectForBounds:bounds];
-    CGSize imgSize = thumbRect.size;
+    NSRect thumbRect = [self tabListItem:item thumbnailRectForBounds:bounds];
+    NSSize imgSize = thumbRect.size;
     
     NSImage *img = tabModel.scaledImage;
-    if (!img || !CGSizeEqualToSize(imgSize, [img size])) {
+    if (!img || !NSEqualSizes(imgSize, [img size])) {
         CGFloat alpha = 1.0;
         BOOL hiRez = YES;
         //        if (!drawHiRez || tabModel.isBusy) {
@@ -194,8 +194,8 @@ static NSImage *sProgressImage = nil;
         return;
     }
     
-    CGRect srcRect = CGRectMake(0.0, 0.0, imgSize.width, imgSize.height);
-    CGRect destRect = CGRectOffset(srcRect, floor(thumbRect.origin.x + THUMBNAIL_DIFF / 2.0), floor(thumbRect.origin.y + THUMBNAIL_DIFF / 2.0));
+    NSRect srcRect = NSMakeRect(0.0, 0.0, imgSize.width, imgSize.height);
+    NSRect destRect = NSOffsetRect(srcRect, floor(thumbRect.origin.x + THUMBNAIL_DIFF / 2.0), floor(thumbRect.origin.y + THUMBNAIL_DIFF / 2.0));
     [img drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1];
     
     // stroke again over image

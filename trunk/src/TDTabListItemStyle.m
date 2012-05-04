@@ -16,33 +16,33 @@
 }
 
 
-- (CGRect)tabListItem:(TDTabListItem *)item borderRectForBounds:(CGRect)bounds {
+- (NSRect)tabListItem:(TDTabListItem *)item borderRectForBounds:(NSRect)bounds {
     NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
-    return CGRectZero;
+    return NSZeroRect;
 }
 
 
-- (CGRect)tabListItem:(TDTabListItem *)item titleRectForBounds:(CGRect)bounds {
+- (NSRect)tabListItem:(TDTabListItem *)item titleRectForBounds:(NSRect)bounds {
     NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
-    return CGRectZero;
+    return NSZeroRect;
 }
 
 
-- (CGRect)tabListItem:(TDTabListItem *)item closeButtonRectForBounds:(CGRect)bounds {
+- (NSRect)tabListItem:(TDTabListItem *)item closeButtonRectForBounds:(NSRect)bounds {
     NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
-    return CGRectZero;
+    return NSZeroRect;
 }
 
 
-- (CGRect)tabListItem:(TDTabListItem *)item progressIndicatorRectForBounds:(CGRect)bounds {
+- (NSRect)tabListItem:(TDTabListItem *)item progressIndicatorRectForBounds:(NSRect)bounds {
     NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
-    return CGRectZero;
+    return NSZeroRect;
 }
 
 
-- (CGRect)tabListItem:(TDTabListItem *)item thumbnailRectForBounds:(CGRect)bounds {
+- (NSRect)tabListItem:(TDTabListItem *)item thumbnailRectForBounds:(NSRect)bounds {
     NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
-    return CGRectZero;
+    return NSZeroRect;
 }
 
 
