@@ -81,27 +81,27 @@
 }
 
 
-- (CGRect)borderRectForBounds:(CGRect)bounds {
+- (NSRect)borderRectForBounds:(NSRect)bounds {
     return [self.style tabListItem:self borderRectForBounds:bounds];
 }
 
 
-- (CGRect)titleRectForBounds:(CGRect)bounds{
+- (NSRect)titleRectForBounds:(NSRect)bounds{
     return [self.style tabListItem:self borderRectForBounds:bounds];
 }
 
 
-- (CGRect)closeButtonRectForBounds:(CGRect)bounds{
+- (NSRect)closeButtonRectForBounds:(NSRect)bounds{
     return [self.style tabListItem:self borderRectForBounds:bounds];
 }
 
 
-- (CGRect)progressIndicatorRectForBounds:(CGRect)bounds{
+- (NSRect)progressIndicatorRectForBounds:(NSRect)bounds{
     return [self.style tabListItem:self borderRectForBounds:bounds];
 }
 
 
-- (CGRect)thumbnailRectForBounds:(CGRect)bounds{
+- (NSRect)thumbnailRectForBounds:(NSRect)bounds{
     return [self.style tabListItem:self borderRectForBounds:bounds];
 }
 
@@ -195,7 +195,7 @@
 
 - (NSButton *)closeButton {
     if (!closeButton) {
-        self.closeButton = [[[NSButton alloc] initWithFrame:CGRectZero] autorelease];
+        self.closeButton = [[[NSButton alloc] initWithFrame:NSZeroRect] autorelease];
         [closeButton setButtonType:NSMomentaryChangeButton];
         [closeButton setBordered:NO];
         [closeButton setAction:@selector(closeTabButtonClick:)];
@@ -212,7 +212,7 @@
 
 - (NSProgressIndicator *)progressIndicator {
     if (!progressIndicator) {
-        self.progressIndicator = [[[NSProgressIndicator alloc] initWithFrame:CGRectZero] autorelease];
+        self.progressIndicator = [[[NSProgressIndicator alloc] initWithFrame:NSZeroRect] autorelease];
         [progressIndicator setStyle:NSProgressIndicatorSpinningStyle];
         [progressIndicator setControlSize:NSSmallControlSize];
         [progressIndicator setDisplayedWhenStopped:NO];
@@ -235,5 +235,4 @@
 @synthesize showsCloseButton;
 @synthesize showsProgressIndicator;
 @synthesize drawHiRezTimer;
-@synthesize style;
 @end

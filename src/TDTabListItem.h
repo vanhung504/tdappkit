@@ -30,11 +30,11 @@
 
 - (void)drawHiRezLater;
 
-- (CGRect)borderRectForBounds:(CGRect)bounds;
-- (CGRect)titleRectForBounds:(CGRect)bounds;
-- (CGRect)closeButtonRectForBounds:(CGRect)bounds;
-- (CGRect)progressIndicatorRectForBounds:(CGRect)bounds;
-- (CGRect)thumbnailRectForBounds:(CGRect)bounds;
+- (NSRect)borderRectForBounds:(NSRect)bounds;
+- (NSRect)titleRectForBounds:(NSRect)bounds;
+- (NSRect)closeButtonRectForBounds:(NSRect)bounds;
+- (NSRect)progressIndicatorRectForBounds:(NSRect)bounds;
+- (NSRect)thumbnailRectForBounds:(NSRect)bounds;
 
 @property (nonatomic, retain) TDTabModel *tabModel;
 @property (nonatomic, retain) NSButton *closeButton;
