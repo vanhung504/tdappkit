@@ -26,6 +26,7 @@
     NSLog(@"%s %@", __PRETTY_FUNCTION__, self);
 #endif
     self.tabsListViewController = nil;
+    self.confirmTabCloseSheet = nil;
     [super dealloc];
 }
 
@@ -47,6 +48,34 @@
 //- (void)close {
 //    [[self document] closeTab:nil];
 //}
+
+
+- (IBAction)orderOutConfirmTabCloseSheet:(id)sender {
+    [NSApp endSheet:confirmTabCloseSheet returnCode:[sender tag]];    
+}
+
+
+- (IBAction)runConfirmTabCloseSheet:(id)sender {
+    [NSApp beginSheet:confirmTabCloseSheet
+       modalForWindow:[self window] 
+        modalDelegate:self 
+       didEndSelector:@selector(confirmTabCloseSheetDidEnd:returnCode:contextInfo:) 
+          contextInfo:[sender retain]]; // retain
+}
+
+
+- (void)confirmTabCloseSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)code contextInfo:(id)sender {
+    NSParameterAssert(sheet == confirmTabCloseSheet);
+    
+    [sender autorelease]; // release
+    
+    if (NSOKButton == code) {
+        NSUInteger i = sender ? [sender tag] : [[self document] selectedTabIndex];
+        [[self document] removeTabModelAtIndex:i];
+    }
+    
+    [sheet orderOut:self];
+}
 
 
 #pragma mark -
@@ -149,4 +178,5 @@
 }
 
 @synthesize tabsListViewController;
+@synthesize confirmTabCloseSheet;
 @end

@@ -17,6 +17,7 @@
     NSMutableArray *models;
     TDTabModel *selectedTabModel;
     NSUInteger selectedTabIndex;
+    BOOL userMustConfirmTabClose;
 	
 	BOOL hasSetUpTabsList;
 }
@@ -58,4 +59,5 @@
 @property (nonatomic, assign) NSUInteger selectedTabIndex;
 @property (nonatomic, retain, readonly) TDTabModel *selectedTabModel;
 @property (nonatomic, retain, readonly) TDTabViewController *selectedTabViewController;
+@property (nonatomic, assign) BOOL userMustConfirmTabClose;
 @end
