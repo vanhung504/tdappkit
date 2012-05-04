@@ -374,6 +374,11 @@ static NSMutableDictionary *sDocuments = nil;
 }
 
 
+- (NSString *)localizedDisplayNameForTabPlural {
+    return NSLocalizedString(@"Tabs", @"");
+}
+
+
 - (TDTabViewController *)newTabViewController {
     NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
     return nil;
