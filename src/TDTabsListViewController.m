@@ -45,10 +45,10 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
 
 + (void)initialize {
     if (self == [TDTabsListViewController class]) {
-        sClassNameForListItemStyleDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          NSStringFromClass([TDTabListItemStyleBrowser class]), @"browser",
-                                          NSStringFromClass([TDTabListItemStylePage class]), @"page",
-                                          nil];
+        sClassNameForListItemStyleDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                            NSStringFromClass([TDTabListItemStyleBrowser class]), @"browser",
+                                            NSStringFromClass([TDTabListItemStylePage class]), @"page",
+                                            nil];
     }
 }
 
@@ -375,8 +375,7 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
     titleRect = TDNSRectOutset(titleRect, 2.0, 2.0);
     NSTextField *fieldEditor = [[[NSTextField alloc] initWithFrame:titleRect] autorelease];
     
-    Class cls = NSClassFromString([sClassNameForListItemStyleDict objectForKey:self.listItemStyle]);
-    [fieldEditor setFont:[cls titleFont]];
+    [fieldEditor setFont:[[self.listItemStyle class] titleFont]];
     [fieldEditor setAlignment:NSLeftTextAlignment];
     [fieldEditor setDrawsBackground:YES];
     [fieldEditor setBackgroundColor:[NSColor whiteColor]];
