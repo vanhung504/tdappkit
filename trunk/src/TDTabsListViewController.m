@@ -25,6 +25,14 @@
 
 static NSDictionary *sClassNameForListItemStyleDict = nil;
 
+#if FU_BUILD_TARGET_SNOW_LEOPARD
+@interface NSResponder (Compiler)
+- (void)encodeRestorableStateWithCoder:(NSCoder *)c;
+- (void)restoreStateWithCoder:(NSCoder *)c;
+- (void)invalidateRestorableState;
+@end
+#endif
+
 @interface TDTabbedDocument ()
 + (TDTabbedDocument *)documentForIdentifier:(NSString *)identifier;
 @property (nonatomic, copy, readonly) NSString *identifier;
@@ -38,6 +46,10 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
 - (void)updateAllTabModels;
 - (void)updateAllTabModelsFromIndex:(NSUInteger)startIndex;
 - (void)updateSelectedTabModel;
+
+- (void)beginEditingTabTitle:(TDTabListItem *)li atIndex:(NSUInteger)i inRect:(NSRect)titleRect;
+- (void)tryInvalidateRestorableState;
+
 @property (nonatomic, retain) TDTabModel *draggingTabModel;
 @end
 
