@@ -11,6 +11,7 @@
 
 @class TDTabModel;
 @class TDTabsListViewController;
+@class TDTabListItemStyle;
 
 @protocol TDTabsListViewControllerDelegate <NSObject>
 - (NSUInteger)numberOfTabsInTabsViewController:(TDTabsListViewController *)tvc;
@@ -27,16 +28,18 @@
     NSScrollView *scrollView;
     TDListView *listView;
     BOOL allowsTabTitleEditing;
-
+    TDTabListItemStyle *listItemStyle;
     NSUInteger editingIndex;
     TDTabModel *draggingTabModel;
 }
 
 - (IBAction)closeTabButtonClick:(id)sender;
 
+- (void)useStyleNamed:(NSString *)styleName;
+
 @property (nonatomic, assign) id <TDTabsListViewControllerDelegate> delegate; // weak ref
 @property (nonatomic, retain) IBOutlet NSScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet TDListView *listView;
 @property (nonatomic, assign) BOOL allowsTabTitleEditing;
-@property (nonatomic, retain) TDTabModel *draggingTabModel;
+@property (nonatomic, retain) TDTabListItemStyle *listItemStyle;
 @end

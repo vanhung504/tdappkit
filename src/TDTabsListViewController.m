@@ -11,6 +11,9 @@
 #import <TDAppKit/TDTabModel.h>
 #import <TDAppKit/TDTabListItem.h>
 #import <TDAppKit/TDUtils.h>
+#import "TDTabListItemStyle.h"
+#import "TDTabListItemStyleBrowser.h"
+#import "TDTabListItemStylePage.h"
 
 #define TAB_MODEL_KEY @"tabModel"
 #define TAB_MODEL_INDEX_KEY @"tabModelIndex"
@@ -19,6 +22,8 @@
 #define ASPECT_RATIO 0.7
 
 #define TDTabPboardType @"TDTabPboardType"
+
+static NSDictionary *sClassNameForListItemStyleDict = nil;
 
 @interface TDTabbedDocument ()
 + (TDTabbedDocument *)documentForIdentifier:(NSString *)identifier;
@@ -33,9 +38,19 @@
 - (void)updateAllTabModels;
 - (void)updateAllTabModelsFromIndex:(NSUInteger)startIndex;
 - (void)updateSelectedTabModel;
+@property (nonatomic, retain) TDTabModel *draggingTabModel;
 @end
 
 @implementation TDTabsListViewController
+
++ (void)initialize {
+    if (self == [TDTabsListViewController class]) {
+        sClassNameForListItemStyleDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          NSStringFromClass([TDTabListItemStyleBrowser class]), @"browser",
+                                          NSStringFromClass([TDTabListItemStylePage class]), @"page",
+                                          nil];
+    }
+}
 
 - (id)init {
     self = [super initWithNibName:@"TDTabsListView" bundle:[NSBundle bundleForClass:[self class]]];
@@ -55,11 +70,14 @@
     self.scrollView = nil;
     self.listView = nil;
     self.draggingTabModel = nil;
+    self.listItemStyle = nil;
     [super dealloc];
 }
 
 
 - (void)viewDidLoad {
+    [self useStyleNamed:@"browser"];
+    
     // setup ui
     listView.backgroundColor = [NSColor colorWithDeviceWhite:.92 alpha:1.0];
     listView.orientation = TDListViewOrientationLandscape;
@@ -356,7 +374,9 @@
     NSWindow *win = [li window];
     titleRect = TDRectOutset(titleRect, 2.0, 2.0);
     NSTextField *fieldEditor = [[[NSTextField alloc] initWithFrame:titleRect] autorelease];
-    [fieldEditor setFont:[TDTabListItem titleFont]];
+    
+    Class cls = NSClassFromString([sClassNameForListItemStyleDict objectForKey:self.listItemStyle]);
+    [fieldEditor setFont:[cls titleFont]];
     [fieldEditor setAlignment:NSLeftTextAlignment];
     [fieldEditor setDrawsBackground:YES];
     [fieldEditor setBackgroundColor:[NSColor whiteColor]];
@@ -431,9 +451,16 @@
     return [[[self.view window] windowController] document];
 }
 
+
+- (void)useStyleNamed:(NSString *)styleName {
+    Class cls = NSClassFromString([sClassNameForListItemStyleDict objectForKey:styleName]);
+    self.listItemStyle = [[[cls alloc] init] autorelease];
+}
+
 @synthesize delegate;
 @synthesize scrollView;
 @synthesize listView;
 @synthesize allowsTabTitleEditing;
+@synthesize listItemStyle;
 @synthesize draggingTabModel;
 @end

@@ -11,6 +11,7 @@
 
 @class TDTabModel;
 @class TDTabsListViewController;
+@class TDTabListItemStyle;
 
 @interface TDTabListItem : TDListItem {
     TDTabModel *tabModel;
@@ -26,7 +27,6 @@
 }
 
 + (NSString *)reuseIdentifier;
-+ (NSFont *)titleFont;
 
 - (void)drawHiRezLater;
 
