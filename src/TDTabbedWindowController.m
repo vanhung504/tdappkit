@@ -17,6 +17,7 @@
 
 @interface TDTabbedWindowController ()
 - (void)setUpTabsListView;
+- (void)confirmTabCloseSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)code contextInfo:(id)sender;
 @end
 
 @implementation TDTabbedWindowController
