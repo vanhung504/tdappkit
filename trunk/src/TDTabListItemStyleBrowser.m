@@ -185,20 +185,20 @@ static NSDictionary *sHints = nil;
     NSSize imgSize = [img size];
     NSSize scaledImgSize = imgSize;
     
-    BOOL isPortrait = imgSize.height > imgSize.width;
+//    BOOL isPortrait = imgSize.height > imgSize.width;
     CGFloat ratio = 0.0;
     
-    if (isPortrait) {
+//    if (isPortrait) {
         ratio = (thumbSize.width / imgSize.width);
         scaledImgSize.width *= ratio;
         scaledImgSize.height *= ratio;
-        NSAssert(scaledImgSize.height > scaledImgSize.width, @"");
-    } else {
-        ratio = (thumbSize.height / imgSize.height);
-        scaledImgSize.width *= ratio;
-        scaledImgSize.height *= ratio;
-        NSAssert(scaledImgSize.width > scaledImgSize.height, @"");
-    }
+//        NSAssert(scaledImgSize.height > scaledImgSize.width, @"");
+//    } else {
+//        ratio = (thumbSize.height / imgSize.height);
+//        scaledImgSize.width *= ratio;
+//        scaledImgSize.height *= ratio;
+//        NSAssert(scaledImgSize.width > scaledImgSize.height, @"");
+//    }
 
     NSImage *scaledImg = tabModel.scaledImage;
     if (!scaledImg || !NSEqualSizes(scaledImgSize, imgSize)) {
@@ -216,18 +216,18 @@ static NSDictionary *sHints = nil;
     NSRect srcRect = NSMakeRect(0.0, 0.0, imgSize.width, imgSize.height);
     NSRect scaledSrcRect = NSMakeRect(0.0, 0.0, scaledImgSize.width, scaledImgSize.height);
 
-    if (isPortrait) {
+//    if (isPortrait) {
         srcRect.size.height = thumbSize.height / ratio;
         scaledSrcRect.size.height = thumbSize.height;
-    } else {
-        srcRect.size.width = thumbSize.width / ratio;
-        scaledSrcRect.size.width = thumbSize.width;
-    }
+//    } else {
+//        srcRect.size.width = thumbSize.width / ratio;
+//        scaledSrcRect.size.width = thumbSize.width;
+//    }
     
     NSRect destRect = thumbRect;
     
-    [img drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:sHints];
-//    [scaledImg drawInRect:destRect fromRect:scaledSrcRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:sHints];
+//    [img drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:sHints];
+    [scaledImg drawInRect:destRect fromRect:scaledSrcRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:sHints];
     
     // stroke again over image
     TDDrawRoundRect(thumbRect, NORMAL_RADIUS, 1.0, nil, strokeColor);
