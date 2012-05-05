@@ -215,19 +215,16 @@ static NSDictionary *sHints = nil;
     
     NSRect srcRect = NSMakeRect(0.0, 0.0, scaledImgSize.width, scaledImgSize.height);
     NSLog(@"srcRect 1 %@", NSStringFromRect(srcRect));
-//    NSLog(@"thumbSize %@", NSStringFromSize(thumbSize));
-//    NSLog(@"srcRect %@", NSStringFromRect(srcRect));
-//
+
     if (isPortrait) {
-        srcRect.size.height = thumbSize.height; //*= (thumbSize.height / thumbSize.width);
+        srcRect.size.height = thumbSize.height;
     } else {
-        srcRect.size.width = thumbSize.width; //*= (thumbSize.width / thumbSize.height);
+        srcRect.size.width = thumbSize.width;
     }
     
     NSLog(@"srcRect 2 %@", NSStringFromRect(srcRect));
 
-    //NSRect imgRect = NSMakeRect(0.0, 0.0, imgSize.width, imgSize.height);
-    NSRect destRect = thumbRect; //NSOffsetRect(srcRect, floor(thumbRect.origin.x + THUMBNAIL_DIFF / 2.0), floor(thumbRect.origin.y + THUMBNAIL_DIFF / 2.0));
+    NSRect destRect = thumbRect;
     
     NSLog(@"destRect %@", NSStringFromRect(destRect));
     //[scaledImg drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1.0];
