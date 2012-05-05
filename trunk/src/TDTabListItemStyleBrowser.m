@@ -12,10 +12,10 @@
 #import <TDAppKit/TDUtils.h>
 #import <TDAppKit/NSImage+TDAdditions.h>
 
-#define NORMAL_RADIUS 4
-#define SMALL_RADIUS 3
-#define BGCOLOR_INSET 2
-#define THUMBNAIL_DIFF 0
+#define NORMAL_RADIUS 4.0
+#define SMALL_RADIUS 3.0
+#define BGCOLOR_INSET 2.0
+#define THUMBNAIL_DIFF 0.0
 
 static NSDictionary *sSelectedTitleAttrs = nil;
 static NSDictionary *sTitleAttrs = nil;
@@ -174,7 +174,7 @@ static NSDictionary *sHints = nil;
 
     // put white behind the image
     NSColor *strokeColor = tabModel.isSelected ? sSelectedInnerRectStrokeColor : sInnerRectStrokeColor;
-    TDDrawRoundRect(thumbRect, NORMAL_RADIUS, 1.0, sInnerRectFillGradient, strokeColor);
+    //TDDrawRoundRect(thumbRect, NORMAL_RADIUS, 1.0, sInnerRectFillGradient, strokeColor);
 
     // draw image
     if (bounds.size.width < 64.0) return; // dont draw anymore when you're really small. looks bad.
@@ -213,22 +213,21 @@ static NSDictionary *sHints = nil;
         return;
     }
     
-    NSRect srcRect = NSMakeRect(0.0, 0.0, scaledImgSize.width, scaledImgSize.height);
-    NSLog(@"srcRect 1 %@", NSStringFromRect(srcRect));
+    NSRect srcRect = NSMakeRect(0.0, 0.0, imgSize.width, imgSize.height);
+    NSRect scaledSrcRect = NSMakeRect(0.0, 0.0, scaledImgSize.width, scaledImgSize.height);
 
     if (isPortrait) {
-        srcRect.size.height = thumbSize.height;
+        srcRect.size.height = thumbSize.height / ratio;
+        scaledSrcRect.size.height = thumbSize.height;
     } else {
-        srcRect.size.width = thumbSize.width;
+        srcRect.size.width = thumbSize.width / ratio;
+        scaledSrcRect.size.width = thumbSize.width;
     }
     
-    NSLog(@"srcRect 2 %@", NSStringFromRect(srcRect));
-
     NSRect destRect = thumbRect;
     
-    NSLog(@"destRect %@", NSStringFromRect(destRect));
-    //[scaledImg drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1.0];
-    [scaledImg drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:sHints];
+    [img drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:sHints];
+//    [scaledImg drawInRect:destRect fromRect:scaledSrcRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:sHints];
     
     // stroke again over image
     TDDrawRoundRect(thumbRect, NORMAL_RADIUS, 1.0, nil, strokeColor);
