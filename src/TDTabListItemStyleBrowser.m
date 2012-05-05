@@ -30,6 +30,8 @@ static NSColor *sInnerRectStrokeColor = nil;
 
 static NSImage *sProgressImage = nil;
 
+static NSDictionary *sHints = nil;
+
 @implementation TDTabListItemStyleBrowser
 
 + (void)initialize {
@@ -72,6 +74,10 @@ static NSImage *sProgressImage = nil;
         sInnerRectStrokeColor = [[NSColor colorWithDeviceWhite:0.7 alpha:1.0] retain];
         
         sProgressImage = [[NSImage imageNamed:@"progress_indicator.png" inBundleForClass:self] retain];
+        
+        sHints = [[NSDictionary alloc] initWithObjectsAndKeys:
+                  [NSNumber numberWithInteger:NSImageInterpolationHigh], NSImageHintInterpolation, 
+                  nil];
     }
 }
 
@@ -164,39 +170,68 @@ static NSImage *sProgressImage = nil;
     if (bounds.size.width < 55.0) return; // dont draw anymore when you're really small. looks bad.
     
     NSRect thumbRect = [self tabListItem:item thumbnailRectForBounds:bounds];
-    NSSize imgSize = thumbRect.size;
-    
-    NSImage *img = tabModel.scaledImage;
-    if (!img || !NSEqualSizes(imgSize, [img size])) {
-        CGFloat alpha = 1.0;
-        BOOL hiRez = YES;
-        //        if (!drawHiRez || tabModel.isBusy) {
-        //            //alpha = 0.4;
-        //            hiRez = NO;
-        //        }
-        
-        [tabModel.image setFlipped:[item isFlipped]];
-        
-        img = [tabModel.image scaledImageOfSize:imgSize alpha:alpha hiRez:hiRez cornerRadius:NORMAL_RADIUS];
-        tabModel.scaledImage = img;
-    }
-    
-    imgSize = [img size];
-    
-    // draw image
-    if (bounds.size.width < 64.0) return; // dont draw anymore when you're really small. looks bad.
-    
+    NSSize thumbSize = thumbRect.size;
+
     // put white behind the image
     NSColor *strokeColor = tabModel.isSelected ? sSelectedInnerRectStrokeColor : sInnerRectStrokeColor;
     TDDrawRoundRect(thumbRect, NORMAL_RADIUS, 1.0, sInnerRectFillGradient, strokeColor);
+
+    // draw image
+    if (bounds.size.width < 64.0) return; // dont draw anymore when you're really small. looks bad.
     
-    if (!img) {
+    NSImage *img = tabModel.image;
+    if (!img) return;
+    
+    NSSize imgSize = [img size];
+    NSSize scaledImgSize = imgSize;
+    
+    BOOL isPortrait = imgSize.height > imgSize.width;
+    CGFloat ratio = 0.0;
+    
+    if (isPortrait) {
+        ratio = (thumbSize.width / imgSize.width);
+        scaledImgSize.width *= ratio;
+        scaledImgSize.height *= ratio;
+        NSAssert(scaledImgSize.height > scaledImgSize.width, @"");
+    } else {
+        ratio = (thumbSize.height / imgSize.height);
+        scaledImgSize.width *= ratio;
+        scaledImgSize.height *= ratio;
+        NSAssert(scaledImgSize.width > scaledImgSize.height, @"");
+    }
+
+    NSImage *scaledImg = tabModel.scaledImage;
+    if (!scaledImg || !NSEqualSizes(scaledImgSize, imgSize)) {
+        
+        [img setFlipped:[item isFlipped]];
+        
+        scaledImg = [img scaledImageOfSize:scaledImgSize alpha:1.0 hiRez:YES cornerRadius:NORMAL_RADIUS];
+        tabModel.scaledImage = scaledImg;
+    }
+            
+    if (!scaledImg) {
         return;
     }
     
-    NSRect srcRect = NSMakeRect(0.0, 0.0, imgSize.width, imgSize.height);
-    NSRect destRect = NSOffsetRect(srcRect, floor(thumbRect.origin.x + THUMBNAIL_DIFF / 2.0), floor(thumbRect.origin.y + THUMBNAIL_DIFF / 2.0));
-    [img drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1];
+    NSRect srcRect = NSMakeRect(0.0, 0.0, scaledImgSize.width, scaledImgSize.height);
+    NSLog(@"srcRect 1 %@", NSStringFromRect(srcRect));
+//    NSLog(@"thumbSize %@", NSStringFromSize(thumbSize));
+//    NSLog(@"srcRect %@", NSStringFromRect(srcRect));
+//
+    if (isPortrait) {
+        srcRect.size.height = thumbSize.height; //*= (thumbSize.height / thumbSize.width);
+    } else {
+        srcRect.size.width = thumbSize.width; //*= (thumbSize.width / thumbSize.height);
+    }
+    
+    NSLog(@"srcRect 2 %@", NSStringFromRect(srcRect));
+
+    //NSRect imgRect = NSMakeRect(0.0, 0.0, imgSize.width, imgSize.height);
+    NSRect destRect = thumbRect; //NSOffsetRect(srcRect, floor(thumbRect.origin.x + THUMBNAIL_DIFF / 2.0), floor(thumbRect.origin.y + THUMBNAIL_DIFF / 2.0));
+    
+    NSLog(@"destRect %@", NSStringFromRect(destRect));
+    //[scaledImg drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1.0];
+    [scaledImg drawInRect:destRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:sHints];
     
     // stroke again over image
     TDDrawRoundRect(thumbRect, NORMAL_RADIUS, 1.0, nil, strokeColor);
