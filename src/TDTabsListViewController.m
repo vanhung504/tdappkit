@@ -91,7 +91,7 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
     [self useStyleNamed:@"browser"];
     
     // setup ui
-    listView.backgroundColor = [NSColor colorWithDeviceWhite:0.97 alpha:1.0];
+    listView.backgroundColor = [NSColor colorWithDeviceWhite:0.92 alpha:1.0];
     listView.orientation = TDListViewOrientationLandscape;
     listView.displaysClippedItems = YES;
 
