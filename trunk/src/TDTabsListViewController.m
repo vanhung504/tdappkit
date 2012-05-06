@@ -18,8 +18,6 @@
 #define TAB_MODEL_INDEX_KEY @"tabModelIndex"
 #define DOC_ID_KEY @"tabbedDocumentIdentifier"
 
-#define ASPECT_RATIO 1.0
-
 #define TDTabPboardType @"TDTabPboardType"
 
 static NSDictionary *sClassNameForListItemStyleDict = nil;
@@ -142,12 +140,11 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
 
 - (CGFloat)listView:(TDListView *)lv extentForItemAtIndex:(NSUInteger)i {
     NSSize scrollSize = [scrollView frame].size;
-    
-    if (listView.isPortrait) {
-        return floor(scrollSize.width * ASPECT_RATIO);
-    } else {
-        return floor(scrollSize.height * 1 / ASPECT_RATIO);
-    }
+    BOOL isPortrait = listView.isPortrait;
+
+    Class styleClass = [self.listItemStyle class];
+    CGFloat extent = [styleClass tabItemExtentForScrollSize:scrollSize isPortrait:isPortrait];
+    return extent;
 }
 
 

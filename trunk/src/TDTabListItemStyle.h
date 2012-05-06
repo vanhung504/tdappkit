@@ -12,6 +12,7 @@
     
 }
 
++ (CGFloat)tabItemExtentForScrollSize:(NSSize)scrollSize isPortrait:(BOOL)isPortrait;
 + (NSFont *)titleFont;
 + (NSTextAlignment)titleTextAlignment;
 
