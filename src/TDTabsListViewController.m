@@ -13,7 +13,6 @@
 #import <TDAppKit/TDUtils.h>
 #import "TDTabListItemStyle.h"
 #import "TDTabListItemStyleBrowser.h"
-#import "TDTabListItemStylePage.h"
 
 #define TAB_MODEL_KEY @"tabModel"
 #define TAB_MODEL_INDEX_KEY @"tabModelIndex"
@@ -59,7 +58,7 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
     if (self == [TDTabsListViewController class]) {
         sClassNameForListItemStyleDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                             NSStringFromClass([TDTabListItemStyleBrowser class]), @"browser",
-                                            NSStringFromClass([TDTabListItemStylePage class]), @"page",
+                                            @"JotTabListItemStylePage", @"page", // TODO
                                             nil];
     }
 }
@@ -88,7 +87,7 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
 
 
 - (void)viewDidLoad {
-    [self useStyleNamed:@"browser"];
+    [self useStyleNamed:@"page"];
     
     // setup ui
     listView.backgroundColor = [NSColor colorWithDeviceWhite:0.9 alpha:1.0];
