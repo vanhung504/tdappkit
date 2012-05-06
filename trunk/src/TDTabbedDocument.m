@@ -15,6 +15,8 @@
 static NSMutableDictionary *sDocuments = nil;
 
 @interface TDTabbedDocument ()
+- (void)tryInvalidateRestorableState;
+
 + (TDTabbedDocument *)documentForIdentifier:(NSString *)identifier;
 + (void)addDocument:(TDTabbedDocument *)doc;
 + (void)removeDocument:(TDTabbedDocument *)doc;
@@ -96,6 +98,30 @@ static NSMutableDictionary *sDocuments = nil;
 
 
 #pragma mark -
+#pragma mark NSResponder
+
+- (void)tryInvalidateRestorableState {
+    if ([self respondsToSelector:@selector(invalidateRestorableState)]) {
+        [self invalidateRestorableState];
+    }
+}
+
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super encodeRestorableStateWithCoder:coder];
+    
+    [coder encodeInteger:self.selectedTabIndex forKey:@"TDTabbedDocumentSelectedTabIndex"];
+}
+
+
+- (void)restoreStateWithCoder:(NSCoder *)coder {
+    [super restoreStateWithCoder:coder];
+    
+    self.selectedTabIndex = [coder decodeIntegerForKey:@"TDTabbedDocumentSelectedTabIndex"];
+}
+
+
+#pragma mark -
 #pragma mark NSDocument
 
 - (void)makeWindowControllers {
@@ -107,12 +133,16 @@ static NSMutableDictionary *sDocuments = nil;
     NSParameterAssert([wc isKindOfClass:[TDTabbedWindowController class]]);
     
     NSArray *mods = [[self.tabModels copy] autorelease];
+    
     self.models = [NSMutableArray arrayWithCapacity:[mods count]];
     
     if ([mods count]) {
+        NSUInteger idx = self.selectedTabIndex;
+        idx = idx == NSNotFound ? 0 : idx;
         for (TDTabModel *tm in mods) {
             [self addTabModel:tm];
         }
+        self.selectedTabIndex = idx;
     } else {
         [self newTab:nil];
     }
@@ -490,6 +520,7 @@ static NSMutableDictionary *sDocuments = nil;
 
 
 - (void)setSelectedTabIndex:(NSUInteger)i {
+    //BOOL didChange = hasSetUpTabsList && selectedTabIndex != i;
     //if (selectedTabIndex != i) {
         [self willChangeValueForKey:@"selectedTabIndex"];
 
@@ -506,10 +537,15 @@ static NSMutableDictionary *sDocuments = nil;
         }
         self.selectedTabModel = tm;
     
-        if (!TDIsLionOrLater()) {
+        if (TDIsLionOrLater()) {
+            //if (didChange) [self updateChangeCount:NSChangeDone];
+        } else{
             [[[self tabbedWindowController] window] setDocumentEdited:[tm isDocumentEdited]];
         }
 
+        
+        [self tryInvalidateRestorableState];
+    
         [self selectedTabIndexDidChange];
         
         [self didChangeValueForKey:@"selectedTabIndex"];
