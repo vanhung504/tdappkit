@@ -43,4 +43,5 @@
 @property (nonatomic, assign) NSUInteger index;
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
 @property (nonatomic, assign, getter=isBusy) BOOL busy;
+@property (nonatomic, assign) NSUInteger changeCount;
 @end

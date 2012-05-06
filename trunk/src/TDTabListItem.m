@@ -157,6 +157,7 @@
     if (m) {
         [m addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:NULL];
         [m addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
+        [m addObserver:self forKeyPath:@"changeCount" options:NSKeyValueObservingOptionNew context:NULL];
     }
 }
 
@@ -165,6 +166,7 @@
     if (m) {
         [m removeObserver:self forKeyPath:@"image"];
         [m removeObserver:self forKeyPath:@"title"];
+        [m removeObserver:self forKeyPath:@"changeCount"];
     }
 }
 
