@@ -16,6 +16,12 @@
 }
 
 
++ (NSTextAlignment)titleTextAlignment {
+    NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
+    return NSLeftTextAlignment;
+}
+
+
 - (NSRect)tabListItem:(TDTabListItem *)item borderRectForBounds:(NSRect)bounds {
     NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
     return NSZeroRect;

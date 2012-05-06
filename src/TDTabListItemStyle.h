@@ -13,6 +13,7 @@
 }
 
 + (NSFont *)titleFont;
++ (NSTextAlignment)titleTextAlignment;
 
 - (NSRect)tabListItem:(TDTabListItem *)item borderRectForBounds:(NSRect)bounds;
 - (NSRect)tabListItem:(TDTabListItem *)item titleRectForBounds:(NSRect)bounds;
