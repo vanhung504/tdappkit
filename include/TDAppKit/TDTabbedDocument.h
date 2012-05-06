@@ -20,6 +20,7 @@
     BOOL userMustConfirmTabClose;
 	
 	BOOL hasSetUpTabsList;
+    NSData *printInfoData;
 }
 
 //- (IBAction)performClose:(id)sender;
@@ -60,4 +61,5 @@
 @property (nonatomic, retain, readonly) TDTabModel *selectedTabModel;
 @property (nonatomic, retain, readonly) TDTabViewController *selectedTabViewController;
 @property (nonatomic, assign) BOOL userMustConfirmTabClose;
+@property (nonatomic, retain) NSData *printInfoData;
 @end

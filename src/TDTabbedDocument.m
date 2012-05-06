@@ -93,6 +93,7 @@ static NSMutableDictionary *sDocuments = nil;
     self.identifier = nil;
     self.models = nil;
     self.selectedTabModel = nil;
+    self.printInfoData = nil;
     [super dealloc];
 }
 
@@ -110,14 +111,16 @@ static NSMutableDictionary *sDocuments = nil;
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
     [super encodeRestorableStateWithCoder:coder];
     
-    [coder encodeInteger:self.selectedTabIndex forKey:@"TDTabbedDocumentSelectedTabIndex"];
+    [coder encodeInteger:self.selectedTabIndex forKey:@"selectedTabIndex"];
+    [coder encodeObject:printInfoData forKey:@"printInfoData"];
 }
 
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
     [super restoreStateWithCoder:coder];
     
-    self.selectedTabIndex = [coder decodeIntegerForKey:@"TDTabbedDocumentSelectedTabIndex"];
+    self.selectedTabIndex = [coder decodeIntegerForKey:@"selectedTabIndex"];
+    self.printInfoData = [coder decodeObjectForKey:@"printInfoData"];
 }
 
 
@@ -559,4 +562,5 @@ static NSMutableDictionary *sDocuments = nil;
 @synthesize selectedTabIndex;
 @synthesize selectedTabModel;
 @synthesize userMustConfirmTabClose;
+@synthesize printInfoData;
 @end
