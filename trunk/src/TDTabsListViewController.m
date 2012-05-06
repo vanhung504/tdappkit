@@ -18,7 +18,7 @@
 #define TAB_MODEL_INDEX_KEY @"tabModelIndex"
 #define DOC_ID_KEY @"tabbedDocumentIdentifier"
 
-#define ASPECT_RATIO 0.7
+#define ASPECT_RATIO 0.9
 
 #define TDTabPboardType @"TDTabPboardType"
 
@@ -386,8 +386,9 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
     titleRect = TDNSRectOutset(titleRect, 2.0, 2.0);
     NSTextField *fieldEditor = [[[NSTextField alloc] initWithFrame:titleRect] autorelease];
     
-    [fieldEditor setFont:[[self.listItemStyle class] titleFont]];
-    [fieldEditor setAlignment:NSLeftTextAlignment];
+    Class styleClass = [self.listItemStyle class];
+    [fieldEditor setFont:[styleClass titleFont]];
+    [fieldEditor setAlignment:[styleClass titleTextAlignment]];
     [fieldEditor setDrawsBackground:YES];
     [fieldEditor setBackgroundColor:[NSColor whiteColor]];
     [fieldEditor setStringValue:str];

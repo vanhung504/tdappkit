@@ -87,6 +87,11 @@ static NSDictionary *sHints = nil;
 }
 
 
++ (NSTextAlignment)titleTextAlignment {
+    return NSLeftTextAlignment;
+}
+
+
 - (NSRect)tabListItem:(TDTabListItem *)item borderRectForBounds:(NSRect)bounds {
     NSRect r = NSInsetRect(bounds, 2.5, 1.5);
     return r;
