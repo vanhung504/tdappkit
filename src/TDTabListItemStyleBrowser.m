@@ -82,6 +82,21 @@ static NSDictionary *sHints = nil;
 }
 
 
++ (CGFloat)tabItemExtentForScrollSize:(NSSize)scrollSize isPortrait:(BOOL)isPortrait {
+#define ASPECT_RATIO 1.0
+
+    CGFloat extent = 0.0;
+    
+    if (isPortrait) {
+        extent = floor(scrollSize.width * ASPECT_RATIO);
+    } else {
+        extent = floor(scrollSize.height * 1 / ASPECT_RATIO);
+    }
+
+    return extent;
+}
+
+
 + (NSFont *)titleFont {
     return [sTitleAttrs objectForKey:NSFontAttributeName];
 }

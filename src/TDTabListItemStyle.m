@@ -10,6 +10,12 @@
 
 @implementation TDTabListItemStyle
 
++ (CGFloat)tabItemExtentForScrollSize:(NSSize)scrollSize isPortrait:(BOOL)isPortrait {
+    NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
+    return 0.0;
+}
+
+
 + (NSFont *)titleFont {
     NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
     return nil;
