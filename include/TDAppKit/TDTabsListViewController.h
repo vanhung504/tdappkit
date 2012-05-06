@@ -35,6 +35,7 @@
 
 - (IBAction)closeTabButtonClick:(id)sender;
 
++ (void)registerStyleClass:(Class)cls forName:(NSString *)name;
 - (void)useStyleNamed:(NSString *)styleName;
 
 @property (nonatomic, assign) id <TDTabsListViewControllerDelegate> delegate; // weak ref

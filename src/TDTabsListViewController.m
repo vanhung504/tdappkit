@@ -20,7 +20,7 @@
 
 #define TDTabPboardType @"TDTabPboardType"
 
-static NSDictionary *sClassNameForListItemStyleDict = nil;
+static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 
 #if FU_BUILD_TARGET_SNOW_LEOPARD
 @interface NSResponder (Compiler)
@@ -54,12 +54,12 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
 
 + (void)initialize {
     if (self == [TDTabsListViewController class]) {
-        sClassNameForListItemStyleDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+        sClassNameForListItemStyleDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                             NSStringFromClass([TDTabListItemStyleBrowser class]), @"browser",
-                                            @"JotTabListItemStylePage", @"page", // TODO
                                             nil];
     }
 }
+
 
 - (id)init {
     self = [super initWithNibName:@"TDTabsListView" bundle:[NSBundle bundleForClass:[self class]]];
@@ -84,9 +84,7 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
 }
 
 
-- (void)viewDidLoad {
-    [self useStyleNamed:@"page"];
-    
+- (void)viewDidLoad {    
     // setup ui
     listView.backgroundColor = [NSColor colorWithDeviceWhite:0.9 alpha:1.0];
     listView.orientation = TDListViewOrientationLandscape;
@@ -455,6 +453,13 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
 
 - (TDTabbedDocument *)document {
     return [[[self.view window] windowController] document];
+}
+
+
++ (void)registerStyleClass:(Class)cls forName:(NSString *)name {
+    NSParameterAssert(cls);
+    NSParameterAssert([name length]);
+    [sClassNameForListItemStyleDict setObject:NSStringFromClass(cls) forKey:name];
 }
 
 
