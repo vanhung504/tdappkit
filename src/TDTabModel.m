@@ -143,4 +143,5 @@
 @synthesize index;
 @synthesize selected;
 @synthesize busy;
+@synthesize changeCount;
 @end
