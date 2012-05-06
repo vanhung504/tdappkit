@@ -9,7 +9,7 @@
 #import "TDTabListItemStyle.h"
 
 @interface TDTabListItemStyleBrowser : TDTabListItemStyle {
-    TDTabListItem *currentItem;
+
 }
 
 @end
