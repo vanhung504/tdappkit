@@ -131,8 +131,6 @@ static NSDictionary *sHints = nil;
 
 
 - (void)layoutSubviewsInTabListItem:(TDTabListItem *)item {
-    currentItem = item;
-    
     NSRect bounds = [item bounds];
     if (item.showsCloseButton) {
         [item.closeButton setFrame:[self tabListItem:item closeButtonRectForBounds:bounds]];
