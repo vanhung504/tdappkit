@@ -18,7 +18,7 @@
 #define TAB_MODEL_INDEX_KEY @"tabModelIndex"
 #define DOC_ID_KEY @"tabbedDocumentIdentifier"
 
-#define ASPECT_RATIO 0.9
+#define ASPECT_RATIO 1.0
 
 #define TDTabPboardType @"TDTabPboardType"
 
