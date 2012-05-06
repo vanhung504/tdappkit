@@ -395,9 +395,7 @@ static NSDictionary *sClassNameForListItemStyleDict = nil;
     [fieldEditor setDelegate:self];
     
     [fieldEditor setNeedsDisplay:YES];
-    
-//    tm.title = nil;
-    
+        
     [[self view] addSubview:fieldEditor];
     [listView reloadData];
     
