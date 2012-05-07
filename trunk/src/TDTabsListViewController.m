@@ -152,10 +152,12 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 
 
 - (void)listView:(TDListView *)lv didSelectItemsAtIndexes:(NSIndexSet *)set {
-    NSResponder *resp = [[lv window] firstResponder];
-    if ([resp isKindOfClass:[NSTextView class]]) {
-        [[lv window] makeFirstResponder:nil];
-    }
+    [[lv window] makeFirstResponder:lv];
+
+//    NSResponder *resp = [[lv window] firstResponder];
+//    if ([resp isKindOfClass:[NSTextView class]]) {
+//        [[lv window] makeFirstResponder:nil];
+//    }
 
     [delegate tabsViewController:self didSelectTabModelAtIndex:[set firstIndex]];
 }

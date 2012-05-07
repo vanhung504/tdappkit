@@ -254,7 +254,7 @@ static NSMutableDictionary *sDocuments = nil;
         TDTabbedWindowController *wc = [self tabbedWindowController];
         [wc runConfirmTabCloseSheet:sender];
     } else {
-        NSUInteger i = [sender tag];
+        NSUInteger i = sender ? [sender tag] : self.selectedTabIndex;
         [self removeTabModelAtIndex:i];
     }
 }
