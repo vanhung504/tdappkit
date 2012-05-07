@@ -95,18 +95,18 @@
     // ⌘-{, ⌘-}
     if ([evt isCommandKeyPressed]) {
         NSInteger keyCode = [evt keyCode];
-        if (CLOSE_CURLY == keyCode || OPEN_CURLY == keyCode) {
-            TDTabbedDocument *doc = [self tabbedDocument];
-            if (CLOSE_CURLY == keyCode) {
-                [doc selectNextTab:self];
-            } else if (OPEN_CURLY == keyCode) {
-                [doc selectPreviousTab:self];
-            }
-            return YES;
-        }
+//        if (CLOSE_CURLY == keyCode || OPEN_CURLY == keyCode) {
+//            TDTabbedDocument *doc = [self tabbedDocument];
+//            if (CLOSE_CURLY == keyCode) {
+//                [doc selectNextTab:self];
+//            } else if (OPEN_CURLY == keyCode) {
+//                [doc selectPreviousTab:self];
+//            }
+//            return YES;
+//        }
         
-        // ⎇⌘←, ⎇⌘→
-        if ([evt isOptionKeyPressed] && (LEFT_ARROW == keyCode || RIGHT_ARROW == keyCode)) {
+        // ⇧⌘←, ⇧⌘→
+        if ([evt isShiftKeyPressed] && (LEFT_ARROW == keyCode || RIGHT_ARROW == keyCode)) {
             TDTabbedDocument *doc = [self tabbedDocument];
             if (RIGHT_ARROW == keyCode) {
                 [doc selectNextTab:self];
