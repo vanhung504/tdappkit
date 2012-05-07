@@ -529,11 +529,11 @@ static NSMutableDictionary *sDocuments = nil;
 - (void)setSelectedTabIndex:(NSUInteger)i {
     i = i == NSNotFound ? 0 : i;
 
-    //BOOL didChange = hasSetUpTabsList && selectedTabIndex != i;
+    BOOL didChange = !hasSetUpTabsList || selectedTabIndex != i;
     //if (selectedTabIndex != i) {
         [self willChangeValueForKey:@"selectedTabIndex"];
 
-        [self selectedTabIndexWillChange];
+        if (didChange) [self selectedTabIndexWillChange];
         
         selectedTabModel.selected = NO;
 
@@ -555,7 +555,7 @@ static NSMutableDictionary *sDocuments = nil;
         
         [self tryInvalidateRestorableState];
     
-        [self selectedTabIndexDidChange];
+        if (didChange) [self selectedTabIndexDidChange];
         
         [self didChangeValueForKey:@"selectedTabIndex"];
     //}
