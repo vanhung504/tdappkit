@@ -121,7 +121,7 @@
 
 
 - (BOOL)isDeleteKeyDown {
-    return [self isKeyDown] && DELETE == [self keyCode] || BACKSPACE == [self keyCode];
+    return [self isKeyDown] && (DELETE == [self keyCode] || BACKSPACE == [self keyCode]);
 }
 
 
