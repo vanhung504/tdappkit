@@ -549,11 +549,6 @@ static NSMutableDictionary *sDocuments = nil;
         }
         self.selectedTabModel = tm;
     
-        if (!TDIsLionOrLater()) {
-            [[[self tabbedWindowController] window] setDocumentEdited:[tm isDocumentEdited]];
-        }
-
-        
         [self tryInvalidateRestorableState];
     
         if (didChange) [self selectedTabIndexDidChange];
