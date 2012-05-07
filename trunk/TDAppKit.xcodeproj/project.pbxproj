@@ -86,6 +86,8 @@
 		D3740A0F155355DF0057FBEF /* TDTabListItemStyleBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = D3740A0D155355DF0057FBEF /* TDTabListItemStyleBrowser.m */; };
 		D38984D3124E53DB00EBEFBA /* NSArray+TDAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D38984D2124E53DB00EBEFBA /* NSArray+TDAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D38984D8124E543E00EBEFBA /* NSArray+TDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D38984D7124E543E00EBEFBA /* NSArray+TDAdditions.m */; };
+		D38ED9DA15583D8E0004F9AE /* TDTabsListView.h in Headers */ = {isa = PBXBuildFile; fileRef = D38ED9D815583D8E0004F9AE /* TDTabsListView.h */; };
+		D38ED9DB15583D8E0004F9AE /* TDTabsListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D38ED9D915583D8E0004F9AE /* TDTabsListView.m */; };
 		D38F3D25128B8B9F00DC5FDB /* TDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D38F3D23128B8B9F00DC5FDB /* TDViewController.m */; };
 		D38F3D27128B8BD300DC5FDB /* TDViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D38F3D26128B8BD300DC5FDB /* TDViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D38F3E93128B9D8300DC5FDB /* close_button_hover.tif in Resources */ = {isa = PBXBuildFile; fileRef = D38F3E8E128B9D8300DC5FDB /* close_button_hover.tif */; };
@@ -259,6 +261,8 @@
 		D3740A0D155355DF0057FBEF /* TDTabListItemStyleBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDTabListItemStyleBrowser.m; path = src/TDTabListItemStyleBrowser.m; sourceTree = "<group>"; };
 		D38984D2124E53DB00EBEFBA /* NSArray+TDAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+TDAdditions.h"; path = "include/TDAppKit/NSArray+TDAdditions.h"; sourceTree = "<group>"; };
 		D38984D7124E543E00EBEFBA /* NSArray+TDAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+TDAdditions.m"; path = "src/NSArray+TDAdditions.m"; sourceTree = "<group>"; };
+		D38ED9D815583D8E0004F9AE /* TDTabsListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDTabsListView.h; path = src/TDTabsListView.h; sourceTree = "<group>"; };
+		D38ED9D915583D8E0004F9AE /* TDTabsListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDTabsListView.m; path = src/TDTabsListView.m; sourceTree = "<group>"; };
 		D38F3D23128B8B9F00DC5FDB /* TDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDViewController.m; path = src/TDViewController.m; sourceTree = "<group>"; };
 		D38F3D26128B8BD300DC5FDB /* TDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDViewController.h; path = include/TDAppKit/TDViewController.h; sourceTree = "<group>"; };
 		D38F3E8E128B9D8300DC5FDB /* close_button_hover.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = close_button_hover.tif; path = res/img/close_button_hover.tif; sourceTree = "<group>"; };
@@ -553,6 +557,8 @@
 				D36A362F128B260200AB56C9 /* TDTabViewController.m */,
 				D3EAB087128B5352006EDFF7 /* TDTabsListViewController.h */,
 				D3EAAFD6128B4137006EDFF7 /* TDTabsListViewController.m */,
+				D38ED9D815583D8E0004F9AE /* TDTabsListView.h */,
+				D38ED9D915583D8E0004F9AE /* TDTabsListView.m */,
 				D3EAAFE1128B42B3006EDFF7 /* TDTabListItem.h */,
 				D3EAAFE2128B42B3006EDFF7 /* TDTabListItem.m */,
 				D3740A0B155354500057FBEF /* Styles */,
@@ -783,6 +789,7 @@
 				D367159A136C6E000043A644 /* TDDragDestinationImageView.h in Headers */,
 				D3740A081553544A0057FBEF /* TDTabListItemStyle.h in Headers */,
 				D3740A0E155355DF0057FBEF /* TDTabListItemStyleBrowser.h in Headers */,
+				D38ED9DA15583D8E0004F9AE /* TDTabsListView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -972,6 +979,7 @@
 				D367159B136C6E000043A644 /* TDDragDestinationImageView.m in Sources */,
 				D3740A091553544A0057FBEF /* TDTabListItemStyle.m in Sources */,
 				D3740A0F155355DF0057FBEF /* TDTabListItemStyleBrowser.m in Sources */,
+				D38ED9DB15583D8E0004F9AE /* TDTabsListView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
