@@ -250,6 +250,11 @@ static NSMutableDictionary *sDocuments = nil;
 
 
 - (IBAction)takeTabIndexToCloseFrom:(id)sender {
+    if (1 == [self.tabModels count]) {
+        NSBeep();
+        return;
+    }
+    
     if (self.userMustConfirmTabClose) {
         TDTabbedWindowController *wc = [self tabbedWindowController];
         [wc runConfirmTabCloseSheet:sender];
@@ -527,9 +532,7 @@ static NSMutableDictionary *sDocuments = nil;
 
 
 - (void)setSelectedTabIndex:(NSUInteger)i {
-    i = i == NSNotFound ? 0 : i;
-
-    BOOL didChange = !hasSetUpTabsList || selectedTabIndex != i;
+    BOOL didChange = selectedTabIndex != i;
     //if (selectedTabIndex != i) {
         [self willChangeValueForKey:@"selectedTabIndex"];
 
@@ -546,9 +549,7 @@ static NSMutableDictionary *sDocuments = nil;
         }
         self.selectedTabModel = tm;
     
-        if (TDIsLionOrLater()) {
-            //if (didChange) [self updateChangeCount:NSChangeDone];
-        } else{
+        if (!TDIsLionOrLater()) {
             [[[self tabbedWindowController] window] setDocumentEdited:[tm isDocumentEdited]];
         }
 
