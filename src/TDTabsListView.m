@@ -14,14 +14,4 @@
     return YES;
 }
 
-
-- (void)deleteForward:(id)sender {
-    
-}
-
-
-- (void)deleteBackward:(id)sender {
-    
-}
-
 @end
