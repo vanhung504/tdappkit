@@ -262,15 +262,19 @@ static NSMutableDictionary *sDocuments = nil;
 
 - (IBAction)takeTabIndexToMoveToNewWindowFrom:(id)sender {
     NSUInteger i = [sender tag];
-    TDTabModel *tm = [self tabModelAtIndex:i];
     
     NSError *err = nil;
     TDTabbedDocument *doc = [[NSDocumentController sharedDocumentController] openUntitledDocumentAndDisplay:YES error:&err];
     
     if (doc) {
+        TDTabModel *newtm = [[[self tabModelAtIndex:i] retain] autorelease];
         [self removeTabModelAtIndex:i];
         TDTabModel *oldtm = doc.selectedTabModel;
-        [doc addTabModel:tm];
+        
+//        NSLog(@"oldtm %@", oldtm.tabViewController);
+//        NSLog(@"newtm %@", newtm.tabViewController);
+
+        [doc addTabModel:newtm];
         [doc removeTabModel:oldtm];
     } else {
         NSLog(@"%@", err);
@@ -440,7 +444,7 @@ static NSMutableDictionary *sDocuments = nil;
     TDTabModel *tm = [self tabModelAtIndex:i];
     NSMenu *menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
     NSMenuItem *item = nil;
-    item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Remove Page", @"")
+    item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete", @"")
                                        action:@selector(takeTabIndexToCloseFrom:) 
                                 keyEquivalent:@""] autorelease];
     [item setTarget:self];
@@ -449,14 +453,14 @@ static NSMutableDictionary *sDocuments = nil;
     [item setTag:i];
     [menu addItem:item];
     
-    item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Move Page to New Document", @"")
-                                       action:@selector(takeTabIndexToMoveToNewWindowFrom:) 
-                                keyEquivalent:@""] autorelease];
-    [item setTarget:self];
-    [item setRepresentedObject:tm];
-    [item setOnStateImage:nil];
-    [item setTag:i];
-    [menu addItem:item];    
+//    item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Move Page to New Document", @"")
+//                                       action:@selector(takeTabIndexToMoveToNewWindowFrom:) 
+//                                keyEquivalent:@""] autorelease];
+//    [item setTarget:self];
+//    [item setRepresentedObject:tm];
+//    [item setOnStateImage:nil];
+//    [item setTag:i];
+//    [menu addItem:item];    
     
     return menu;
 }
