@@ -14,6 +14,14 @@
 
 static NSMutableDictionary *sDocuments = nil;
 
+#if FU_BUILD_TARGET_SNOW_LEOPARD
+@interface NSObject (Compiler)
+- (void)encodeRestorableStateWithCoder:(NSCoder *)c;
+- (void)restoreStateWithCoder:(NSCoder *)c;
+- (void)invalidateRestorableState;
+@end
+#endif
+
 @interface TDTabbedDocument ()
 - (void)tryInvalidateRestorableState;
 
