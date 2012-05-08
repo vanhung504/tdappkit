@@ -18,7 +18,7 @@
 @interface TDTabbedWindow ()
 - (BOOL)handleEvent:(NSEvent *)evt;
 - (BOOL)handleGoToTabNumber:(NSEvent *)evt;
-- (BOOL)handleNextPrevTab:(NSEvent *)evt;
+//- (BOOL)handleNextPrevTab:(NSEvent *)evt;
 - (TDTabbedDocument *)tabbedDocument;
 @end
 
@@ -59,10 +59,10 @@
             handled = YES;
         }
         
-        // also handle ⌘-{, ⌘-} and ⎇⌘←, ⎇⌘→ tab switching
-        else if ([self handleNextPrevTab:evt]) {
-            handled = YES;
-        }
+//        // also handle ⌘-{, ⌘-} and ⎇⌘←, ⎇⌘→ tab switching
+//        else if ([self handleNextPrevTab:evt]) {
+//            handled = YES;
+//        }
         
     }
     
@@ -91,10 +91,10 @@
 }
 
 
-- (BOOL)handleNextPrevTab:(NSEvent *)evt {
-    // ⌘-{, ⌘-}
-    if ([evt isCommandKeyPressed]) {
-        NSInteger keyCode = [evt keyCode];
+//- (BOOL)handleNextPrevTab:(NSEvent *)evt {
+//    // ⌘-{, ⌘-}
+//    if ([evt isCommandKeyPressed]) {
+//        NSInteger keyCode = [evt keyCode];
 //        if (CLOSE_CURLY == keyCode || OPEN_CURLY == keyCode) {
 //            TDTabbedDocument *doc = [self tabbedDocument];
 //            if (CLOSE_CURLY == keyCode) {
@@ -104,20 +104,20 @@
 //            }
 //            return YES;
 //        }
-        
-        // ⇧⌘←, ⇧⌘→
-        if ([evt isShiftKeyPressed] && (LEFT_ARROW == keyCode || RIGHT_ARROW == keyCode)) {
-            TDTabbedDocument *doc = [self tabbedDocument];
-            if (RIGHT_ARROW == keyCode) {
-                [doc selectNextTab:self];
-            } else if (LEFT_ARROW == keyCode) {
-                [doc selectPreviousTab:self];
-            }
-            return YES;
-        }
-    }
-    return NO;
-}
+//        
+//        // ⇧⌘←, ⇧⌘→
+//        if ([evt isShiftKeyPressed] && (LEFT_ARROW == keyCode || RIGHT_ARROW == keyCode)) {
+//            TDTabbedDocument *doc = [self tabbedDocument];
+//            if (RIGHT_ARROW == keyCode) {
+//                [doc selectNextTab:self];
+//            } else if (LEFT_ARROW == keyCode) {
+//                [doc selectPreviousTab:self];
+//            }
+//            return YES;
+//        }
+//    }
+//    return NO;
+//}
 
 
 - (TDTabbedDocument *)tabbedDocument {
