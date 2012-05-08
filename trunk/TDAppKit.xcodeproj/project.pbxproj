@@ -90,11 +90,6 @@
 		D38ED9DB15583D8E0004F9AE /* TDTabsListView.m in Sources */ = {isa = PBXBuildFile; fileRef = D38ED9D915583D8E0004F9AE /* TDTabsListView.m */; };
 		D38F3D25128B8B9F00DC5FDB /* TDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D38F3D23128B8B9F00DC5FDB /* TDViewController.m */; };
 		D38F3D27128B8BD300DC5FDB /* TDViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D38F3D26128B8BD300DC5FDB /* TDViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D38F3E93128B9D8300DC5FDB /* close_button_hover.tif in Resources */ = {isa = PBXBuildFile; fileRef = D38F3E8E128B9D8300DC5FDB /* close_button_hover.tif */; };
-		D38F3E94128B9D8300DC5FDB /* close_button_pressed.tif in Resources */ = {isa = PBXBuildFile; fileRef = D38F3E8F128B9D8300DC5FDB /* close_button_pressed.tif */; };
-		D38F3E95128B9D8300DC5FDB /* close_button.tif in Resources */ = {isa = PBXBuildFile; fileRef = D38F3E90128B9D8300DC5FDB /* close_button.tif */; };
-		D38F3E96128B9D8300DC5FDB /* combo_field_progress_indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = D38F3E91128B9D8300DC5FDB /* combo_field_progress_indicator.png */; };
-		D38F3E97128B9D8300DC5FDB /* progress_indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = D38F3E92128B9D8300DC5FDB /* progress_indicator.png */; };
 		D38F4A15128CDAF800DC5FDB /* TDHintView.m in Sources */ = {isa = PBXBuildFile; fileRef = D38F4A13128CDAF800DC5FDB /* TDHintView.m */; };
 		D38F4A17128CDB0800DC5FDB /* TDHintView.h in Headers */ = {isa = PBXBuildFile; fileRef = D38F4A16128CDB0800DC5FDB /* TDHintView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D392B08C1179594400823791 /* TDShadowView.h in Headers */ = {isa = PBXBuildFile; fileRef = D392B08A1179594400823791 /* TDShadowView.h */; };
@@ -888,11 +883,6 @@
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				D3EAB027128B45ED006EDFF7 /* TDTabsListView.xib in Resources */,
-				D38F3E93128B9D8300DC5FDB /* close_button_hover.tif in Resources */,
-				D38F3E94128B9D8300DC5FDB /* close_button_pressed.tif in Resources */,
-				D38F3E95128B9D8300DC5FDB /* close_button.tif in Resources */,
-				D38F3E96128B9D8300DC5FDB /* combo_field_progress_indicator.png in Resources */,
-				D38F3E97128B9D8300DC5FDB /* progress_indicator.png in Resources */,
 				D36713F9136C59A70043A644 /* TDRegisterWindow.xib in Resources */,
 				D36714EA136C670F0043A644 /* register_drop.png in Resources */,
 			);
