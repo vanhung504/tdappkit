@@ -55,7 +55,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 + (void)initialize {
     if (self == [TDTabsListViewController class]) {
         sClassNameForListItemStyleDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                            NSStringFromClass([TDTabListItemStyleBrowser class]), @"browser",
+                                            //NSStringFromClass([TDTabListItemStyleBrowser class]), @"browser",
                                             nil];
     }
 }
