@@ -353,6 +353,8 @@ static NSMutableDictionary *sDocuments = nil;
         return;
     }
     
+    [self willRemoveTabModelAtIndex:i];
+
     NSUInteger newIndex = i;
     if (i == c - 1) {
         newIndex--;
@@ -381,7 +383,6 @@ static NSMutableDictionary *sDocuments = nil;
 
 - (void)removeTabModel:(TDTabModel *)tm {
     NSInteger i = [models indexOfObject:tm];
-    [self willRemoveTabModelAtIndex:i];
     [self removeTabModelAtIndex:i];
 }
 

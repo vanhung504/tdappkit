@@ -46,6 +46,8 @@
 #ifdef TDDEBUG
     NSLog(@"%s %@", __PRETTY_FUNCTION__, self);
 #endif
+    tabViewController.tabModel = nil;
+    
     self.representedObject = nil;
     self.document = nil;
     self.tabViewController = nil;
