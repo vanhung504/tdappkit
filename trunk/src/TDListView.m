@@ -890,7 +890,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
     
     // begin
     // adding this guard as stablility enhancement in Fake 1.8.2
-    // not sure why it's necessary, but it is to prevent dragging out of workflow items array bounds
+    // not sure why it's necessary, but it is to prevent dragging workflow items out of array bounds
     
     if (dataSource) {
         NSUInteger totalCount = [dataSource numberOfItemsInListView:self];
@@ -906,7 +906,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
     self.itemFrames = nil;
     
     suppressLayout = YES;
-    [self performSelector:@selector(unsuppressLayout) withObject:nil afterDelay:.15];
+    [self performSelector:@selector(unsuppressLayout) withObject:nil afterDelay:0.15];
 
     if (delegate && [delegate respondsToSelector:@selector(listView:acceptDrop:index:dropOperation:)]) {
         return [delegate listView:self acceptDrop:dragInfo index:dropIndex dropOperation:dropOp];
