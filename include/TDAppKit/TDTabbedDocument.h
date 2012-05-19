@@ -21,6 +21,7 @@
 	
 	BOOL hasSetUpTabsList;
     NSData *printInfoData;
+    BOOL reverting;
 }
 
 //- (IBAction)performClose:(id)sender;

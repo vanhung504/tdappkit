@@ -184,6 +184,8 @@ static NSMutableDictionary *sDocuments = nil;
 
 
 - (void)updateChangeCount:(NSDocumentChangeType)type {
+    if (reverting) return;
+    
     if (!TDIsLionOrLater()) {
         [self.selectedTabModel updateChangeCount:type];
     }
