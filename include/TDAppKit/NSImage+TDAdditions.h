@@ -13,6 +13,7 @@
 //  limitations under the License.
 
 #import <Cocoa/Cocoa.h>
+#import <TDAppKit/TDUtils.h>
 
 @interface NSImage (TDAdditions)
 + (NSImage *)imageNamed:(NSString *)name inBundleForClass:(Class)cls;
@@ -23,7 +24,5 @@
 - (NSImage *)scaledImageOfSize:(NSSize)size alpha:(CGFloat)alpha hiRez:(BOOL)hiRez cornerRadius:(CGFloat)radius;
 - (NSImage *)scaledImageOfSize:(NSSize)size alpha:(CGFloat)alpha hiRez:(BOOL)hiRez clip:(NSBezierPath *)path;
 
-#if FU_BUILD_TARGET_LION
-- (void)drawStretchableInRect:(NSRect)rect edgeInsets:(NSEdgeInsets)insets operation:(NSCompositingOperation)op fraction:(CGFloat)delta;
-#endif
+- (void)drawStretchableInRect:(NSRect)rect edgeInsets:(TDEdgeInsets)insets operation:(NSCompositingOperation)op fraction:(CGFloat)delta;
 @end

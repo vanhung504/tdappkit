@@ -35,3 +35,12 @@ BOOL TDIsSnowLeopardOrLater();
 void TDGetSystemVersion(NSUInteger *major, NSUInteger *minor, NSUInteger *bugfix);
 
 NSStringEncoding TDNSStringEncodingFromTextEncodingName(NSString *encName);
+
+typedef struct {
+    CGFloat top; 
+    CGFloat left; 
+    CGFloat bottom;
+    CGFloat right;
+} TDEdgeInsets;
+
+TDEdgeInsets TDEdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat right);

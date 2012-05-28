@@ -87,8 +87,7 @@
 }
 
 
-#if FU_BUILD_TARGET_LION
-- (void)drawStretchableInRect:(NSRect)rect edgeInsets:(NSEdgeInsets)insets operation:(NSCompositingOperation)op fraction:(CGFloat)delta {
+- (void)drawStretchableInRect:(NSRect)rect edgeInsets:(TDEdgeInsets)insets operation:(NSCompositingOperation)op fraction:(CGFloat)delta {
     void (^makeAreas)(NSRect, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *) = ^(NSRect srcRect, NSRect *tl, NSRect *tc, NSRect *tr, NSRect *ml, NSRect *mc, NSRect *mr,     NSRect *bl, NSRect *bc, NSRect *br) {
         CGFloat w = NSWidth(srcRect);
         CGFloat h = NSHeight(srcRect);
@@ -144,6 +143,5 @@
     [self drawInRect:dstBotC fromRect:srcBotC operation:op fraction:delta respectFlipped:YES hints:sImageHints];
     [self drawInRect:dstBotR fromRect:srcBotR operation:op fraction:delta respectFlipped:YES hints:sImageHints];
 }
-#endif
 
 @end
