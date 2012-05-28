@@ -22,4 +22,8 @@
 - (NSImage *)scaledImageOfSize:(NSSize)size alpha:(CGFloat)alpha hiRez:(BOOL)hiRez;
 - (NSImage *)scaledImageOfSize:(NSSize)size alpha:(CGFloat)alpha hiRez:(BOOL)hiRez cornerRadius:(CGFloat)radius;
 - (NSImage *)scaledImageOfSize:(NSSize)size alpha:(CGFloat)alpha hiRez:(BOOL)hiRez clip:(NSBezierPath *)path;
+
+#if FU_BUILD_TARGET_LION
+- (void)drawStretchableInRect:(NSRect)rect edgeInsets:(NSEdgeInsets)insets operation:(NSCompositingOperation)op fraction:(CGFloat)delta;
+#endif
 @end
