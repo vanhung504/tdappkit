@@ -201,3 +201,13 @@ fail:
 NSStringEncoding TDNSStringEncodingFromTextEncodingName(NSString *encName) {
     return CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)encName));
 }
+
+
+TDEdgeInsets TDEdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat right) {
+    TDEdgeInsets e;
+    e.top = top;
+    e.left = left;
+    e.bottom = bottom;
+    e.right = right;
+    return e;
+}
