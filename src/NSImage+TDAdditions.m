@@ -87,7 +87,7 @@
 }
 
 
-- (void)drawStretchableInRect:(NSRect)rect edgeInsets:(TDEdgeInsets)insets operation:(NSCompositingOperation)op fraction:(CGFloat)delta {
+- (void)drawStretchableInRect:(NSRect)rect edgeInsets:(TDEdgeInsets)insets operation:(NSCompositingOperation)op fraction:(CGFloat)delta {    
     void (^makeAreas)(NSRect, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *) = ^(NSRect srcRect, NSRect *tl, NSRect *tc, NSRect *tr, NSRect *ml, NSRect *mc, NSRect *mr,     NSRect *bl, NSRect *bc, NSRect *br) {
         CGFloat w = NSWidth(srcRect);
         CGFloat h = NSHeight(srcRect);
@@ -122,7 +122,12 @@
 
     // Destinations rects
     NSRect dstTopL, dstTopC, dstTopR, dstMidL, dstMidC, dstMidR, dstBotL, dstBotC, dstBotR;
-    makeAreas(rect, &dstTopL, &dstTopC, &dstTopR, &dstMidL, &dstMidC, &dstMidR, &dstBotL, &dstBotC, &dstBotR);
+//    BOOL flipped = [self isFlipped];
+//    if (flipped) {
+        makeAreas(rect, &dstBotL, &dstBotC, &dstBotR, &dstMidL, &dstMidC, &dstMidR, &dstTopL, &dstTopC, &dstTopR);
+//    } else {
+//        makeAreas(rect, &dstTopL, &dstTopC, &dstTopR, &dstMidL, &dstMidC, &dstMidR, &dstBotL, &dstBotC, &dstBotR);
+//    }
 
     NSAssert([[NSThread currentThread] isMainThread], @"");
     static NSDictionary *sImageHints = nil;
