@@ -15,6 +15,7 @@
 #import <TDAppKit/TDUtils.h>
 #import <TDAppKit/NSBezierPath+TDAdditions.h>
 #import <QuartzCore/QuartzCore.h>
+#include <sys/utsname.h>
 
 CGRect TDRectOutset(CGRect r, CGFloat dx, CGFloat dy) {
     r.origin.x -= dx;
@@ -149,7 +150,11 @@ NSNib *TDLoadNib(id owner, NSString *nibName, NSBundle *bundle) {
         bundle = [NSBundle mainBundle];
     }
     NSNib *nib = [[[NSNib alloc] initWithNibNamed:nibName bundle:bundle] autorelease];
+#if FU_BUILD_TARGET_MTN_LION
+    if (![nib instantiateWithOwner:owner topLevelObjects:nil]) {  
+#else
     if (![nib instantiateNibWithOwner:owner topLevelObjects:nil]) {
+#endif
         NSLog(@"Could not load nib named %@", nibName);
         return nil;
     }
@@ -172,6 +177,35 @@ BOOL TDIsSnowLeopardOrLater() {
 
 
 void TDGetSystemVersion(NSUInteger *major, NSUInteger *minor, NSUInteger *bugfix) {
+    // Version 10.8 (Build 12A239)
+    NSString *version = [[NSProcessInfo processInfo] operatingSystemVersionString];
+    
+    NSRange r1 = [version rangeOfString:@"Version "];
+    NSRange r2 = [version rangeOfString:@" (B"];
+    
+    version = [version substringWithRange:NSMakeRange(r1.length, r2.location - r1.length)];
+    NSArray *comps = [version componentsSeparatedByString:@"."];
+    NSUInteger c = [comps count];
+
+    if (c >= 1) {
+        if (major) *major = [[comps objectAtIndex:0] intValue];
+    } else {
+        goto fail;
+    }
+    
+    if (c >= 2) {
+        if (minor) *minor = [[comps objectAtIndex:1] intValue];
+    } else {
+        goto fail;
+    }
+    
+    if (c >= 3) {
+        if (bugfix) *bugfix = [[comps objectAtIndex:2] intValue];
+    }
+
+    return;
+
+#if 0
     OSErr err;
     SInt32 systemVersion, versionMajor, versionMinor, versionBugFix;
     if ((err = Gestalt(gestaltSystemVersion, &systemVersion)) != noErr) goto fail;
@@ -189,9 +223,10 @@ void TDGetSystemVersion(NSUInteger *major, NSUInteger *minor, NSUInteger *bugfix
     }
     
     return;
+#endif
     
 fail:
-    NSLog(@"Unable to obtain system version: %ld", (long)err);
+    //NSLog(@"Unable to obtain system version: %ld", (long)err);
     if (major) *major = 10;
     if (minor) *minor = 0;
     if (bugfix) *bugfix = 0;
