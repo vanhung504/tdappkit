@@ -12,6 +12,9 @@
     BOOL fullScreen;
 }
 
+- (Class)representedObjectClass;
+- (id)newRepresentedObject;
+
 - (IBAction)toggleFullScreen:(id)sender;
 - (IBAction)newTab:(id)sender;
 

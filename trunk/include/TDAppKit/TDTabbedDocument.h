@@ -44,13 +44,14 @@
 
 - (TDTabModel *)tabModelAtIndex:(NSUInteger)i;
 - (NSUInteger)indexOfTabModel:(TDTabModel *)tm;
+- (NSUInteger)indexOfTabModelWithRepresentedObject:(id)obj;
 
 // subclass
 - (void)didAddTabModelAtIndex:(NSUInteger)i;
 - (void)willRemoveTabModelAtIndex:(NSUInteger)i;
 - (void)selectedTabIndexWillChange;
 - (void)selectedTabIndexDidChange;
-- (id)newRepresentedObject;
+
 - (NSString *)localizedDisplayNameForTab;
 - (NSString *)localizedDisplayNameForTabPlural;
 

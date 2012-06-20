@@ -21,6 +21,21 @@
 
 @implementation TDTabbedDocumentController
 
+- (Class)representedObjectClass {
+    NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
+    return nil;
+}
+
+
+- (id)newRepresentedObject {
+    NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
+    return nil;
+}
+
+
+#pragma mark -
+#pragma mark Actions
+
 - (IBAction)toggleFullScreen:(id)sender {
     if (TDIsLionOrLater()) {
         [self postLion_toggleFullScreen:sender];

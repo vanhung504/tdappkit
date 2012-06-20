@@ -7,6 +7,7 @@
 //
 
 #import <TDAppKit/TDTabbedDocument.h>
+#import <TDAppKit/TDTabbedDocumentController.h>
 #import <TDAppKit/TDTabModel.h>
 #import <TDAppKit/TDTabbedWindowController.h>
 #import <TDAppKit/TDTabViewController.h>
@@ -303,7 +304,8 @@ static NSMutableDictionary *sDocuments = nil;
 - (void)addTabModelAtIndex:(NSUInteger)i {
     // create model
     TDTabModel *tm = [[[TDTabModel alloc] init] autorelease];
-    tm.representedObject = [[self newRepresentedObject] autorelease];
+    id dc = [TDTabbedDocumentController sharedDocumentController];
+    tm.representedObject = [[dc newRepresentedObject] autorelease];
     
     NSString *name = [self localizedDisplayNameForTab];
     tm.title = [NSString stringWithFormat:NSLocalizedString(@"%@ %d", @""), name, i + 1];
@@ -407,6 +409,22 @@ static NSMutableDictionary *sDocuments = nil;
 }
 
 
+- (NSUInteger)indexOfTabModelWithRepresentedObject:(id)obj {
+    NSUInteger foundIdx = NSNotFound;
+    
+    NSUInteger i = 0;
+    for (TDTabModel *tm in models) {
+        if (obj == tm.representedObject) {
+            foundIdx = i;
+            break;
+        }
+        i++;
+    }
+
+    return foundIdx;
+}
+
+
 #pragma mark -
 #pragma mark Subclass
 
@@ -427,12 +445,6 @@ static NSMutableDictionary *sDocuments = nil;
 
 - (void)selectedTabIndexDidChange {
     
-}
-
-
-- (id)newRepresentedObject {
-    NSAssert1(0, @"must override %s", __PRETTY_FUNCTION__);
-    return nil;
 }
 
 
