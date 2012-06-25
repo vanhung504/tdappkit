@@ -44,3 +44,5 @@ typedef struct {
 } TDEdgeInsets;
 
 TDEdgeInsets TDEdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat right);
+
+void TDDumpAppleEvent(NSAppleEventDescriptor *aevtDesc);
