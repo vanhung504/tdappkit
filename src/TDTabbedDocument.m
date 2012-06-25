@@ -34,6 +34,8 @@ static NSMutableDictionary *sDocuments = nil;
 
 - (TDTabbedWindowController *)tabbedWindowController;
 
+- (TDTabModel *)newTabModelWithRepresentedObject:(id)repObj;
+
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, retain) NSMutableArray *models;
 @property (nonatomic, retain, readwrite) TDTabModel *selectedTabModel;
@@ -303,12 +305,10 @@ static NSMutableDictionary *sDocuments = nil;
 
 - (void)addTabModelAtIndex:(NSUInteger)i {
     // create model
-    TDTabModel *tm = [[[TDTabModel alloc] init] autorelease];
-    id dc = [TDTabbedDocumentController sharedDocumentController];
-    tm.representedObject = [[dc newRepresentedObject] autorelease];
     
-    NSString *name = [self localizedDisplayNameForTab];
-    tm.title = [NSString stringWithFormat:NSLocalizedString(@"%@ %d", @""), name, i + 1];
+    id dc = [TDTabbedDocumentController sharedDocumentController];
+    id repObj = [[dc newRepresentedObject] autorelease];
+    TDTabModel *tm = [[self newTabModelWithRepresentedObject:repObj] autorelease];
     [self addTabModel:tm atIndex:i];
 }
 
@@ -533,6 +533,25 @@ static NSMutableDictionary *sDocuments = nil;
 
 - (void)tabsViewControllerWantsNewTab:(TDTabsListViewController *)tvc {
     [self newTab:nil];
+}
+
+
+#pragma mark -
+#pragma mark Private
+
+- (TDTabModel *)newTabModelWithRepresentedObject:(id)repObj {
+    TDTabModel *tm = [[TDTabModel alloc] init];
+    tm.representedObject = repObj;
+    
+    NSString *title = [repObj valueForKey:@"title"];
+    if (!title) {
+        title = [self localizedDisplayNameForTab];
+        NSUInteger i = [self.models count];
+        title = [NSString stringWithFormat:NSLocalizedString(@"%@ %d", @""), title, i + 1];
+        [repObj setValue:title forKey:@"title"];
+    }
+    
+    return tm;
 }
 
 
