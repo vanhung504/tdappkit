@@ -244,3 +244,34 @@ TDEdgeInsets TDEdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat
     e.right = right;
     return e;
 }
+
+
+void TDDumpAppleEvent(NSAppleEventDescriptor *aevt) {
+    NSLog(@"data %@", [aevt data]);
+    NSLog(@"numberOfItems %lu", [aevt numberOfItems]);
+    NSLog(@"eventClass %@", NSFileTypeForHFSTypeCode([aevt eventClass]));
+    NSLog(@"eventID %@", NSFileTypeForHFSTypeCode([aevt eventID]));
+    NSLog(@"descType %@", NSFileTypeForHFSTypeCode([aevt descriptorType]));
+    
+    NSLog(@"%@", [aevt descriptorAtIndex:1]);
+    NSLog(@"%@", [aevt descriptorForKeyword:'subj']);
+    NSLog(@"%@", [aevt descriptorForKeyword:'kocl']);
+    NSLog(@"%@", [aevt descriptorForKeyword:'from']);
+    NSLog(@"%@", [aevt descriptorForKeyword:'want']);
+    NSLog(@"%@", [aevt paramDescriptorForKeyword:'subj']);
+    NSLog(@"%@", [aevt paramDescriptorForKeyword:'kocl']);
+    NSLog(@"%@", [aevt paramDescriptorForKeyword:'from']);
+    NSLog(@"%@", [aevt paramDescriptorForKeyword:'want']);
+    NSLog(@"%@", [aevt attributeDescriptorForKeyword:'subj']);
+    NSLog(@"%@", [aevt attributeDescriptorForKeyword:'kocl']);
+    NSLog(@"%@", [aevt attributeDescriptorForKeyword:'from']);
+    NSLog(@"%@", [aevt attributeDescriptorForKeyword:'want']);
+    
+    NSAppleEventDescriptor *targetDesc = [aevt attributeDescriptorForKeyword:'subj'];
+    NSScriptObjectSpecifier *targetSpec = [NSScriptObjectSpecifier objectSpecifierWithDescriptor:targetDesc];
+    id target = [targetSpec objectsByEvaluatingSpecifier];
+    NSLog(@"targetDesc %@", targetDesc);
+    NSLog(@"targetSpect %@", targetSpec);
+    NSLog(@"target %@", target);
+
+}
