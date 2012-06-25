@@ -117,22 +117,29 @@
 }
 
 
+- (NSString *)title {
+    return [[self representedObject] valueForKey:@"title"];
+}
+
+
 - (void)setTitle:(NSString *)s {
-    if (s != title) {
+    if (s != self.title) {
         [self willChangeValueForKey:@"title"];
         
-        if (title) {
-            NSString *name = [document localizedDisplayNameForTab];
-            
-            NSUndoManager *mgr = [[[[self tabViewController] view] window] undoManager];
-            [[mgr prepareWithInvocationTarget:self] setTitle:title];
-            [mgr setActionName:[NSString stringWithFormat:NSLocalizedString(@"Change %@ Title", @""), name]];
-        }
-
-        [title autorelease];
-        title = [s copy];
+//        if (title) {
+//            NSString *name = [document localizedDisplayNameForTab];
+//            
+//            NSUndoManager *mgr = [[[[self tabViewController] view] window] undoManager];
+//            [[mgr prepareWithInvocationTarget:self] setTitle:title];
+//            [mgr setActionName:[NSString stringWithFormat:NSLocalizedString(@"Change %@ Title", @""), name]];
+//        }
+//
+//        [title autorelease];
+//        title = [s copy];
         
-        [self didChangeValueForKey:@"title"];
+        [[self representedObject] setValue:s forKey:@"title"];
+        
+//        [self didChangeValueForKey:@"title"];
     }
 }
 
