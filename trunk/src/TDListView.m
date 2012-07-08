@@ -979,7 +979,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
         if (isItemVisible) {
             TDListItem *item = [dataSource listView:self itemAtIndex:i];
             if (!item) {
-                [NSException raise:EXCEPTION_NAME format:@"nil list item view returned for index: %d by: %@", i, dataSource];
+                [NSException raise:EXCEPTION_NAME format:@"nil list item view returned for index: %lu by: %@", i, dataSource];
             }
             item.index = i;
             [item setFrame:NSMakeRect(x, y, w, h)];
