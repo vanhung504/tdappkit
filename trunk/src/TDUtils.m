@@ -17,6 +17,38 @@
 #import <QuartzCore/QuartzCore.h>
 #include <sys/utsname.h>
 
+void TDPerformOnMainThread(void (^block)(void)) {
+    NSParameterAssert(block);
+    dispatch_sync(dispatch_get_main_queue(), block);
+}
+
+
+void TDPerformOnBackgroundThread(void (^block)(void)) {
+    NSParameterAssert(block);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block);
+}
+
+
+void TDPerformOnMainThreadAfterDelay(double delay, void (^block)(void)) {
+    NSParameterAssert(block);
+    NSParameterAssert(delay >= 0.0);
+
+    double delayInSeconds = delay;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), block);
+}
+
+
+void TDPerformOnBackgroundThreadAfterDelay(double delay, void (^block)(void)) {
+    NSParameterAssert(block);
+    NSParameterAssert(delay >= 0.0);
+
+    double delayInSeconds = delay;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block);
+}
+
+
 CGRect TDRectOutset(CGRect r, CGFloat dx, CGFloat dy) {
     r.origin.x -= dx;
     r.origin.y -= dy;
@@ -25,6 +57,7 @@ CGRect TDRectOutset(CGRect r, CGFloat dx, CGFloat dy) {
     return r;
 }
 
+
 NSRect TDNSRectOutset(NSRect r, CGFloat dx, CGFloat dy) {
     r.origin.x -= dx;
     r.origin.y -= dy;
@@ -32,6 +65,7 @@ NSRect TDNSRectOutset(NSRect r, CGFloat dx, CGFloat dy) {
     r.size.height += dy * 2.0;
     return r;
 }
+
 
 NSBezierPath *TDGetRoundRect(NSRect r, CGFloat radius, CGFloat lineWidth) {
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundRect:r radius:radius];
