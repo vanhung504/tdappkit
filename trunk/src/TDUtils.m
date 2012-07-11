@@ -18,20 +18,20 @@
 #include <sys/utsname.h>
 
 void TDPerformOnMainThread(void (^block)(void)) {
-    NSParameterAssert(block);
+    //assert(block);
     dispatch_sync(dispatch_get_main_queue(), block);
 }
 
 
 void TDPerformOnBackgroundThread(void (^block)(void)) {
-    NSParameterAssert(block);
+    //assert(block);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block);
 }
 
 
 void TDPerformOnMainThreadAfterDelay(double delay, void (^block)(void)) {
-    NSParameterAssert(block);
-    NSParameterAssert(delay >= 0.0);
+    //assert(block);
+    //assert(delay >= 0.0);
 
     double delayInSeconds = delay;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
@@ -40,8 +40,8 @@ void TDPerformOnMainThreadAfterDelay(double delay, void (^block)(void)) {
 
 
 void TDPerformOnBackgroundThreadAfterDelay(double delay, void (^block)(void)) {
-    NSParameterAssert(block);
-    NSParameterAssert(delay >= 0.0);
+    //assert(block);
+    //assert(delay >= 0.0);
 
     double delayInSeconds = delay;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
