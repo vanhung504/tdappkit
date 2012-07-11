@@ -282,7 +282,7 @@ TDEdgeInsets TDEdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat
 
 void TDDumpAppleEvent(NSAppleEventDescriptor *aevt) {
     NSLog(@"data %@", [aevt data]);
-    NSLog(@"numberOfItems %lu", [aevt numberOfItems]);
+    //NSLog(@"numberOfItems %ld", [aevt numberOfItems]);
     NSLog(@"eventClass %@", NSFileTypeForHFSTypeCode([aevt eventClass]));
     NSLog(@"eventID %@", NSFileTypeForHFSTypeCode([aevt eventID]));
     NSLog(@"descType %@", NSFileTypeForHFSTypeCode([aevt descriptorType]));
