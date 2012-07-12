@@ -340,6 +340,25 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 }
 
 
+- (void)otherMouseDown:(NSEvent *)evt {
+    BOOL handled = NO;
+    BOOL isMiddleClick = 2 == [evt buttonNumber];
+    
+    if (isMiddleClick && [delegate respondsToSelector:@selector(listView:itemWasMiddleClickedAtIndex:)]) {
+        NSPoint p = [self convertPoint:[evt locationInWindow] fromView:nil];
+        NSUInteger i = [self indexForItemAtPoint:p];
+        if (NSNotFound != i) {
+            handled = YES;
+            [delegate listView:self itemWasMiddleClickedAtIndex:i];
+        }
+    }
+    
+    if (!handled) {
+        [super otherMouseDown:evt];
+    }
+}
+
+
 - (void)mouseDown:(NSEvent *)evt {
     NSPoint locInWin = [evt locationInWindow];
     NSPoint p = [self convertPoint:locInWin fromView:nil];
