@@ -124,6 +124,7 @@ extern NSString *const TDListItemPboardType;
 - (NSIndexSet *)listView:(TDListView *)lv willSelectItemsAtIndexes:(NSIndexSet *)set;
 - (void)listView:(TDListView *)lv didSelectItemsAtIndexes:(NSIndexSet *)set;
 - (void)listView:(TDListView *)lv itemWasDoubleClickedAtIndex:(NSUInteger)i;
+- (void)listView:(TDListView *)lv itemWasMiddleClickedAtIndex:(NSUInteger)i;
 - (void)listViewEmptyAreaWasDoubleClicked:(TDListView *)lv;
 - (void)listViewEmptyAreaWasClicked:(TDListView *)lv;
 - (BOOL)listViewWantsSelectionOnRightClick:(TDListView *)lv;
