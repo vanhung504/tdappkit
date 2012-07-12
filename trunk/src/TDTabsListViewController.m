@@ -194,6 +194,11 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 }
 
 
+- (void)listView:(TDListView *)lv itemWasMiddleClickedAtIndex:(NSUInteger)i {
+    [delegate tabsViewController:self didCloseTabModelAtIndex:i];
+}
+
+
 #pragma mark -
 #pragma mark TDListViewDelegate Drag
 
