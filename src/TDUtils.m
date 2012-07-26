@@ -196,6 +196,13 @@ NSNib *TDLoadNib(id owner, NSString *nibName, NSBundle *bundle) {
 }
 
 
+BOOL TDIsMtnLionOrLater() {
+    NSUInteger major, minor, bugfix;
+    TDGetSystemVersion(&major, &minor, &bugfix);
+    return minor > 7;
+}
+
+
 BOOL TDIsLionOrLater() {
     NSUInteger major, minor, bugfix;
     TDGetSystemVersion(&major, &minor, &bugfix);
