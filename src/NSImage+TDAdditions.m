@@ -91,16 +91,16 @@
     void (^makeAreas)(NSRect, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *) = ^(NSRect srcRect, NSRect *tl, NSRect *tc, NSRect *tr, NSRect *ml, NSRect *mc, NSRect *mr,     NSRect *bl, NSRect *bc, NSRect *br) {
         CGFloat w = NSWidth(srcRect);
         CGFloat h = NSHeight(srcRect);
-        CGFloat cw = w - insets.left - insets.right;
-        CGFloat ch = h - insets.top - insets.bottom;
+        CGFloat cw = (w - insets.left - insets.right);
+        CGFloat ch = (h - insets.top - insets.bottom);
         
         CGFloat x0 = NSMinX(srcRect);
-        CGFloat x1 = x0 + insets.left;
-        CGFloat x2 = NSMaxX(srcRect) - insets.right;
+        CGFloat x1 = (x0 + insets.left);
+        CGFloat x2 = (NSMaxX(srcRect) - insets.right);
         
         CGFloat y0 = NSMinY(srcRect);
-        CGFloat y1 = y0 + insets.bottom;
-        CGFloat y2 = NSMaxY(srcRect) - insets.top;
+        CGFloat y1 = (y0 + insets.bottom);
+        CGFloat y2 = (NSMaxY(srcRect) - insets.top);
         
         *tl = NSMakeRect(x0, y2, insets.left, insets.top);
         *tc = NSMakeRect(x1, y2, cw, insets.top);
@@ -132,7 +132,7 @@
     NSAssert([[NSThread currentThread] isMainThread], @"");
     static NSDictionary *sImageHints = nil;
     if (!sImageHints) {
-        sImageHints = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:NSImageInterpolationHigh], NSImageHintInterpolation, nil];
+        //sImageHints = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:NSImageInterpolationHigh], NSImageHintInterpolation, nil];
     }
 
     // Draw
