@@ -132,21 +132,27 @@
     NSAssert([[NSThread currentThread] isMainThread], @"");
     static NSDictionary *sImageHints = nil;
     if (!sImageHints) {
-        //sImageHints = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:NSImageInterpolationHigh], NSImageHintInterpolation, nil];
+        sImageHints = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:NSImageInterpolationHigh], NSImageHintInterpolation, nil];
     }
+    
+
+    BOOL flipped = YES;
+    
+    // this is necessary for non-retina devices to always draw the best rep. dunno why. shouldn't have to do this. :(
+    NSImageRep *rep = [self bestRepresentationForRect:srcRect context:[NSGraphicsContext currentContext] hints:sImageHints];
 
     // Draw
-    [self drawInRect:dstTopL fromRect:srcTopL operation:op fraction:delta respectFlipped:YES hints:sImageHints];
-    [self drawInRect:dstTopC fromRect:srcTopC operation:op fraction:delta respectFlipped:YES hints:sImageHints];
-    [self drawInRect:dstTopR fromRect:srcTopR operation:op fraction:delta respectFlipped:YES hints:sImageHints];
+    [rep drawInRect:dstTopL fromRect:srcTopL operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+    [rep drawInRect:dstTopC fromRect:srcTopC operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+    [rep drawInRect:dstTopR fromRect:srcTopR operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
 
-    [self drawInRect:dstMidL fromRect:srcMidL operation:op fraction:delta respectFlipped:YES hints:sImageHints];
-    [self drawInRect:dstMidC fromRect:srcMidC operation:op fraction:delta respectFlipped:YES hints:sImageHints];
-    [self drawInRect:dstMidR fromRect:srcMidR operation:op fraction:delta respectFlipped:YES hints:sImageHints];
+    [rep drawInRect:dstMidL fromRect:srcMidL operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+    [rep drawInRect:dstMidC fromRect:srcMidC operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+    [rep drawInRect:dstMidR fromRect:srcMidR operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
 
-    [self drawInRect:dstBotL fromRect:srcBotL operation:op fraction:delta respectFlipped:YES hints:sImageHints];
-    [self drawInRect:dstBotC fromRect:srcBotC operation:op fraction:delta respectFlipped:YES hints:sImageHints];
-    [self drawInRect:dstBotR fromRect:srcBotR operation:op fraction:delta respectFlipped:YES hints:sImageHints];
+    [rep drawInRect:dstBotL fromRect:srcBotL operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+    [rep drawInRect:dstBotC fromRect:srcBotC operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+    [rep drawInRect:dstBotR fromRect:srcBotR operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
 }
 
 @end
