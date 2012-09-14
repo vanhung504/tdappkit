@@ -38,12 +38,6 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 @interface TDTabsListViewController ()
 - (TDTabbedDocument *)document;
 
-
-// remove????????????
-- (void)updateAllTabModels;
-- (void)updateAllTabModelsFromIndex:(NSUInteger)startIndex;
-- (void)updateSelectedTabModel;
-
 - (void)beginEditingTabTitle:(TDTabListItem *)li atIndex:(NSUInteger)i inRect:(NSRect)titleRect;
 - (void)tryInvalidateRestorableState;
 

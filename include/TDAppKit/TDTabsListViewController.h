@@ -38,6 +38,10 @@
 + (void)registerStyleClass:(Class)cls forName:(NSString *)name;
 - (void)useStyleNamed:(NSString *)styleName;
 
+- (void)updateAllTabModels;
+- (void)updateAllTabModelsFromIndex:(NSUInteger)startIndex;
+- (void)updateSelectedTabModel;
+
 @property (nonatomic, assign) id <TDTabsListViewControllerDelegate> delegate; // weak ref
 @property (nonatomic, retain) IBOutlet NSScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet TDListView *listView;
