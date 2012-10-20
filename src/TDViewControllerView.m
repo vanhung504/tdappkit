@@ -6,10 +6,10 @@
 //  Copyright 2010 Todd Ditchendorf. All rights reserved.
 //
 
-#import <TDAppKit/TDView.h>
+#import <TDAppKit/TDViewControllerView.h>
 #import <TDAppKit/TDViewController.h>
 
-@implementation TDView
+@implementation TDViewControllerView
 
 //- (id)initWithFrame:(CGRect)f {
 //    if (self = [super initWithFrame:f]) {

@@ -10,7 +10,7 @@
 
 @class TDViewController;
 
-@interface TDView : TDColorView {
+@interface TDViewControllerView : TDColorView {
     TDViewController *viewController;
 }
 
