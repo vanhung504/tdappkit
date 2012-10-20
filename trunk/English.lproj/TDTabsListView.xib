@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11G63b</string>
+		<string key="IBDocument.SystemVersion">12C60</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
-		<string key="IBDocument.AppKitVersion">1138.51</string>
-		<string key="IBDocument.HIToolboxVersion">569.00</string>
+		<string key="IBDocument.AppKitVersion">1187.34</string>
+		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">2843</string>
@@ -34,7 +34,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="1005">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSScrollView" id="428545274">
@@ -75,6 +75,7 @@
 								<string key="NSFrame">{{-100, -100}, {11, 97}}</string>
 								<reference key="NSSuperview" ref="428545274"/>
 								<reference key="NSNextKeyView" ref="274299753"/>
+								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<int key="NSsFlags">512</int>
 								<reference key="NSTarget" ref="428545274"/>
 								<string key="NSAction">_doScroller:</string>
@@ -86,6 +87,7 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{0, 97}, {547, 11}}</string>
 								<reference key="NSSuperview" ref="428545274"/>
+								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<int key="NSsFlags">513</int>
 								<reference key="NSTarget" ref="428545274"/>
 								<string key="NSAction">_doScroller:</string>
@@ -99,12 +101,14 @@
 						<reference key="NSVScroller" ref="14320119"/>
 						<reference key="NSHScroller" ref="874959768"/>
 						<reference key="NSContentView" ref="274299753"/>
+						<double key="NSMinMagnification">0.25</double>
+						<double key="NSMaxMagnification">4</double>
+						<double key="NSMagnification">1</double>
 					</object>
 				</array>
 				<string key="NSFrameSize">{562, 112}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="428545274"/>
-				<string key="NSClassName">TDView</string>
+				<string key="NSClassName">TDViewControllerView</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">

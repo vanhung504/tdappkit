@@ -7,7 +7,7 @@
 //
 
 #import <TDAppKit/TDViewController.h>
-#import <TDAppKit/TDView.h>
+#import <TDAppKit/TDViewControllerView.h>
 
 @implementation TDViewController
 
@@ -17,7 +17,7 @@
 #endif
     NSView *v = [self view];
     if (v) {
-        [(TDView *)v setViewController:nil];
+        [(TDViewControllerView *)v setViewController:nil];
     }
     [super dealloc];
 }
@@ -31,7 +31,7 @@
 
 - (void)setView:(NSView *)v {
     if (v) {
-        [(TDView *)v setViewController:self];
+        [(TDViewControllerView *)v setViewController:self];
     }
     [super setView:v];
 }
