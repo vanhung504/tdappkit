@@ -13,8 +13,6 @@
 #import "TDTabListItemStyle.h"
 
 @interface TDTabListItem ()
-- (void)layoutSubviews;
-
 - (NSImage *)imageNamed:(NSString *)name scaledToSize:(NSSize)size;
 - (void)startObserveringModel:(TDTabModel *)m;
 - (void)stopObserveringModel:(TDTabModel *)m;
@@ -67,11 +65,6 @@
 
 #pragma mark -
 #pragma mark Drawing/Layout
-
-- (void)resizeSubviewsWithOldSize:(NSSize)oldSize {
-    [self layoutSubviews];
-}
-
 
 - (void)layoutSubviews {
     [self.closeButton setTag:tabModel.index];

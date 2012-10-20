@@ -32,6 +32,7 @@
 #import <TDAppKit/TDBar.h>
 #import <TDAppKit/TDComboField.h>
 #import <TDAppKit/TDLine.h>
+#import <TDAppKit/TDView.h>
 #import <TDAppKit/TDColorView.h>
 #import <TDAppKit/TDFlippedView.h>
 #import <TDAppKit/TDFlippedColorView.h>

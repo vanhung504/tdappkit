@@ -10,6 +10,8 @@
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		D30121C816324AEA002E2EAB /* TDViewControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D30121C716324AEA002E2EAB /* TDViewControllerView.m */; };
+		D30121CE16324BA9002E2EAB /* TDView.h in Headers */ = {isa = PBXBuildFile; fileRef = D30121CD16324BA8002E2EAB /* TDView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D30121D016324BB1002E2EAB /* TDView.m in Sources */ = {isa = PBXBuildFile; fileRef = D30121CF16324BB1002E2EAB /* TDView.m */; };
 		D30FD7F611C1B5E3005A2437 /* TDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* TDAppKit.framework */; };
 		D3106ECE126F41AC00F9E37D /* TDFlippedColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3106ECC126F41AC00F9E37D /* TDFlippedColorView.m */; };
 		D3106ED0126F421B00F9E37D /* TDFlippedColorView.h in Headers */ = {isa = PBXBuildFile; fileRef = D3106ECF126F421B00F9E37D /* TDFlippedColorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -173,6 +175,8 @@
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = res/conf/Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* TDAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TDAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D30121C716324AEA002E2EAB /* TDViewControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDViewControllerView.m; path = src/TDViewControllerView.m; sourceTree = "<group>"; };
+		D30121CD16324BA8002E2EAB /* TDView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDView.h; path = include/TDAppKit/TDView.h; sourceTree = "<group>"; };
+		D30121CF16324BB1002E2EAB /* TDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDView.m; path = src/TDView.m; sourceTree = "<group>"; };
 		D3106ECC126F41AC00F9E37D /* TDFlippedColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDFlippedColorView.m; path = src/TDFlippedColorView.m; sourceTree = "<group>"; };
 		D3106ECF126F421B00F9E37D /* TDFlippedColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDFlippedColorView.h; path = include/TDAppKit/TDFlippedColorView.h; sourceTree = "<group>"; };
 		D318A04C10F8570E00B6AA21 /* TDGutterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDGutterView.h; path = include/TDAppKit/TDGutterView.h; sourceTree = "<group>"; };
@@ -596,6 +600,8 @@
 		D371244010F051D600D7107B /* Misc Views */ = {
 			isa = PBXGroup;
 			children = (
+				D30121CD16324BA8002E2EAB /* TDView.h */,
+				D30121CF16324BB1002E2EAB /* TDView.m */,
 				D371245210F0522700D7107B /* TDBar.h */,
 				D371244210F051E800D7107B /* TDBar.m */,
 				D3D804FC111F484D0025650C /* TDDraggableBar.h */,
@@ -785,6 +791,7 @@
 				D3740A081553544A0057FBEF /* TDTabListItemStyle.h in Headers */,
 				D3740A0E155355DF0057FBEF /* TDTabListItemStyleBrowser.h in Headers */,
 				D38ED9DA15583D8E0004F9AE /* TDTabsListView.h in Headers */,
+				D30121CE16324BA9002E2EAB /* TDView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -970,6 +977,7 @@
 				D3740A0F155355DF0057FBEF /* TDTabListItemStyleBrowser.m in Sources */,
 				D38ED9DB15583D8E0004F9AE /* TDTabsListView.m in Sources */,
 				D30121C816324AEA002E2EAB /* TDViewControllerView.m in Sources */,
+				D30121D016324BB1002E2EAB /* TDView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
