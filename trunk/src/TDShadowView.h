@@ -6,9 +6,9 @@
 //  Copyright 2010 Todd Ditchendorf. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <TDAppKit/TDView.h>
 
-@interface TDShadowView : NSView {
+@interface TDShadowView : TDView {
 
 }
 

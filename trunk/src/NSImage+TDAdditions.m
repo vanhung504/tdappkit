@@ -129,7 +129,7 @@
 //        makeAreas(rect, &dstTopL, &dstTopC, &dstTopR, &dstMidL, &dstMidC, &dstMidR, &dstBotL, &dstBotC, &dstBotR);
 //    }
 
-    NSAssert([[NSThread currentThread] isMainThread], @"");
+    TDAssertMainThread();
     static NSDictionary *sImageHints = nil;
     if (!sImageHints) {
         sImageHints = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:NSImageInterpolationHigh], NSImageHintInterpolation, nil];

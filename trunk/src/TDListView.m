@@ -14,6 +14,7 @@
 
 #import <TDAppKit/TDListView.h>
 #import <TDAppKit/TDListItem.h>
+#import <TDAppKit/TDUtils.h>
 #import <TDAppKit/TDScrollView.h>
 #import <TDAppKit/NSEvent+TDAdditions.h>
 #import "TDListItemQueue.h"
@@ -130,14 +131,14 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 #pragma mark Public
 
 - (void)reloadData {
-    NSAssert([[NSThread currentThread] isMainThread], @"");
+    TDAssertMainThread();
     [self layoutItems];
     [self setNeedsDisplay:YES];
 }
 
 
 //- (void)reloadData {
-//    NSAssert([[NSThread currentThread] isMainThread], @"");
+//    TDAssertMainThread();
 //    needsReload = YES;
 //    [self performSelector:@selector(reloadConditionally) withObject:nil afterDelay:0.0];
 //}

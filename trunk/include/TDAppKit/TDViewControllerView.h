@@ -1,5 +1,5 @@
 //
-//  TDView.h
+//  TDViewControllerView.h
 //  TDAppKit
 //
 //  Created by Todd Ditchendorf on 11/14/10.

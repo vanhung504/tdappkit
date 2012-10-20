@@ -12,9 +12,9 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#import <Cocoa/Cocoa.h>
+#import <TDAppKit/TDView.h>
 
-@interface TDListItem : NSView {
+@interface TDListItem : TDView {
     NSString *reuseIdentifier;
     NSUInteger index;
 }
