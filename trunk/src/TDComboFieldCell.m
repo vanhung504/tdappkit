@@ -166,9 +166,9 @@
             imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
         }
         
-        //NSRect fromRect = NSMakeRect(0.0, 0.0, imageSize.width, imageSize.height);
-        //[image drawAtPoint:imageFrame.origin fromRect:fromRect operation:NSCompositeSourceOver fraction:1.0];
-        [image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
+        NSRect fromRect = NSMakeRect(0.0, 0.0, imageSize.width, imageSize.height);
+        [image drawInRect:NSOffsetRect(imageFrame, 0.0, -imageSize.height) fromRect:fromRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+        //[image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
     }
     
     // Draw text
@@ -203,9 +203,9 @@
             imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
         }
         
-        //NSRect fromRect = NSMakeRect(0.0, 0.0, imageSize.width, imageSize.height);
-        //[image drawAtPoint:imageFrame.origin fromRect:fromRect operation:NSCompositeSourceOver fraction:1.0];
-        [image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
+        NSRect fromRect = NSMakeRect(0.0, 0.0, imageSize.width, imageSize.height);
+        [image drawInRect:NSOffsetRect(imageFrame, 0.0, -imageSize.height) fromRect:fromRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+        //[image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
     }
     
     // Draw text
