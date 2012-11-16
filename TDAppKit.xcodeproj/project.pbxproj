@@ -11,6 +11,8 @@
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		D30098431656F14C009D25D8 /* TDStatusBarLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D30098411656F14C009D25D8 /* TDStatusBarLabel.m */; };
 		D30098451656F15E009D25D8 /* TDStatusBarLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = D30098441656F15E009D25D8 /* TDStatusBarLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D30098491656FB7E009D25D8 /* TDStatusBarPopUpControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D30098471656FB7E009D25D8 /* TDStatusBarPopUpControl.m */; };
+		D300984B1656FC77009D25D8 /* TDStatusBarPopUpControl.h in Headers */ = {isa = PBXBuildFile; fileRef = D300984A1656FC77009D25D8 /* TDStatusBarPopUpControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D30121C816324AEA002E2EAB /* TDViewControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D30121C716324AEA002E2EAB /* TDViewControllerView.m */; };
 		D30121CE16324BA9002E2EAB /* TDView.h in Headers */ = {isa = PBXBuildFile; fileRef = D30121CD16324BA8002E2EAB /* TDView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D30121D016324BB1002E2EAB /* TDView.m in Sources */ = {isa = PBXBuildFile; fileRef = D30121CF16324BB1002E2EAB /* TDView.m */; };
@@ -178,6 +180,8 @@
 		8DC2EF5B0486A6940098B216 /* TDAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TDAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D30098411656F14C009D25D8 /* TDStatusBarLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDStatusBarLabel.m; path = src/TDStatusBarLabel.m; sourceTree = "<group>"; };
 		D30098441656F15E009D25D8 /* TDStatusBarLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDStatusBarLabel.h; path = include/TDAppKit/TDStatusBarLabel.h; sourceTree = "<group>"; };
+		D30098471656FB7E009D25D8 /* TDStatusBarPopUpControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDStatusBarPopUpControl.m; path = src/TDStatusBarPopUpControl.m; sourceTree = "<group>"; };
+		D300984A1656FC77009D25D8 /* TDStatusBarPopUpControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDStatusBarPopUpControl.h; path = include/TDAppKit/TDStatusBarPopUpControl.h; sourceTree = "<group>"; };
 		D30121C716324AEA002E2EAB /* TDViewControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDViewControllerView.m; path = src/TDViewControllerView.m; sourceTree = "<group>"; };
 		D30121CD16324BA8002E2EAB /* TDView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDView.h; path = include/TDAppKit/TDView.h; sourceTree = "<group>"; };
 		D30121CF16324BB1002E2EAB /* TDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDView.m; path = src/TDView.m; sourceTree = "<group>"; };
@@ -624,6 +628,8 @@
 				D38F4A13128CDAF800DC5FDB /* TDHintView.m */,
 				D30098441656F15E009D25D8 /* TDStatusBarLabel.h */,
 				D30098411656F14C009D25D8 /* TDStatusBarLabel.m */,
+				D300984A1656FC77009D25D8 /* TDStatusBarPopUpControl.h */,
+				D30098471656FB7E009D25D8 /* TDStatusBarPopUpControl.m */,
 			);
 			name = "Misc Views";
 			sourceTree = "<group>";
@@ -799,6 +805,7 @@
 				D38ED9DA15583D8E0004F9AE /* TDTabsListView.h in Headers */,
 				D30121CE16324BA9002E2EAB /* TDView.h in Headers */,
 				D30098451656F15E009D25D8 /* TDStatusBarLabel.h in Headers */,
+				D300984B1656FC77009D25D8 /* TDStatusBarPopUpControl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -988,6 +995,7 @@
 				D30121C816324AEA002E2EAB /* TDViewControllerView.m in Sources */,
 				D30121D016324BB1002E2EAB /* TDView.m in Sources */,
 				D30098431656F14C009D25D8 /* TDStatusBarLabel.m in Sources */,
+				D30098491656FB7E009D25D8 /* TDStatusBarPopUpControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
