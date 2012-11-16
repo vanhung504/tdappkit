@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Todd Ditchendorf. All rights reserved.
 //
 
-#import <TDAppKit/TDStatusBarPopUpControl.h>
+#import <TDAppKit/TDStatusBarPopUpView.h>
 #import <TDAppKit/TDUtils.h>
 
 #define POPUP_MARGIN_X 3.0
@@ -14,14 +14,14 @@
 
 static NSDictionary *sTextAttrs = nil;
 
-@interface TDStatusBarPopUpControl ()
+@interface TDStatusBarPopUpView ()
 - (void)updateTextFromPopUpSelection;
 @end
 
-@implementation TDStatusBarPopUpControl
+@implementation TDStatusBarPopUpView
 
 + (void)initialize {
-    if ([TDStatusBarPopUpControl class] == self) {
+    if ([TDStatusBarPopUpView class] == self) {
         NSMutableParagraphStyle *paraStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
         [paraStyle setAlignment:NSCenterTextAlignment];
         [paraStyle setLineBreakMode:NSLineBreakByClipping];

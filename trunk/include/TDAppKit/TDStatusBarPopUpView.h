@@ -8,7 +8,7 @@
 
 #import <TDAppKit/TDStatusBarLabel.h>
 
-@interface TDStatusBarPopUpControl : TDStatusBarLabel <NSMenuDelegate>
+@interface TDStatusBarPopUpView : TDStatusBarLabel <NSMenuDelegate>
 
 - (NSRect)popUpButtonRectForBounds:(NSRect)bounds;
 
