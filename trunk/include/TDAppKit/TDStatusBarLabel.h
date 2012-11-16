@@ -6,9 +6,11 @@
 //  Copyright (c) 2012 Todd Ditchendorf. All rights reserved.
 //
 
-#import <TDAppKit/TDFlippedView.h>
+#import <TDAppKit/TDBar.h>
 
-@interface TDStatusBarLabel : TDFlippedView
+@interface TDStatusBarLabel : TDBar
+
++ (NSDictionary *)defaultTextAttributes;
 
 - (NSRect)textRectForBounds:(NSRect)bounds;
 
