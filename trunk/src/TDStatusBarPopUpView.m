@@ -126,8 +126,8 @@ static NSDictionary *sTextAttrs = nil;
     NSColor *botColor = [NSColor colorWithDeviceWhite:0.6 alpha:1.0];
     self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
     
-    topColor = [NSColor colorWithDeviceWhite:0.9 alpha:1.0];
-    botColor = [NSColor colorWithDeviceWhite:0.8 alpha:1.0];
+    topColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
+    botColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
     self.nonMainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
     
     self.mainBottomBevelColor = nil;
