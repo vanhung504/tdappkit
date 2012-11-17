@@ -122,8 +122,8 @@ static NSDictionary *sTextAttrs = nil;
 
 
 - (void)setUpSubviews {
-    NSColor *topColor = [NSColor colorWithDeviceWhite:0.8 alpha:1.0];
-    NSColor *botColor = [NSColor colorWithDeviceWhite:0.6 alpha:1.0];
+    NSColor *topColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
+    NSColor *botColor = [NSColor colorWithDeviceWhite:0.65 alpha:1.0];
     self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
     
     topColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
