@@ -122,12 +122,7 @@
 
     // Destinations rects
     NSRect dstTopL, dstTopC, dstTopR, dstMidL, dstMidC, dstMidR, dstBotL, dstBotC, dstBotR;
-//    BOOL flipped = [self isFlipped];
-//    if (flipped) {
-        makeAreas(rect, &dstBotL, &dstBotC, &dstBotR, &dstMidL, &dstMidC, &dstMidR, &dstTopL, &dstTopC, &dstTopR);
-//    } else {
-//        makeAreas(rect, &dstTopL, &dstTopC, &dstTopR, &dstMidL, &dstMidC, &dstMidR, &dstBotL, &dstBotC, &dstBotR);
-//    }
+    makeAreas(rect, &dstBotL, &dstBotC, &dstBotR, &dstMidL, &dstMidC, &dstMidR, &dstTopL, &dstTopC, &dstTopR);
 
     TDAssertMainThread();
     static NSDictionary *sImageHints = nil;
@@ -135,7 +130,6 @@
         sImageHints = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:NSImageInterpolationHigh], NSImageHintInterpolation, nil];
     }
     
-
     BOOL flipped = YES;
     
     // this is necessary for non-retina devices to always draw the best rep. dunno why. shouldn't have to do this. :(
