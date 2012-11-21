@@ -88,7 +88,7 @@
 
 
 - (void)drawStretchableInRect:(NSRect)rect edgeInsets:(TDEdgeInsets)insets operation:(NSCompositingOperation)op fraction:(CGFloat)delta {    
-    void (^makeAreas)(NSRect, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *) = ^(NSRect srcRect, NSRect *tl, NSRect *tc, NSRect *tr, NSRect *ml, NSRect *mc, NSRect *mr,     NSRect *bl, NSRect *bc, NSRect *br) {
+    void (^makeAreas)(NSRect, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *, NSRect *) = ^(NSRect srcRect, NSRect *tl, NSRect *tc, NSRect *tr, NSRect *ml, NSRect *mc, NSRect *mr, NSRect *bl, NSRect *bc, NSRect *br) {
         CGFloat w = NSWidth(srcRect);
         CGFloat h = NSHeight(srcRect);
         CGFloat cw = (w - insets.left - insets.right);
@@ -153,6 +153,11 @@
     [rep drawInRect:dstBotL fromRect:srcBotL operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
     [rep drawInRect:dstBotC fromRect:srcBotC operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
     [rep drawInRect:dstBotR fromRect:srcBotR operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+}
+
+
+- (void)draw25PatchStretchableInRect:(NSRect)rect edgeInsets:(TD25PatchEdgeInsets)insets operation:(NSCompositingOperation)op fraction:(CGFloat)delta {
+    
 }
 
 @end
