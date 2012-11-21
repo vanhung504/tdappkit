@@ -25,4 +25,5 @@
 - (NSImage *)scaledImageOfSize:(NSSize)size alpha:(CGFloat)alpha hiRez:(BOOL)hiRez clip:(NSBezierPath *)path;
 
 - (void)drawStretchableInRect:(NSRect)rect edgeInsets:(TDEdgeInsets)insets operation:(NSCompositingOperation)op fraction:(CGFloat)delta;
+//- (void)draw25PatchStretchableInRect:(NSRect)rect edgeInsets:(TD25PatchEdgeInsets)insets operation:(NSCompositingOperation)op fraction:(CGFloat)delta;
 @end
