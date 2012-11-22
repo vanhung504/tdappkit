@@ -151,7 +151,6 @@
 
 
 - (void)drawStretchableInRect:(NSRect)rect edgeInsets:(TDEdgeInsets)insets centerRect:(CGRect)centerRect operation:(NSCompositingOperation)op fraction:(CGFloat)delta {
-    NSLog(@"%@", NSStringFromRect(rect));
     void (^makeAreas)(NSRect,
                       NSRect *, NSRect *, NSRect *, NSRect *, NSRect *,
                       NSRect *, NSRect *, NSRect *, NSRect *, NSRect *,
