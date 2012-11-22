@@ -236,35 +236,38 @@
 //    [super _drawFocusRingWithFrame:rect];
 }
 
-//--------------------------------------------------------------//
-#pragma mark -- Dragging --
-//--------------------------------------------------------------//
 
-- (NSImage*)imageForDraggingWithFrame:(NSRect)cellFrame inView:(NSView*)controlView
-{
+#pragma mark -
+#pragma mark Dragging
+
+- (NSImage *)imageForDraggingWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
     // Create image
-    NSImage*    img;
-    img = [[NSImage alloc] initWithSize:cellFrame.size];
-    [img autorelease];
+    NSImage *result = [[[NSImage alloc] initWithSize:cellFrame.size] autorelease];
     
     // Create attributed string
-    NSMutableAttributedString*  attrStr;
-    float                       alpha = 0.7f;
-    attrStr = [[NSMutableAttributedString alloc] 
-               initWithAttributedString:[self attributedStringValue]];
-    [attrStr autorelease];
-    [attrStr addAttribute:NSForegroundColorAttributeName 
-                    value:[NSColor colorWithCalibratedWhite:0.0f alpha:alpha] 
+    CGFloat alpha = 0.7;
+    NSMutableAttributedString *attrStr = [[[NSMutableAttributedString alloc] initWithAttributedString:[self attributedStringValue]] autorelease];
+    [attrStr addAttribute:NSForegroundColorAttributeName
+                    value:[NSColor colorWithCalibratedWhite:0.0 alpha:alpha]
                     range:NSMakeRange(0, [attrStr length])];
     
     // Draw cell
-    [img lockFocus];
-    [img dissolveToPoint:NSZeroPoint fraction:alpha];
-    [attrStr drawAtPoint:NSMakePoint([img size].width + IMAGE_MARGIN, 0.0f)];
-    [img unlockFocus];
+    [result lockFocus];
+    [result dissolveToPoint:NSZeroPoint fraction:alpha];
     
-    return img;
+    NSImage *favicon = self.image;
+    NSSize faviconSize = favicon.size;
+    NSRect srcRect = NSMakeRect(0.0, 0.0, faviconSize.width, faviconSize.height);
+    NSPoint destPoint = NSZeroPoint;
+    [favicon drawAtPoint:destPoint fromRect:srcRect operation:NSCompositeSourceOver fraction:alpha];
+    
+    NSPoint p = NSMakePoint(faviconSize.width + IMAGE_MARGIN, 0.0);
+    [attrStr drawAtPoint:p];
+    [result unlockFocus];
+    
+    return result;
 }
+
 
 - (BOOL)imageTrackMouse:(NSEvent*)event 
                  inRect:(NSRect)cellFrame 
