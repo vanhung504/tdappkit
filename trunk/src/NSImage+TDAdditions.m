@@ -242,11 +242,11 @@
             src_b2l1, src_b2l2, src_b2c, src_b2r2, src_b2r1,
             src_b1l1, src_b1l2, src_b1c, src_b1r2, src_b1r1;
     makeAreas(srcRect,
-              &src_t1l1, &src_t1l2, &src_t1c, &src_t1r2, &src_t1r1,
               &src_t2l1, &src_t2l2, &src_t2c, &src_t2r2, &src_t2r1,
+              &src_t1l1, &src_t1l2, &src_t1c, &src_t1r2, &src_t1r1,
               &src_ml1,  &src_ml2,  &src_mc,  &src_mr2,  &src_mr1,
-              &src_b2l1, &src_b2l2, &src_b2c, &src_b2r2, &src_b2r1,
-              &src_b1l1, &src_b1l2, &src_b1c, &src_b1r2, &src_b1r1);
+              &src_b1l1, &src_b1l2, &src_b1c, &src_b1r2, &src_b1r1,
+              &src_b2l1, &src_b2l2, &src_b2c, &src_b2r2, &src_b2r1);
     
     // Destinations rects
 //    NSRect dstTopL, dstTopC, dstTopR, dstMidL, dstMidC, dstMidR, dstBotL, dstBotC, dstBotR;
@@ -257,11 +257,11 @@
             dst_b2l1, dst_b2l2, dst_b2c, dst_b2r2, dst_b2r1,
             dst_b1l1, dst_b1l2, dst_b1c, dst_b1r2, dst_b1r1;
     makeAreas(rect,
-              &dst_t1l1, &dst_t1l2, &dst_t1c, &dst_t1r2, &dst_t1r1,
-              &dst_t2l1, &dst_t2l2, &dst_t2c, &dst_t2r2, &dst_t2r1,
-              &dst_ml1,  &dst_ml2,  &dst_mc,  &dst_mr2,  &dst_mr1,
+              &dst_b1l1, &dst_b1l2, &dst_b1c, &dst_b1r2, &dst_b1r1,
               &dst_b2l1, &dst_b2l2, &dst_b2c, &dst_b2r2, &dst_b2r1,
-              &dst_b1l1, &dst_b1l2, &dst_b1c, &dst_b1r2, &dst_b1r1);
+              &dst_ml1,  &dst_ml2,  &dst_mc,  &dst_mr2,  &dst_mr1,
+              &dst_t2l1, &dst_t2l2, &dst_t2c, &dst_t2r2, &dst_t2r1,
+              &dst_t1l1, &dst_t1l2, &dst_t1c, &dst_t1r2, &dst_t1r1);
     
     TDAssertMainThread();
     static NSDictionary *sImageHints = nil;
@@ -284,7 +284,7 @@
     [rep drawInRect:dst_t1c  fromRect:src_t1c  operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
     [rep drawInRect:dst_t1r2 fromRect:src_t1r2 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
     [rep drawInRect:dst_t1r1 fromRect:src_t1r1 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
-    
+                                          
     [rep drawInRect:dst_t2l1 fromRect:src_t2l1 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
     [rep drawInRect:dst_t2l2 fromRect:src_t2l2 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
     [rep drawInRect:dst_t2c  fromRect:src_t2c  operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
@@ -310,12 +310,51 @@
     [rep drawInRect:dst_b2c  fromRect:src_b2c  operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
     [rep drawInRect:dst_b2r2 fromRect:src_b2r2 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
     [rep drawInRect:dst_b2r1 fromRect:src_b2r1 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+                                          
+    [rep drawInRect:dst_b1l1 fromRect:src_b1l1 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+    [rep drawInRect:dst_b1l2 fromRect:src_b1l2 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+    [rep drawInRect:dst_b1c  fromRect:src_b1c  operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+    [rep drawInRect:dst_b1r2 fromRect:src_b1r2 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+    [rep drawInRect:dst_b1r1 fromRect:src_b1r1 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
     
-    [rep drawInRect:dst_t1l1 fromRect:src_t1l1 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
-    [rep drawInRect:dst_t1l2 fromRect:src_t1l2 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
-    [rep drawInRect:dst_t1c  fromRect:src_t1c  operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
-    [rep drawInRect:dst_t1r2 fromRect:src_t1r2 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
-    [rep drawInRect:dst_t1r1 fromRect:src_t1r1 operation:op fraction:delta respectFlipped:flipped hints:sImageHints];
+#define DEBUG_DRAW 0
+    
+#if DEBUG_DRAW
+    [[NSColor whiteColor] setStroke];
+    [NSBezierPath strokeRect:dst_ml1];
+    [NSBezierPath strokeRect:dst_ml2];
+    [NSBezierPath strokeRect:dst_mc];
+    [NSBezierPath strokeRect:dst_mr2];
+    [NSBezierPath strokeRect:dst_mr1];
+
+    [[NSColor blueColor] setStroke];
+    [NSBezierPath strokeRect:dst_t2l1];
+    [NSBezierPath strokeRect:dst_t2l2];
+    [NSBezierPath strokeRect:dst_t2c];
+    [NSBezierPath strokeRect:dst_t2r2];
+    [NSBezierPath strokeRect:dst_t2r1];
+    
+    [[NSColor redColor] setStroke];
+    [NSBezierPath strokeRect:dst_t1l1];
+    [NSBezierPath strokeRect:dst_t1l2];
+    [NSBezierPath strokeRect:dst_t1c];
+    [NSBezierPath strokeRect:dst_t1r2];
+    [NSBezierPath strokeRect:dst_t1r1];
+    
+    [[NSColor greenColor] setStroke];
+    [NSBezierPath strokeRect:dst_b1l1];
+    [NSBezierPath strokeRect:dst_b1l2];
+    [NSBezierPath strokeRect:dst_b1c];
+    [NSBezierPath strokeRect:dst_b1r2];
+    [NSBezierPath strokeRect:dst_b1r1];
+
+    [[NSColor orangeColor] setStroke];
+    [NSBezierPath strokeRect:dst_b2l1];
+    [NSBezierPath strokeRect:dst_b2l2];
+    [NSBezierPath strokeRect:dst_b2c];
+    [NSBezierPath strokeRect:dst_b2r2];
+    [NSBezierPath strokeRect:dst_b2r1];
+#endif
 }
 
 @end
