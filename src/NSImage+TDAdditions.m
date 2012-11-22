@@ -150,7 +150,7 @@
 }
 
 
-- (void)draw25PatchStretchableInRect:(NSRect)rect edgeInsets:(TD25PatchEdgeInsets)insets operation:(NSCompositingOperation)op fraction:(CGFloat)delta {
+- (void)drawStretchableInRect:(NSRect)rect edgeInsets:(TDEdgeInsets)insets centerRect:(CGRect)centerRect operation:(NSCompositingOperation)op fraction:(CGFloat)delta {
     NSLog(@"%@", NSStringFromRect(rect));
     void (^makeAreas)(NSRect,
                       NSRect *, NSRect *, NSRect *, NSRect *, NSRect *,
@@ -169,67 +169,67 @@
         CGFloat w = NSWidth(srcRect);
         CGFloat h = NSHeight(srcRect);
         
-        CGFloat staticMidWidth = abs(insets.right2 - insets.left2);
-        CGFloat stretchLeftWidth = (w / 2.0) - (staticMidWidth / 2.0) - insets.left1;
-        CGFloat stretchRightWidth = (w / 2.0) - (staticMidWidth / 2.0) - insets.right1;
+        CGFloat staticMidWidth = centerRect.size.width;
+        CGFloat stretchLeftWidth = (w / 2.0) - (staticMidWidth / 2.0) - insets.left;
+        CGFloat stretchRightWidth = (w / 2.0) - (staticMidWidth / 2.0) - insets.right;
         
-        CGFloat staticMidHeight = abs(insets.bottom2 - insets.top2);
-        CGFloat stretchTopHeight = (h / 2.0) - (staticMidHeight / 2.0) - insets.top1;
-        CGFloat stretchBottomHeight = (h / 2.0) - (staticMidHeight / 2.0) - insets.bottom1;
+        CGFloat staticMidHeight = centerRect.size.height;
+        CGFloat stretchTopHeight = (h / 2.0) - (staticMidHeight / 2.0) - insets.top;
+        CGFloat stretchBottomHeight = (h / 2.0) - (staticMidHeight / 2.0) - insets.bottom;
         
         CGFloat x0 = NSMinX(srcRect);
-        CGFloat x1 = (x0 + insets.left1);
+        CGFloat x1 = (x0 + insets.left);
         CGFloat x2 = (x0 + (w / 2.0) - (staticMidWidth / 2.0));
         CGFloat x3 = (x0 + (w / 2.0) + (staticMidWidth / 2.0));
-        CGFloat x4 = (NSMaxX(srcRect) - insets.right1);
+        CGFloat x4 = (NSMaxX(srcRect) - insets.right);
         
         CGFloat y0 = NSMinY(srcRect);
-        CGFloat y1 = (y0 + insets.bottom1);
+        CGFloat y1 = (y0 + insets.bottom);
         CGFloat y2 = (y0 + (h / 2.0) - (staticMidHeight / 2.0));
         CGFloat y3 = (y0 + (h / 2.0) + (staticMidHeight / 2.0));
-        CGFloat y4 = (NSMaxY(srcRect) - insets.top1);
+        CGFloat y4 = (NSMaxY(srcRect) - insets.top);
         
 //        *tl = NSMakeRect(x0, y2, insets.left, insets.top);
 //        *tc = NSMakeRect(x1, y2, cw, insets.top);
 //        *tr = NSMakeRect(x2, y2, insets.right, insets.top);
         
-        *t1l1 = NSMakeRect(x0, y4, insets.left1, insets.top1);
-        *t1l2 = NSMakeRect(x1, y4, stretchLeftWidth, insets.top1);
-        *t1c  = NSMakeRect(x2, y4, staticMidWidth, insets.top1);
-        *t1r2 = NSMakeRect(x3, y4, stretchRightWidth, insets.top1);
-        *t1r1 = NSMakeRect(x4, y4, insets.right1, insets.top1);
+        *t1l1 = NSMakeRect(x0, y4, insets.left, insets.top);
+        *t1l2 = NSMakeRect(x1, y4, stretchLeftWidth, insets.top);
+        *t1c  = NSMakeRect(x2, y4, staticMidWidth, insets.top);
+        *t1r2 = NSMakeRect(x3, y4, stretchRightWidth, insets.top);
+        *t1r1 = NSMakeRect(x4, y4, insets.right, insets.top);
         
-        *t2l1 = NSMakeRect(x0, y3, insets.left1, stretchTopHeight);
+        *t2l1 = NSMakeRect(x0, y3, insets.left, stretchTopHeight);
         *t2l2 = NSMakeRect(x1, y3, stretchLeftWidth, stretchTopHeight);
         *t2c  = NSMakeRect(x2, y3, staticMidWidth, stretchTopHeight);
         *t2r2 = NSMakeRect(x3, y3, stretchRightWidth, stretchTopHeight);
-        *t2r1 = NSMakeRect(x4, y3, insets.right1, stretchTopHeight);
+        *t2r1 = NSMakeRect(x4, y3, insets.right, stretchTopHeight);
         
 //        *ml = NSMakeRect(x0, y1, insets.left, ch);
 //        *mc = NSMakeRect(x1, y1, cw, ch);
 //        *mr = NSMakeRect(x2, y1, insets.right, ch);
 
-        *ml1 = NSMakeRect(x0, y2, insets.left1, staticMidHeight);
+        *ml1 = NSMakeRect(x0, y2, insets.left, staticMidHeight);
         *ml2 = NSMakeRect(x1, y2, stretchLeftWidth, staticMidHeight);
         *mc  = NSMakeRect(x2, y2, staticMidWidth, staticMidHeight);
         *mr2 = NSMakeRect(x3, y2, stretchRightWidth, staticMidHeight);
-        *mr1 = NSMakeRect(x4, y2, insets.right1, staticMidHeight);
+        *mr1 = NSMakeRect(x4, y2, insets.right, staticMidHeight);
         
 //        *bl = NSMakeRect(x0, y0, insets.left, insets.bottom);
 //        *bc = NSMakeRect(x1, y0, cw, insets.bottom);
 //        *br = NSMakeRect(x2, y0, insets.right, insets.bottom);
 
-        *b2l1 = NSMakeRect(x0, y1, insets.left1, stretchBottomHeight);
+        *b2l1 = NSMakeRect(x0, y1, insets.left, stretchBottomHeight);
         *b2l2 = NSMakeRect(x1, y1, stretchLeftWidth, stretchBottomHeight);
         *b2c  = NSMakeRect(x2, y1, staticMidWidth, stretchBottomHeight);
         *b2r2 = NSMakeRect(x3, y1, stretchRightWidth, stretchBottomHeight);
-        *b2r1 = NSMakeRect(x4, y1, insets.right1, stretchBottomHeight);
+        *b2r1 = NSMakeRect(x4, y1, insets.right, stretchBottomHeight);
 
-        *b1l1 = NSMakeRect(x0, y0, insets.left1, insets.bottom1);
-        *b1l2 = NSMakeRect(x1, y0, stretchLeftWidth, insets.bottom1);
-        *b1c  = NSMakeRect(x2, y0, staticMidWidth, insets.bottom1);
-        *b1r2 = NSMakeRect(x3, y0, stretchRightWidth, insets.bottom1);
-        *b1r1 = NSMakeRect(x4, y0, insets.right1, insets.bottom1);
+        *b1l1 = NSMakeRect(x0, y0, insets.left, insets.bottom);
+        *b1l2 = NSMakeRect(x1, y0, stretchLeftWidth, insets.bottom);
+        *b1c  = NSMakeRect(x2, y0, staticMidWidth, insets.bottom);
+        *b1r2 = NSMakeRect(x3, y0, stretchRightWidth, insets.bottom);
+        *b1r1 = NSMakeRect(x4, y0, insets.right, insets.bottom);
     };
     
     // Source rects

@@ -55,17 +55,4 @@ typedef struct {
 
 TDEdgeInsets TDEdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat right);
 
-typedef struct {
-    CGFloat top1;
-    CGFloat top2;
-    CGFloat left1;
-    CGFloat left2;
-    CGFloat bottom1;
-    CGFloat bottom2;
-    CGFloat right1;
-    CGFloat right2;
-} TD25PatchEdgeInsets;
-
-TD25PatchEdgeInsets TD25PatchEdgeInsetsMake(CGFloat top1, CGFloat top2, CGFloat left1, CGFloat left2, CGFloat bottom1, CGFloat bottom2, CGFloat right1, CGFloat right2);
-
 void TDDumpAppleEvent(NSAppleEventDescriptor *aevtDesc);

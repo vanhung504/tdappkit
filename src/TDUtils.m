@@ -287,20 +287,6 @@ TDEdgeInsets TDEdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat
 }
 
 
-TD25PatchEdgeInsets TD25PatchEdgeInsetsMake(CGFloat top1, CGFloat top2, CGFloat left1, CGFloat left2, CGFloat bottom1, CGFloat bottom2, CGFloat right1, CGFloat right2) {
-    TD25PatchEdgeInsets e;
-    e.top1 = top1;
-    e.top2 = top2;
-    e.left1 = left1;
-    e.left2 = left2;
-    e.bottom1 = bottom1;
-    e.bottom2 = bottom2;
-    e.right1 = right1;
-    e.right2 = right2;
-    return e;
-}
-
-
 void TDDumpAppleEvent(NSAppleEventDescriptor *aevt) {
     NSLog(@"data %@", [aevt data]);
     //NSLog(@"numberOfItems %ld", [aevt numberOfItems]);
