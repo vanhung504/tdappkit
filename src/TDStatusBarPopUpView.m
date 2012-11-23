@@ -16,7 +16,7 @@
 #define LABEL_MARGIN_X 8.0
 #define VALUE_MARGIN_X 3.0
 #define POPUP_MARGIN_X 3.0
-#define MENU_OFFSET_Y 2.0
+#define MENU_OFFSET_Y 1.0
 #define ARROWS_MARGIN_X 3.0
 #define ARROWS_MARGIN_Y 1.0
 
@@ -116,8 +116,9 @@ static NSDictionary *sValueTextAttrs = nil;
     
     NSSize menuSize = [menu size];
     NSRect bounds = [self bounds];
-    NSRect popUpRect = [self popUpButtonRectForBounds:bounds];
-    NSPoint p = NSMakePoint(NSMidX(popUpRect) - menuSize.width / 2.0, NSMaxY(popUpRect) - MENU_OFFSET_Y);
+    NSRect valueRect = [self valueTextRectForBounds:bounds];
+    
+    NSPoint p = NSMakePoint(floor(NSMidX(valueRect) - menuSize.width / 2.0) - 0.5, NSMaxY(valueRect) - MENU_OFFSET_Y);
     [menu popUpMenuPositioningItem:item atLocation:p inView:self];
 }
 
@@ -267,12 +268,10 @@ static NSDictionary *sValueTextAttrs = nil;
 
 - (NSRect)arrowsRectForBounds:(NSRect)bounds {
     CGRect valueRect = [self valueTextRectForBounds:bounds];
-    BOOL hasValueText = [_valueText length] > 0;
-    CGFloat marginX = hasValueText ? ARROWS_MARGIN_X : 0.0;
     
     CGFloat h = [[[[self class] defaultValueTextAttributes] objectForKey:NSFontAttributeName] pointSize];
 
-    CGFloat x = TDRoundAlign(CGRectGetMaxX(valueRect) + marginX);
+    CGFloat x = TDRoundAlign(CGRectGetMaxX(valueRect) + ARROWS_MARGIN_X);
     CGFloat y = valueRect.origin.y + ARROWS_MARGIN_Y;
     CGFloat w = round(0.66 * h);
     
