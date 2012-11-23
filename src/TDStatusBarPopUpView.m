@@ -26,12 +26,14 @@ static NSDictionary *sValueTextAttrs = nil;
 @interface TDStatusBarPopUpView ()
 - (void)setUpSubviews;
 - (void)updateValueTextFromPopUpSelection;
+- (void)updateGradientsForMenuVisible;
 - (void)drawArrowsInRect:(NSRect)arrowsRect dirtyRect:(NSRect)dirtyRect;
 @property (nonatomic, assign) NSSize labelTextSize;
 @property (nonatomic, assign) NSSize valueTextSize;
+@property (nonatomic, assign) BOOL menuVisible;
 @end
 
-@implementation TDStatusBarPopUpView
+@implementation TDStatusBarPopUpView 
 
 + (void)initialize {
     if ([TDStatusBarPopUpView class] == self) {
@@ -109,18 +111,22 @@ static NSDictionary *sValueTextAttrs = nil;
 - (void)mouseDown:(NSEvent *)evt {
     NSMenu *menu = [_popUpButton menu];
     if (![[menu itemArray] count]) return;
+    self.menuVisible = YES;
     
-    NSFont *font = [[[self class] defaultValueTextAttributes] objectForKey:NSFontAttributeName];
-    [menu setFont:font];
-    NSInteger idx = [_popUpButton indexOfSelectedItem];
-    NSMenuItem *item = [menu itemAtIndex:idx];
-    
-    NSSize menuSize = [menu size];
-    NSRect bounds = [self bounds];
-    NSRect valueRect = [self valueTextRectForBounds:bounds];
-    
-    NSPoint p = NSMakePoint(floor(NSMidX(valueRect) - menuSize.width / 2.0) - 0.5, NSMaxY(valueRect) - MENU_OFFSET_Y);
-    [menu popUpMenuPositioningItem:item atLocation:p inView:self];
+    TDPerformOnMainThreadAfterDelay(0.0, ^{
+        NSFont *font = [[[self class] defaultValueTextAttributes] objectForKey:NSFontAttributeName];
+        [menu setFont:font];
+        NSInteger idx = [_popUpButton indexOfSelectedItem];
+        NSMenuItem *item = [menu itemAtIndex:idx];
+        
+        NSSize menuSize = [menu size];
+        NSRect bounds = [self bounds];
+        NSRect valueRect = [self valueTextRectForBounds:bounds];
+        
+        NSPoint p = NSMakePoint(floor(NSMidX(valueRect) - menuSize.width / 2.0) - 0.5, NSMaxY(valueRect) - MENU_OFFSET_Y);
+        [menu popUpMenuPositioningItem:item atLocation:p inView:self];
+
+    });
 }
 
 
@@ -164,7 +170,7 @@ static NSDictionary *sValueTextAttrs = nil;
     
     BOOL isMain = [[self window] isMainWindow];
     NSColor *strokeColor = nil;
-    if (isMain ) {
+    if (isMain) {
         strokeColor = [NSColor colorWithDeviceWhite:0.2 alpha:1.0];
     } else {
         strokeColor = [NSColor colorWithDeviceWhite:0.5 alpha:1.0];
@@ -293,14 +299,12 @@ static NSDictionary *sValueTextAttrs = nil;
 #pragma mark Private
 
 - (void)setUpSubviews {
-    NSColor *topColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
-    NSColor *botColor = [NSColor colorWithDeviceWhite:0.65 alpha:1.0];
-    self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
-    
-    topColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
-    botColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
+    [self updateGradientsForMenuVisible];
+
+    NSColor *topColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
+    NSColor *botColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
     self.nonMainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
-    
+
     self.mainBottomBevelColor = nil;
     self.nonMainBottomBevelColor = nil;
     
@@ -312,10 +316,29 @@ static NSDictionary *sValueTextAttrs = nil;
 }
 
 
+- (void)updateGradientsForMenuVisible {
+    NSColor *topColor = nil;
+    NSColor *botColor = nil;
+    
+    if (_menuVisible) {
+        topColor = [NSColor colorWithDeviceWhite:0.75 alpha:1.0];
+        botColor = [NSColor colorWithDeviceWhite:0.55 alpha:1.0];
+    } else {
+        topColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
+        botColor = [NSColor colorWithDeviceWhite:0.65 alpha:1.0];
+    }
+
+    self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
+
+    [self setNeedsDisplay:YES];
+}
+
+
 - (void)updateValueTextFromPopUpSelection {
     TDPerformOnMainThreadAfterDelay(0.0, ^{
         [_popUpButton synchronizeTitleAndSelectedItem];
         self.valueText = [_popUpButton titleOfSelectedItem];
+        self.menuVisible = NO;
     });
 }
 
@@ -346,8 +369,13 @@ static NSDictionary *sValueTextAttrs = nil;
     }
 }
 
+
+- (void)setMenuVisible:(BOOL)yn {
+    if (yn != _menuVisible) {
+        _menuVisible = yn;
+        
+        [self updateGradientsForMenuVisible];
+    }
+}
+
 @end
-
-
-
-
