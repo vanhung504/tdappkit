@@ -16,6 +16,7 @@
 - (NSRect)labelTextRectForBounds:(NSRect)bounds;
 - (NSRect)valueTextRectForBounds:(NSRect)bounds;
 - (NSRect)popUpButtonRectForBounds:(NSRect)bounds;
+- (NSRect)arrowsRectForBounds:(NSRect)bounds;
 
 @property (nonatomic, copy) NSString *labelText;
 @property (nonatomic, copy) NSString *valueText;
