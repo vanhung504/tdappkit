@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Todd Ditchendorf. All rights reserved.
 //
 
-#import <TDAppKit/TDStatusBarLabel.h>
+#import <TDAppKit/TDBar.h>
 
 @interface TDStatusBarPopUpView : TDBar <NSMenuDelegate>
 
