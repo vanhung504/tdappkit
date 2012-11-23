@@ -18,7 +18,7 @@
 #define POPUP_MARGIN_X 3.0
 #define MENU_OFFSET_Y 2.0
 #define ARROWS_MARGIN_X 3.0
-#define ARROWS_PADDING_Y 0.0
+#define ARROWS_MARGIN_Y 1.0
 
 static NSDictionary *sLabelTextAttrs = nil;
 static NSDictionary *sValueTextAttrs = nil;
@@ -181,13 +181,12 @@ static NSDictionary *sValueTextAttrs = nil;
 
 - (void)drawArrowsInRect:(NSRect)arrowsRect dirtyRect:(NSRect)dirtyRect {
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-    //NSRect bounds = [self bounds];
     NSPoint arrowsMidPoint = NSMakePoint(NSMidX(arrowsRect), NSMidY(arrowsRect));
     
     // begin
     CGContextSaveGState(ctx);
 
-    [[NSColor blackColor] setFill];
+    [[NSColor colorWithDeviceWhite:0.2 alpha:1.0] setFill];
     
     // translate to center of arrows rect
     CGContextTranslateCTM(ctx, arrowsMidPoint.x, arrowsMidPoint.y);
@@ -271,11 +270,11 @@ static NSDictionary *sValueTextAttrs = nil;
     BOOL hasValueText = [_valueText length] > 0;
     CGFloat marginX = hasValueText ? ARROWS_MARGIN_X : 0.0;
     
-    CGFloat h = [[[[self class] defaultValueTextAttributes] objectForKey:NSFontAttributeName] pointSize] + ARROWS_PADDING_Y * 2.0;
+    CGFloat h = [[[[self class] defaultValueTextAttributes] objectForKey:NSFontAttributeName] pointSize];
 
     CGFloat x = TDRoundAlign(CGRectGetMaxX(valueRect) + marginX);
-    CGFloat y = valueRect.origin.y + 1.0;
-    CGFloat w = 6.0;
+    CGFloat y = valueRect.origin.y + ARROWS_MARGIN_Y;
+    CGFloat w = round(0.66 * h);
     
     NSRect r = NSMakeRect(x, y, w, h);
     return r;
