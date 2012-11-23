@@ -8,9 +8,13 @@
 
 #import <TDAppKit/TDStatusBarLabel.h>
 
-@interface TDStatusBarPopUpView : TDStatusBarLabel <NSMenuDelegate>
+@interface TDStatusBarPopUpView : TDBar <NSMenuDelegate>
 
++ (NSDictionary *)defaultTextAttributes;
+
+- (NSRect)textRectForBounds:(NSRect)bounds;
 - (NSRect)popUpButtonRectForBounds:(NSRect)bounds;
 
+@property (nonatomic, copy) NSString *text;
 @property (nonatomic, retain) IBOutlet NSPopUpButton *popUpButton;
 @end

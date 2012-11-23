@@ -9,13 +9,18 @@
 #import <TDAppKit/TDStatusBarPopUpView.h>
 #import <TDAppKit/TDUtils.h>
 
+#define DEBUG_DRAW 0
+
+#define TEXT_MARGIN_X 3.0
 #define POPUP_MARGIN_X 3.0
 #define MENU_OFFSET_Y 2.0
 
 static NSDictionary *sTextAttrs = nil;
 
 @interface TDStatusBarPopUpView ()
+- (void)setUpSubviews;
 - (void)updateTextFromPopUpSelection;
+@property (nonatomic, assign) NSSize textSize;
 @end
 
 @implementation TDStatusBarPopUpView
@@ -57,6 +62,7 @@ static NSDictionary *sTextAttrs = nil;
 
 
 - (void)dealloc {
+    self.text = nil;
     self.popUpButton = nil;
     [super dealloc];
 }
@@ -68,6 +74,9 @@ static NSDictionary *sTextAttrs = nil;
     [self updateTextFromPopUpSelection];
 }
 
+
+#pragma mark -
+#pragma mark NSResponder
 
 - (BOOL)acceptsFirstResponder {
     return YES;
@@ -90,11 +99,24 @@ static NSDictionary *sTextAttrs = nil;
 }
 
 
+#pragma mark -
+#pragma mark NSView
+
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
-
+    
     NSRect bounds = [self bounds];
-
+    
+#if DEBUG_DRAW
+    [[NSColor redColor] setFill];
+    NSRectFill(bounds);
+#endif
+    
+    if (_text) {
+        NSRect textRect = [self textRectForBounds:bounds];
+        [_text drawInRect:textRect withAttributes:[[self class] defaultTextAttributes]];
+    }
+    
     BOOL isMain = [[self window] isMainWindow];
     NSColor *strokeColor = nil;
     if (isMain ) {
@@ -121,23 +143,17 @@ static NSDictionary *sTextAttrs = nil;
 }
 
 
-- (void)setUpSubviews {
-    NSColor *topColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
-    NSColor *botColor = [NSColor colorWithDeviceWhite:0.65 alpha:1.0];
-    self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
-    
-    topColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
-    botColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
-    self.nonMainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
-    
-    self.mainBottomBevelColor = nil;
-    self.nonMainBottomBevelColor = nil;
-    
-    [_popUpButton setHidden:YES];
+#pragma mark -
+#pragma mark Metrics
 
-    NSMenu *menu = [_popUpButton menu];
-    [menu setFont:[NSFont systemFontOfSize:9.0]];
-    [menu setDelegate:self];
+- (NSRect)textRectForBounds:(NSRect)bounds {
+    CGFloat x = TEXT_MARGIN_X;
+    CGFloat y = TDRoundAlign(NSMidY(bounds) - _textSize.height / 2.0);
+    CGFloat w = TDRoundAlign(bounds.size.width - TEXT_MARGIN_X * 2.0);
+    CGFloat h = _textSize.height;
+    
+    NSRect r = NSMakeRect(x, y, w, h);
+    return r;
 }
 
 
@@ -154,6 +170,37 @@ static NSDictionary *sTextAttrs = nil;
 }
 
 
+#pragma mark -
+#pragma mark NSMenuDelegate
+
+- (void)menuDidClose:(NSMenu *)menu {
+    [self updateTextFromPopUpSelection];
+}
+
+
+#pragma mark -
+#pragma mark Private
+
+- (void)setUpSubviews {
+    NSColor *topColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
+    NSColor *botColor = [NSColor colorWithDeviceWhite:0.65 alpha:1.0];
+    self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
+    
+    topColor = [NSColor colorWithDeviceWhite:0.95 alpha:1.0];
+    botColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
+    self.nonMainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
+    
+    self.mainBottomBevelColor = nil;
+    self.nonMainBottomBevelColor = nil;
+    
+    [_popUpButton setHidden:YES];
+    
+    NSMenu *menu = [_popUpButton menu];
+    [menu setFont:[NSFont systemFontOfSize:9.0]];
+    [menu setDelegate:self];
+}
+
+
 - (void)updateTextFromPopUpSelection {
     TDPerformOnMainThreadAfterDelay(0.0, ^{
         [_popUpButton synchronizeTitleAndSelectedItem];
@@ -163,10 +210,21 @@ static NSDictionary *sTextAttrs = nil;
 
 
 #pragma mark -
-#pragma mark NSMenuDelegate
+#pragma mark Properties
 
-- (void)menuDidClose:(NSMenu *)menu {
-    [self updateTextFromPopUpSelection];
+- (void)setText:(NSString *)s {
+    if (s != _text) {
+        [_text release];
+        _text = [s retain];
+        
+        self.textSize = [self.text sizeWithAttributes:[[self class] defaultTextAttributes]];
+        
+        [self setNeedsDisplay:YES];
+    }
 }
 
 @end
+
+
+
+
