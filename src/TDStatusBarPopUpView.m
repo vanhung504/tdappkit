@@ -9,12 +9,16 @@
 #import <TDAppKit/TDStatusBarPopUpView.h>
 #import <TDAppKit/TDUtils.h>
 
+#define D2R(d) (M_PI * (d) / 180.0)
+
 #define DEBUG_DRAW 0
 
-#define LABEL_MARGIN_X 3.0
+#define LABEL_MARGIN_X 8.0
 #define VALUE_MARGIN_X 3.0
 #define POPUP_MARGIN_X 3.0
 #define MENU_OFFSET_Y 2.0
+#define ARROWS_MARGIN_X 3.0
+#define ARROWS_PADDING_Y 0.0
 
 static NSDictionary *sLabelTextAttrs = nil;
 static NSDictionary *sValueTextAttrs = nil;
@@ -22,6 +26,7 @@ static NSDictionary *sValueTextAttrs = nil;
 @interface TDStatusBarPopUpView ()
 - (void)setUpSubviews;
 - (void)updateValueTextFromPopUpSelection;
+- (void)drawArrowsInRect:(NSRect)arrowsRect dirtyRect:(NSRect)dirtyRect;
 @property (nonatomic, assign) NSSize labelTextSize;
 @property (nonatomic, assign) NSSize valueTextSize;
 @end
@@ -69,6 +74,8 @@ static NSDictionary *sValueTextAttrs = nil;
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        self.labelTextSize = CGSizeZero;
+        self.valueTextSize = CGSizeZero;
         [self setUpSubviews];
     }
     
@@ -118,24 +125,39 @@ static NSDictionary *sValueTextAttrs = nil;
 #pragma mark -
 #pragma mark NSView
 
+- (BOOL)isFlipped {
+    return NO;
+}
+
+
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
     
     NSRect bounds = [self bounds];
     
-#if DEBUG_DRAW
-    [[NSColor redColor] setFill];
-    NSRectFill(bounds);
-#endif
-    
     if (_labelText) {
         NSRect labelRect = [self labelTextRectForBounds:bounds];
+#if DEBUG_DRAW
+        [[NSColor redColor] setFill];
+        NSRectFill(labelRect);
+#endif
         [_labelText drawInRect:labelRect withAttributes:[[self class] defaultLabelTextAttributes]];
     }
     
     if (_valueText) {
         NSRect valueRect = [self valueTextRectForBounds:bounds];
+#if DEBUG_DRAW
+        [[NSColor greenColor] setFill];
+        NSRectFill(valueRect);
+#endif
         [_valueText drawInRect:valueRect withAttributes:[[self class] defaultValueTextAttributes]];
+        
+        NSRect arrowsRect = [self arrowsRectForBounds:bounds];
+#if DEBUG_DRAW
+        [[NSColor whiteColor] setFill];
+        NSRectFill(arrowsRect);
+#endif
+        [self drawArrowsInRect:arrowsRect dirtyRect:dirtyRect];
     }
     
     BOOL isMain = [[self window] isMainWindow];
@@ -157,6 +179,44 @@ static NSDictionary *sValueTextAttrs = nil;
 }
 
 
+- (void)drawArrowsInRect:(NSRect)arrowsRect dirtyRect:(NSRect)dirtyRect {
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    //NSRect bounds = [self bounds];
+    NSPoint arrowsMidPoint = NSMakePoint(NSMidX(arrowsRect), NSMidY(arrowsRect));
+    
+    // begin
+    CGContextSaveGState(ctx);
+
+    [[NSColor blackColor] setFill];
+    
+    // translate to center of arrows rect
+    CGContextTranslateCTM(ctx, arrowsMidPoint.x, arrowsMidPoint.y);
+    
+    // draw top arrow path
+    CGContextSaveGState(ctx);
+    CGContextBeginPath(ctx);
+    CGContextMoveToPoint(ctx, TDFloorAlign(-(NSWidth(arrowsRect) / 2.0)), (1.0));
+    CGContextAddLineToPoint(ctx, TDFloorAlign(NSWidth(arrowsRect) / 2.0), (1.0));
+    CGContextAddLineToPoint(ctx, TDFloorAlign(0.0), ((NSHeight(arrowsRect) / 2.0)));
+    CGContextClosePath(ctx);
+    CGContextFillPath(ctx);
+    CGContextRestoreGState(ctx);
+
+    // draw bottom arrow path
+    CGContextSaveGState(ctx);
+    CGContextBeginPath(ctx);
+    CGContextMoveToPoint(ctx, TDFloorAlign(-(NSWidth(arrowsRect) / 2.0)), (-1.0));
+    CGContextAddLineToPoint(ctx, TDFloorAlign(NSWidth(arrowsRect) / 2.0), (-1.0));
+    CGContextAddLineToPoint(ctx, TDFloorAlign(0.0), (-(NSHeight(arrowsRect) / 2.0)));
+    CGContextClosePath(ctx);
+    CGContextFillPath(ctx);
+    CGContextRestoreGState(ctx);
+
+    // done
+    CGContextRestoreGState(ctx);
+}
+
+
 - (void)layoutSubviews {
     NSRect bounds = [self bounds];
     
@@ -170,7 +230,7 @@ static NSDictionary *sValueTextAttrs = nil;
 - (NSRect)labelTextRectForBounds:(NSRect)bounds {
     CGFloat x = LABEL_MARGIN_X;
     CGFloat y = TDRoundAlign(NSMidY(bounds) - _labelTextSize.height / 2.0);
-    CGFloat w = TDRoundAlign(bounds.size.width - LABEL_MARGIN_X * 2.0);
+    CGFloat w = TDRoundAlign(_labelTextSize.width);
     CGFloat h = _labelTextSize.height;
     
     NSRect r = NSMakeRect(x, y, w, h);
@@ -179,9 +239,13 @@ static NSDictionary *sValueTextAttrs = nil;
 
 
 - (NSRect)valueTextRectForBounds:(NSRect)bounds {
-    CGFloat x = VALUE_MARGIN_X;
+    CGRect labelRect = [self labelTextRectForBounds:bounds];
+    BOOL hasLabelText = [_labelText length] > 0;
+    CGFloat marginX = hasLabelText ? VALUE_MARGIN_X : 0.0;
+    
+    CGFloat x = TDRoundAlign(CGRectGetMaxX(labelRect) + marginX);
     CGFloat y = TDRoundAlign(NSMidY(bounds) - _valueTextSize.height / 2.0);
-    CGFloat w = TDRoundAlign(bounds.size.width - VALUE_MARGIN_X * 2.0);
+    CGFloat w = TDRoundAlign(_valueTextSize.width);
     CGFloat h = _valueTextSize.height;
     
     NSRect r = NSMakeRect(x, y, w, h);
@@ -196,6 +260,22 @@ static NSDictionary *sValueTextAttrs = nil;
     CGFloat y = TDRoundAlign(NSMidY(bounds) - popUpBounds.size.height / 2.0);
     CGFloat w = TDRoundAlign(bounds.size.width - POPUP_MARGIN_X * 2.0);
     CGFloat h = popUpBounds.size.height;
+    
+    NSRect r = NSMakeRect(x, y, w, h);
+    return r;
+}
+
+
+- (NSRect)arrowsRectForBounds:(NSRect)bounds {
+    CGRect valueRect = [self valueTextRectForBounds:bounds];
+    BOOL hasValueText = [_valueText length] > 0;
+    CGFloat marginX = hasValueText ? ARROWS_MARGIN_X : 0.0;
+    
+    CGFloat h = [[[[self class] defaultValueTextAttributes] objectForKey:NSFontAttributeName] pointSize] + ARROWS_PADDING_Y * 2.0;
+
+    CGFloat x = TDRoundAlign(CGRectGetMaxX(valueRect) + marginX);
+    CGFloat y = valueRect.origin.y + 1.0;
+    CGFloat w = 6.0;
     
     NSRect r = NSMakeRect(x, y, w, h);
     return r;
