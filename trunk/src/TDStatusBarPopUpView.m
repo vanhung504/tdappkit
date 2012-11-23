@@ -319,16 +319,20 @@ static NSDictionary *sValueTextAttrs = nil;
 - (void)updateGradientsForMenuVisible {
     NSColor *topColor = nil;
     NSColor *botColor = nil;
+    NSColor *topBevelColor = nil;
     
     if (_menuVisible) {
         topColor = [NSColor colorWithDeviceWhite:0.75 alpha:1.0];
         botColor = [NSColor colorWithDeviceWhite:0.55 alpha:1.0];
+        topBevelColor = [NSColor colorWithDeviceWhite:0.78 alpha:1.0];
     } else {
         topColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
         botColor = [NSColor colorWithDeviceWhite:0.65 alpha:1.0];
+        topBevelColor = [NSColor colorWithDeviceWhite:0.88 alpha:1.0];
     }
 
     self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
+    self.mainTopBevelColor = topBevelColor;
 
     [self setNeedsDisplay:YES];
 }
