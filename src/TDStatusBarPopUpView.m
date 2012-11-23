@@ -110,7 +110,8 @@ static NSDictionary *sValueTextAttrs = nil;
     NSMenu *menu = [_popUpButton menu];
     if (![[menu itemArray] count]) return;
     
-    [menu setFont:[NSFont systemFontOfSize:9.0]];
+    NSFont *font = [[[self class] defaultValueTextAttributes] objectForKey:NSFontAttributeName];
+    [menu setFont:font];
     NSInteger idx = [_popUpButton indexOfSelectedItem];
     NSMenuItem *item = [menu itemAtIndex:idx];
     
