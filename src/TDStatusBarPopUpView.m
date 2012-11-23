@@ -175,13 +175,16 @@ static NSDictionary *sValueTextAttrs = nil;
     }
     [strokeColor setStroke];
     
-    NSPoint botLef = NSMakePoint(NSMinX(bounds), NSMinY(bounds));
-    NSPoint topLef = NSMakePoint(NSMinX(bounds), NSMaxY(bounds));
-    [NSBezierPath strokeLineFromPoint:topLef toPoint:botLef];
-    
-    NSPoint botRit = NSMakePoint(NSMaxX(bounds), NSMinY(bounds));
-    NSPoint topRit = NSMakePoint(NSMaxX(bounds), NSMaxY(bounds));
-    [NSBezierPath strokeLineFromPoint:topRit toPoint:botRit];
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+    CGContextBeginPath(ctx);
+    CGContextMoveToPoint(ctx, NSMinX(bounds), NSMinY(bounds));
+    CGContextAddLineToPoint(ctx, NSMinX(bounds), NSMaxY(bounds));
+    CGContextStrokePath(ctx);
+
+    CGContextBeginPath(ctx);
+    CGContextMoveToPoint(ctx, NSMaxX(bounds), NSMinY(bounds));
+    CGContextAddLineToPoint(ctx, NSMaxX(bounds), NSMaxY(bounds));
+    CGContextStrokePath(ctx);
 }
 
 
@@ -334,7 +337,7 @@ static NSDictionary *sValueTextAttrs = nil;
     self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
     self.mainTopBevelColor = topBevelColor;
 
-    [self setNeedsDisplay:YES];
+    [self setNeedsDisplayInRect:[self bounds]];
 }
 
 
