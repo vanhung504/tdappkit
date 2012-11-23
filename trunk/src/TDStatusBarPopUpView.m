@@ -11,16 +11,19 @@
 
 #define DEBUG_DRAW 0
 
-#define TEXT_MARGIN_X 3.0
+#define LABEL_MARGIN_X 3.0
+#define VALUE_MARGIN_X 3.0
 #define POPUP_MARGIN_X 3.0
 #define MENU_OFFSET_Y 2.0
 
-static NSDictionary *sTextAttrs = nil;
+static NSDictionary *sLabelTextAttrs = nil;
+static NSDictionary *sValueTextAttrs = nil;
 
 @interface TDStatusBarPopUpView ()
 - (void)setUpSubviews;
-- (void)updateTextFromPopUpSelection;
-@property (nonatomic, assign) NSSize textSize;
+- (void)updateValueTextFromPopUpSelection;
+@property (nonatomic, assign) NSSize labelTextSize;
+@property (nonatomic, assign) NSSize valueTextSize;
 @end
 
 @implementation TDStatusBarPopUpView
@@ -36,18 +39,30 @@ static NSDictionary *sTextAttrs = nil;
         //        [shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
         //        [shadow setShadowBlurRadius:1.0];
         
-        sTextAttrs = [[NSDictionary alloc] initWithObjectsAndKeys:
-                      [NSFont systemFontOfSize:9.0], NSFontAttributeName,
-                      [NSColor textColor], NSForegroundColorAttributeName,
-                      //                      shadow, NSShadowAttributeName,
-                      paraStyle, NSParagraphStyleAttributeName,
-                      nil];
+        sLabelTextAttrs = [[NSDictionary alloc] initWithObjectsAndKeys:
+                           [NSFont systemFontOfSize:9.0], NSFontAttributeName,
+                           [NSColor textColor], NSForegroundColorAttributeName,
+                           //shadow, NSShadowAttributeName,
+                           paraStyle, NSParagraphStyleAttributeName,
+                           nil];
+
+        sValueTextAttrs = [[NSDictionary alloc] initWithObjectsAndKeys:
+                           [NSFont systemFontOfSize:9.0], NSFontAttributeName,
+                           [NSColor textColor], NSForegroundColorAttributeName,
+                           //shadow, NSShadowAttributeName,
+                           paraStyle, NSParagraphStyleAttributeName,
+                           nil];
     }
 }
 
 
-+ (NSDictionary *)defaultTextAttributes {
-    return sTextAttrs;
++ (NSDictionary *)defaultLabelTextAttributes {
+    return sLabelTextAttrs;
+}
+
+
++ (NSDictionary *)defaultValueTextAttributes {
+    return sValueTextAttrs;
 }
 
 
@@ -62,7 +77,8 @@ static NSDictionary *sTextAttrs = nil;
 
 
 - (void)dealloc {
-    self.text = nil;
+    self.labelText = nil;
+    self.valueText = nil;
     self.popUpButton = nil;
     [super dealloc];
 }
@@ -71,7 +87,7 @@ static NSDictionary *sTextAttrs = nil;
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self setUpSubviews];
-    [self updateTextFromPopUpSelection];
+    [self updateValueTextFromPopUpSelection];
 }
 
 
@@ -112,9 +128,14 @@ static NSDictionary *sTextAttrs = nil;
     NSRectFill(bounds);
 #endif
     
-    if (_text) {
-        NSRect textRect = [self textRectForBounds:bounds];
-        [_text drawInRect:textRect withAttributes:[[self class] defaultTextAttributes]];
+    if (_labelText) {
+        NSRect labelRect = [self labelTextRectForBounds:bounds];
+        [_labelText drawInRect:labelRect withAttributes:[[self class] defaultLabelTextAttributes]];
+    }
+    
+    if (_valueText) {
+        NSRect valueRect = [self valueTextRectForBounds:bounds];
+        [_valueText drawInRect:valueRect withAttributes:[[self class] defaultValueTextAttributes]];
     }
     
     BOOL isMain = [[self window] isMainWindow];
@@ -146,11 +167,22 @@ static NSDictionary *sTextAttrs = nil;
 #pragma mark -
 #pragma mark Metrics
 
-- (NSRect)textRectForBounds:(NSRect)bounds {
-    CGFloat x = TEXT_MARGIN_X;
-    CGFloat y = TDRoundAlign(NSMidY(bounds) - _textSize.height / 2.0);
-    CGFloat w = TDRoundAlign(bounds.size.width - TEXT_MARGIN_X * 2.0);
-    CGFloat h = _textSize.height;
+- (NSRect)labelTextRectForBounds:(NSRect)bounds {
+    CGFloat x = LABEL_MARGIN_X;
+    CGFloat y = TDRoundAlign(NSMidY(bounds) - _labelTextSize.height / 2.0);
+    CGFloat w = TDRoundAlign(bounds.size.width - LABEL_MARGIN_X * 2.0);
+    CGFloat h = _labelTextSize.height;
+    
+    NSRect r = NSMakeRect(x, y, w, h);
+    return r;
+}
+
+
+- (NSRect)valueTextRectForBounds:(NSRect)bounds {
+    CGFloat x = VALUE_MARGIN_X;
+    CGFloat y = TDRoundAlign(NSMidY(bounds) - _valueTextSize.height / 2.0);
+    CGFloat w = TDRoundAlign(bounds.size.width - VALUE_MARGIN_X * 2.0);
+    CGFloat h = _valueTextSize.height;
     
     NSRect r = NSMakeRect(x, y, w, h);
     return r;
@@ -174,7 +206,7 @@ static NSDictionary *sTextAttrs = nil;
 #pragma mark NSMenuDelegate
 
 - (void)menuDidClose:(NSMenu *)menu {
-    [self updateTextFromPopUpSelection];
+    [self updateValueTextFromPopUpSelection];
 }
 
 
@@ -201,10 +233,10 @@ static NSDictionary *sTextAttrs = nil;
 }
 
 
-- (void)updateTextFromPopUpSelection {
+- (void)updateValueTextFromPopUpSelection {
     TDPerformOnMainThreadAfterDelay(0.0, ^{
         [_popUpButton synchronizeTitleAndSelectedItem];
-        self.text = [_popUpButton titleOfSelectedItem];
+        self.valueText = [_popUpButton titleOfSelectedItem];
     });
 }
 
@@ -212,12 +244,24 @@ static NSDictionary *sTextAttrs = nil;
 #pragma mark -
 #pragma mark Properties
 
-- (void)setText:(NSString *)s {
-    if (s != _text) {
-        [_text release];
-        _text = [s retain];
+- (void)setLabelText:(NSString *)s {
+    if (s != _labelText) {
+        [_labelText release];
+        _labelText = [s retain];
         
-        self.textSize = [self.text sizeWithAttributes:[[self class] defaultTextAttributes]];
+        self.labelTextSize = [self.labelText sizeWithAttributes:[[self class] defaultLabelTextAttributes]];
+        
+        [self setNeedsDisplay:YES];
+    }
+}
+
+
+- (void)setValueText:(NSString *)s {
+    if (s != _valueText) {
+        [_valueText release];
+        _valueText = [s retain];
+        
+        self.valueTextSize = [self.valueText sizeWithAttributes:[[self class] defaultValueTextAttributes]];
         
         [self setNeedsDisplay:YES];
     }

@@ -10,11 +10,14 @@
 
 @interface TDStatusBarPopUpView : TDBar <NSMenuDelegate>
 
-+ (NSDictionary *)defaultTextAttributes;
++ (NSDictionary *)defaultLabelTextAttributes;
++ (NSDictionary *)defaultValueTextAttributes;
 
-- (NSRect)textRectForBounds:(NSRect)bounds;
+- (NSRect)labelTextRectForBounds:(NSRect)bounds;
+- (NSRect)valueTextRectForBounds:(NSRect)bounds;
 - (NSRect)popUpButtonRectForBounds:(NSRect)bounds;
 
-@property (nonatomic, copy) NSString *text;
+@property (nonatomic, copy) NSString *labelText;
+@property (nonatomic, copy) NSString *valueText;
 @property (nonatomic, retain) IBOutlet NSPopUpButton *popUpButton;
 @end
