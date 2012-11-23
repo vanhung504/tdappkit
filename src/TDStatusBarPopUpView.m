@@ -114,8 +114,6 @@ static NSDictionary *sValueTextAttrs = nil;
     self.menuVisible = YES;
     
     TDPerformOnMainThreadAfterDelay(0.0, ^{
-        NSFont *font = [[[self class] defaultValueTextAttributes] objectForKey:NSFontAttributeName];
-        [menu setFont:font];
         NSInteger idx = [_popUpButton indexOfSelectedItem];
         NSMenuItem *item = [menu itemAtIndex:idx];
         
@@ -311,8 +309,10 @@ static NSDictionary *sValueTextAttrs = nil;
     [_popUpButton setHidden:YES];
     
     NSMenu *menu = [_popUpButton menu];
-    [menu setFont:[NSFont systemFontOfSize:9.0]];
     [menu setDelegate:self];
+
+    NSFont *font = [[[self class] defaultValueTextAttributes] objectForKey:NSFontAttributeName];
+    [menu setFont:font];
 }
 
 
