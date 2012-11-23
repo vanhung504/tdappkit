@@ -39,7 +39,7 @@
 #import <TDAppKit/TDHintView.h>
 #import <TDAppKit/TDViewController.h>
 #import <TDAppKit/TDViewControllerView.h>
-#import <TDAppKit/TDStatusBarLabel.h>
+#import <TDAppKit/TDStatusBarButton.h>
 #import <TDAppKit/TDStatusBarPopUpView.h>
 
 // Tabbed App stuff
