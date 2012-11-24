@@ -18,6 +18,8 @@
 - (NSRect)popUpButtonRectForBounds:(NSRect)bounds;
 - (NSRect)arrowsRectForBounds:(NSRect)bounds;
 
+- (void)updateValue;
+
 @property (nonatomic, copy) NSString *labelText;
 @property (nonatomic, copy) NSString *valueText;
 @property (nonatomic, retain) IBOutlet NSPopUpButton *popUpButton;

@@ -25,7 +25,6 @@ static NSDictionary *sValueTextAttrs = nil;
 
 @interface TDStatusBarPopUpView ()
 - (void)setUpSubviews;
-- (void)updateValueTextFromPopUpSelection;
 - (void)updateGradientsForMenuVisible;
 - (void)drawArrowsInRect:(NSRect)arrowsRect dirtyRect:(NSRect)dirtyRect;
 @property (nonatomic, assign) NSSize labelTextSize;
@@ -96,7 +95,7 @@ static NSDictionary *sValueTextAttrs = nil;
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self setUpSubviews];
-    [self updateValueTextFromPopUpSelection];
+    [self updateValue];
 }
 
 
@@ -292,7 +291,7 @@ static NSDictionary *sValueTextAttrs = nil;
 #pragma mark NSMenuDelegate
 
 - (void)menuDidClose:(NSMenu *)menu {
-    [self updateValueTextFromPopUpSelection];
+    [self updateValue];
 }
 
 
@@ -341,7 +340,7 @@ static NSDictionary *sValueTextAttrs = nil;
 }
 
 
-- (void)updateValueTextFromPopUpSelection {
+- (void)updateValue {
     TDPerformOnMainThreadAfterDelay(0.0, ^{
         [_popUpButton synchronizeTitleAndSelectedItem];
         self.valueText = [_popUpButton titleOfSelectedItem];
