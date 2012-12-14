@@ -40,5 +40,6 @@
 - (BOOL)isLeftArrowKeyDown;
 - (BOOL)isRightArrowKeyDown;
 - (BOOL)isSpaceKeyDown;
+- (BOOL)isZKeyDown;
 - (BOOL)isCommandPeriodKeyDown;
 @end

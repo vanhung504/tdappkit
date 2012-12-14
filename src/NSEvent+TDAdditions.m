@@ -27,6 +27,8 @@
 #define DOWN_ARROW 125
 #define LEFT_ARROW 123
 #define RIGHT_ARROW 124
+#define LOWERCASE_Z 6
+#define UPPERERCASE_Z 6
 
 @implementation NSEvent (TDAdditions)
 
@@ -155,6 +157,11 @@
 
 - (BOOL)isSpaceKeyDown {
     return [self isKeyDown] && SPACE == [self keyCode];
+}
+
+
+- (BOOL)isZKeyDown {
+    return [self isKeyDown] && (LOWERCASE_Z == [self keyCode] || UPPERERCASE_Z == [self keyCode]);
 }
 
 
