@@ -17,6 +17,7 @@
 @interface TDListItem : TDView {
     NSString *reuseIdentifier;
     NSUInteger index;
+    BOOL drawingDragImage;
 }
 
 - (id)initWithFrame:(NSRect)frame reuseIdentifier:(NSString *)s;
@@ -26,4 +27,5 @@
 - (NSImage *)draggingImage;
 
 @property (nonatomic, copy) NSString *reuseIdentifier;
+@property (nonatomic, assign) BOOL drawingDragImage;
 @end
