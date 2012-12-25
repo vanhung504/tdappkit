@@ -50,7 +50,10 @@
 
     NSBitmapImageRep *bitmap = [self bitmapImageRepForCachingDisplayInRect:bounds];
     if (!bitmap) return nil;
+
+    self.drawingDragImage = YES;
     [self cacheDisplayInRect:bounds toBitmapImageRep:bitmap];
+    self.drawingDragImage = NO;
     
     NSSize imgSize = [bitmap size];
     if (NSEqualSizes(NSZeroSize, imgSize)) return nil;
@@ -75,4 +78,5 @@
 
 @synthesize reuseIdentifier;
 @synthesize index;
+@synthesize drawingDragImage;
 @end
