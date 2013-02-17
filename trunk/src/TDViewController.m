@@ -7,7 +7,6 @@
 //
 
 #import <TDAppKit/TDViewController.h>
-#import <TDAppKit/TDViewControllerView.h>
 
 @implementation TDViewController
 
@@ -34,6 +33,11 @@
         [(TDViewControllerView *)v setViewController:self];
     }
     [super setView:v];
+}
+
+
+- (TDViewControllerView *)viewControllerView {
+    return (TDViewControllerView *)[self view];
 }
 
 

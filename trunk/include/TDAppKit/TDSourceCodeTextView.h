@@ -19,7 +19,6 @@
 @interface TDSourceCodeTextView : NSTextView {
     TDGutterView *gutterView;
     NSScrollView *scrollView;
-    CGFloat sourceTextViewOffset;
 }
 
 - (void)renderGutter;

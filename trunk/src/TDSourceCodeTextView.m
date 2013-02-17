@@ -34,7 +34,7 @@
 
 - (void)awakeFromNib {
     [self registerForNotifications];
-    [self performSelector:@selector(renderGutter) withObject:nil afterDelay:0];
+    [self performSelector:@selector(renderGutter) withObject:nil afterDelay:0.0];
 }
 
 

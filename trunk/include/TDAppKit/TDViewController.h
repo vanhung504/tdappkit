@@ -7,10 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <TDAppKit/TDViewControllerView.h>
 
 @interface TDViewController : NSViewController {
 
 }
+
+@property (nonatomic, retain, readonly) TDViewControllerView *viewControllerView;
 
 - (void)viewDidLoad;
 - (void)viewWillAppear;
@@ -22,4 +25,5 @@
 - (void)viewDidMoveToSuperview;
 - (void)viewWillMoveToWindow:(NSWindow *)win;
 - (void)viewDidMoveToWindow;
+
 @end
