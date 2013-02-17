@@ -22,12 +22,12 @@
 
 - (void)awakeFromNib {
     self.attrs = [NSDictionary dictionaryWithObjectsAndKeys:
-                  [NSFont userFixedPitchFontOfSize:11], NSFontAttributeName,
+                  [NSFont userFixedPitchFontOfSize:11.0], NSFontAttributeName,
                   [NSColor grayColor], NSForegroundColorAttributeName,
                   nil];
     
     self.borderColor = [NSColor grayColor];
-    self.lineNumberRects = [NSArray arrayWithObject:[NSValue valueWithRect:NSMakeRect(0, 0, 100, 14)]];
+    self.lineNumberRects = [NSArray arrayWithObject:[NSValue valueWithRect:NSMakeRect(0.0, 0.0, 100.0, 14.0)]];
 }
 
 
@@ -55,6 +55,9 @@
     [super drawRect:dirtyRect];
     NSRect rect = [self bounds];
     //NSDrawWindowBackground(rect);
+    
+    [self.color setFill];
+    NSRectFill([self bounds]);
 
     // stroke vert line
     [borderColor set];
