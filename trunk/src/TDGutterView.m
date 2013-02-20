@@ -16,6 +16,7 @@
 
 @interface TDGutterView ()
 @property (nonatomic, retain) NSDictionary *attrs;
+@property (nonatomic, retain) NSDictionary *hiAttrs;
 @end
 
 @implementation TDGutterView
@@ -24,6 +25,11 @@
     self.attrs = [NSDictionary dictionaryWithObjectsAndKeys:
                   [NSFont userFixedPitchFontOfSize:11.0], NSFontAttributeName,
                   [NSColor grayColor], NSForegroundColorAttributeName,
+                  nil];
+    
+    self.hiAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                  [NSFont userFixedPitchFontOfSize:11.0], NSFontAttributeName,
+                  [NSColor redColor], NSForegroundColorAttributeName,
                   nil];
     
     self.borderColor = [NSColor grayColor];
@@ -36,6 +42,7 @@
     self.sourceTextView = nil;
     self.lineNumberRects = nil;
     self.attrs = nil;
+    self.hiAttrs = nil;
     self.borderColor = nil;
     [super dealloc];
 }
@@ -105,8 +112,11 @@
             r.origin.y += r.size.height/2.0 - 7.0;
         }
         
-        NSString *s = [[NSNumber numberWithInteger:i + 1] stringValue];
-        NSAttributedString *as = [[NSAttributedString alloc] initWithString:s attributes:attrs];
+        NSUInteger displayIdx = i + 1;
+        NSString *s = [[NSNumber numberWithInteger:displayIdx] stringValue];
+        
+        NSDictionary *currAttrs = displayIdx == highlightedLineNumber ? hiAttrs : attrs;
+        NSAttributedString *as = [[NSAttributedString alloc] initWithString:s attributes:currAttrs];
         [as drawAtPoint:r.origin];
         [as release];
     }
@@ -116,6 +126,8 @@
 @synthesize sourceTextView;
 @synthesize lineNumberRects;
 @synthesize startLineNumber;
+@synthesize highlightedLineNumber;
 @synthesize attrs;
+@synthesize hiAttrs;
 @synthesize borderColor;
 @end
