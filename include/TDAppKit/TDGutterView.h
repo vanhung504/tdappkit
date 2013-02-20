@@ -20,8 +20,10 @@
 
     NSArray *lineNumberRects;
     NSUInteger startLineNumber;
+    NSUInteger highlightedLineNumber;
     
     NSDictionary *attrs;
+    NSDictionary *hiAttrs;
     
     NSColor *borderColor;
 }
@@ -30,5 +32,6 @@
 @property (nonatomic, assign) IBOutlet NSTextView *sourceTextView;
 @property (nonatomic, retain) NSArray *lineNumberRects;
 @property (nonatomic) NSUInteger startLineNumber;
+@property (nonatomic) NSUInteger highlightedLineNumber;
 @property (nonatomic, retain) NSColor *borderColor;
 @end
