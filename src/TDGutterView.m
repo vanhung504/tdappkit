@@ -29,7 +29,7 @@
     
     self.hiAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
                   [NSFont userFixedPitchFontOfSize:11.0], NSFontAttributeName,
-                  [NSColor redColor], NSForegroundColorAttributeName,
+                  [NSColor blackColor], NSForegroundColorAttributeName,
                   nil];
     
     self.borderColor = [NSColor grayColor];
@@ -60,19 +60,19 @@
 
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
-    NSRect rect = [self bounds];
-    //NSDrawWindowBackground(rect);
+    NSRect bounds = [self bounds];
+    //NSDrawWindowBackground(bounds);
     
     [self.color setFill];
-    NSRectFill([self bounds]);
+    NSRectFill(bounds);
 
     // stroke vert line
     [borderColor set];
-    CGFloat rectWidth = rect.size.width;
+    CGFloat boundsWidth = bounds.size.width;
     
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-    CGPoint p1 = CGPointMake(rectWidth + 0.0, 0.0);
-    CGPoint p2 = CGPointMake(rectWidth + 0.0, rect.size.height);
+    CGPoint p1 = CGPointMake(boundsWidth + 0.0, 0.0);
+    CGPoint p2 = CGPointMake(boundsWidth + 0.0, bounds.size.height);
     
     CGContextSetLineWidth(ctx, 1.0);
     CGContextMoveToPoint(ctx, p1.x, p1.y);
@@ -80,8 +80,8 @@
     CGContextClosePath(ctx);
     CGContextStrokePath(ctx);
     
-//    NSPoint p1 = NSMakePoint(rectWidth, 0);
-//    NSPoint p2 = NSMakePoint(rectWidth, rect.size.height);
+//    NSPoint p1 = NSMakePoint(boundsWidth, 0);
+//    NSPoint p2 = NSMakePoint(boundsWidth, bounds.size.height);
 //    [NSBezierPath strokeLineFromPoint:p1 toPoint:p2];
     
     if (![lineNumberRects count]) {
@@ -97,13 +97,13 @@
         // set the x origin of the number according to the number of digits it contains
         CGFloat x = 0.0;
         if (i < 9) {
-            x = rectWidth - 14.0;
+            x = boundsWidth - 14.0;
         } else if (i < 99) {
-            x = rectWidth - 21.0;
+            x = boundsWidth - 21.0;
         } else if (i < 999) {
-            x = rectWidth - 28.0;
+            x = boundsWidth - 28.0;
         } else if (i < 9999) {
-            x = rectWidth - 35.0;
+            x = boundsWidth - 35.0;
         }
         r.origin.x = x;
         
@@ -113,9 +113,32 @@
         }
         
         NSUInteger displayIdx = i + 1;
+        BOOL isHi = displayIdx == highlightedLineNumber;
+        
         NSString *s = [[NSNumber numberWithInteger:displayIdx] stringValue];
         
-        NSDictionary *currAttrs = displayIdx == highlightedLineNumber ? hiAttrs : attrs;
+        NSDictionary *currAttrs = nil;
+        if (isHi) {
+            currAttrs = hiAttrs;
+            NSRect hiRect = NSMakeRect(NSMinX(bounds), r.origin.y + 3.0, boundsWidth, r.size.height);
+            [[NSColor lightGrayColor] setFill];
+            NSRectFill(hiRect);
+            
+            [[NSColor grayColor] setStroke];
+
+            CGContextBeginPath(ctx);
+            CGContextMoveToPoint(ctx, NSMinX(hiRect), NSMinY(hiRect));
+            CGContextAddLineToPoint(ctx, NSMaxX(hiRect), NSMinY(hiRect));
+            CGContextStrokePath(ctx);
+
+            CGContextBeginPath(ctx);
+            CGContextMoveToPoint(ctx, NSMinX(hiRect), NSMaxY(hiRect));
+            CGContextAddLineToPoint(ctx, NSMaxX(hiRect), NSMaxY(hiRect));
+            CGContextStrokePath(ctx);
+        } else {
+            currAttrs = attrs;
+        }
+        
         NSAttributedString *as = [[[NSAttributedString alloc] initWithString:s attributes:currAttrs] autorelease];
         [as drawAtPoint:r.origin];        
     }
