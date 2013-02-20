@@ -116,9 +116,8 @@
         NSString *s = [[NSNumber numberWithInteger:displayIdx] stringValue];
         
         NSDictionary *currAttrs = displayIdx == highlightedLineNumber ? hiAttrs : attrs;
-        NSAttributedString *as = [[NSAttributedString alloc] initWithString:s attributes:currAttrs];
-        [as drawAtPoint:r.origin];
-        [as release];
+        NSAttributedString *as = [[[NSAttributedString alloc] initWithString:s attributes:currAttrs] autorelease];
+        [as drawAtPoint:r.origin];        
     }
 }
 
