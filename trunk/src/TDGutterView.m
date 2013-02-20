@@ -120,10 +120,14 @@
         NSDictionary *currAttrs = nil;
         if (isHi) {
             currAttrs = hiAttrs;
+            
             NSRect hiRect = NSMakeRect(NSMinX(bounds), r.origin.y + 3.0, boundsWidth, r.size.height);
+            
+            // fill highlight
             [[NSColor lightGrayColor] setFill];
             NSRectFill(hiRect);
             
+            // stroke highlight
             [[NSColor grayColor] setStroke];
 
             CGContextBeginPath(ctx);
