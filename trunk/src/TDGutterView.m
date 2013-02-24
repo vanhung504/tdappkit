@@ -121,7 +121,7 @@
         if (isHi) {
             currAttrs = hiAttrs;
             
-            NSRect hiRect = NSMakeRect(NSMinX(bounds), r.origin.y + 3.0, boundsWidth, r.size.height);
+            NSRect hiRect = NSMakeRect(NSMinX(bounds), round(r.origin.y + 3.0) + 0.5, boundsWidth, round(r.size.height));
             
             // fill highlight
             [[NSColor lightGrayColor] setFill];
