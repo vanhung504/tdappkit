@@ -179,8 +179,8 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
     CGFloat h = NSHeight([self frame]);
 
     NSUInteger count = [dataSource numberOfItemsInListView:self];
-    NSUInteger i = 0;
-    for ( ; i < count; i++) {
+    
+    for (NSUInteger i = 0; i < count; i++) {
         CGFloat extent = floor(variableExtent ? [delegate listView:self extentForItemAtIndex:i] : itemExtent);
         NSRect itemFrame;
         if (self.isPortrait) {
@@ -977,8 +977,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
     BOOL respondsToExtentForItem = (delegate && [delegate respondsToSelector:@selector(listView:extentForItemAtIndex:)]);
     BOOL respondsToWillDisplay = (delegate && [delegate respondsToSelector:@selector(listView:willDisplayItem:atIndex:)]);
     
-    NSUInteger i = 0;
-    for ( ; i < c; i++) {
+    for (NSUInteger i = 0; i < c; i++) {
         // determine item frame
         CGFloat extent = respondsToExtentForItem ? [delegate listView:self extentForItemAtIndex:i] : itemExtent;
         if (isPortrait) {
