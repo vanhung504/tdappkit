@@ -32,7 +32,7 @@ static NSDictionary *sValueTextAttrs = nil;
 @property (nonatomic, assign) BOOL menuVisible;
 @end
 
-@implementation TDStatusBarPopUpView 
+@implementation TDStatusBarPopUpView
 
 + (void)initialize {
     if ([TDStatusBarPopUpView class] == self) {
@@ -108,12 +108,12 @@ static NSDictionary *sValueTextAttrs = nil;
 
 
 - (void)mouseDown:(NSEvent *)evt {
-    NSMenu *menu = [_popUpButton menu];
+    NSMenu *menu = [popUpButton menu];
     if (![[menu itemArray] count]) return;
     self.menuVisible = YES;
     
     TDPerformOnMainThreadAfterDelay(0.0, ^{
-        NSInteger idx = [_popUpButton indexOfSelectedItem];
+        NSInteger idx = [popUpButton indexOfSelectedItem];
         NSMenuItem *item = [menu itemAtIndex:idx];
         
         NSSize menuSize = [menu size];
@@ -140,22 +140,22 @@ static NSDictionary *sValueTextAttrs = nil;
     
     NSRect bounds = [self bounds];
     
-    if (_labelText) {
+    if (labelText) {
         NSRect labelRect = [self labelTextRectForBounds:bounds];
 #if DEBUG_DRAW
         [[NSColor redColor] setFill];
         NSRectFill(labelRect);
 #endif
-        [_labelText drawInRect:labelRect withAttributes:[[self class] defaultLabelTextAttributes]];
+        [labelText drawInRect:labelRect withAttributes:[[self class] defaultLabelTextAttributes]];
     }
     
-    if (_valueText) {
+    if (valueText) {
         NSRect valueRect = [self valueTextRectForBounds:bounds];
 #if DEBUG_DRAW
         [[NSColor greenColor] setFill];
         NSRectFill(valueRect);
 #endif
-        [_valueText drawInRect:valueRect withAttributes:[[self class] defaultValueTextAttributes]];
+        [valueText drawInRect:valueRect withAttributes:[[self class] defaultValueTextAttributes]];
         
         NSRect arrowsRect = [self arrowsRectForBounds:bounds];
 #if DEBUG_DRAW
@@ -236,9 +236,9 @@ static NSDictionary *sValueTextAttrs = nil;
 
 - (NSRect)labelTextRectForBounds:(NSRect)bounds {
     CGFloat x = LABEL_MARGIN_X;
-    CGFloat y = TDRoundAlign(NSMidY(bounds) - _labelTextSize.height / 2.0);
-    CGFloat w = TDRoundAlign(_labelTextSize.width);
-    CGFloat h = _labelTextSize.height;
+    CGFloat y = TDRoundAlign(NSMidY(bounds) - labelTextSize.height / 2.0);
+    CGFloat w = TDRoundAlign(labelTextSize.width);
+    CGFloat h = labelTextSize.height;
     
     NSRect r = NSMakeRect(x, y, w, h);
     return r;
@@ -247,13 +247,13 @@ static NSDictionary *sValueTextAttrs = nil;
 
 - (NSRect)valueTextRectForBounds:(NSRect)bounds {
     CGRect labelRect = [self labelTextRectForBounds:bounds];
-    BOOL hasLabelText = [_labelText length] > 0;
+    BOOL hasLabelText = [labelText length] > 0;
     CGFloat marginX = hasLabelText ? VALUE_MARGIN_X : 0.0;
     
     CGFloat x = TDRoundAlign(CGRectGetMaxX(labelRect) + marginX);
-    CGFloat y = TDRoundAlign(NSMidY(bounds) - _valueTextSize.height / 2.0);
-    CGFloat w = TDRoundAlign(_valueTextSize.width);
-    CGFloat h = _valueTextSize.height;
+    CGFloat y = TDRoundAlign(NSMidY(bounds) - valueTextSize.height / 2.0);
+    CGFloat w = TDRoundAlign(valueTextSize.width);
+    CGFloat h = valueTextSize.height;
     
     NSRect r = NSMakeRect(x, y, w, h);
     return r;
@@ -261,7 +261,7 @@ static NSDictionary *sValueTextAttrs = nil;
 
 
 - (NSRect)popUpButtonRectForBounds:(NSRect)bounds {
-    NSRect popUpBounds = [_popUpButton bounds];
+    NSRect popUpBounds = [popUpButton bounds];
     
     CGFloat x = POPUP_MARGIN_X;
     CGFloat y = TDRoundAlign(NSMidY(bounds) - popUpBounds.size.height / 2.0);
@@ -308,9 +308,9 @@ static NSDictionary *sValueTextAttrs = nil;
     self.mainBottomBevelColor = nil;
     self.nonMainBottomBevelColor = nil;
     
-    [_popUpButton setHidden:YES];
+    [popUpButton setHidden:YES];
     
-    NSMenu *menu = [_popUpButton menu];
+    NSMenu *menu = [popUpButton menu];
     [menu setDelegate:self];
 
     NSFont *font = [[[self class] defaultValueTextAttributes] objectForKey:NSFontAttributeName];
@@ -323,7 +323,7 @@ static NSDictionary *sValueTextAttrs = nil;
     NSColor *botColor = nil;
     NSColor *topBevelColor = nil;
     
-    if (_menuVisible) {
+    if (menuVisible) {
         topColor = [NSColor colorWithDeviceWhite:0.75 alpha:1.0];
         botColor = [NSColor colorWithDeviceWhite:0.55 alpha:1.0];
         topBevelColor = [NSColor colorWithDeviceWhite:0.78 alpha:1.0];
@@ -342,8 +342,8 @@ static NSDictionary *sValueTextAttrs = nil;
 
 - (void)updateValue {
     TDPerformOnMainThreadAfterDelay(0.0, ^{
-        [_popUpButton synchronizeTitleAndSelectedItem];
-        self.valueText = [_popUpButton titleOfSelectedItem];
+        [popUpButton synchronizeTitleAndSelectedItem];
+        self.valueText = [popUpButton titleOfSelectedItem];
         self.menuVisible = NO;
     });
 }
@@ -353,9 +353,9 @@ static NSDictionary *sValueTextAttrs = nil;
 #pragma mark Properties
 
 - (void)setLabelText:(NSString *)s {
-    if (s != _labelText) {
-        [_labelText release];
-        _labelText = [s retain];
+    if (s != labelText) {
+        [labelText release];
+        labelText = [s retain];
         
         self.labelTextSize = [self.labelText sizeWithAttributes:[[self class] defaultLabelTextAttributes]];
         
@@ -365,9 +365,9 @@ static NSDictionary *sValueTextAttrs = nil;
 
 
 - (void)setValueText:(NSString *)s {
-    if (s != _valueText) {
-        [_valueText release];
-        _valueText = [s retain];
+    if (s != valueText) {
+        [valueText release];
+        valueText = [s retain];
         
         self.valueTextSize = [self.valueText sizeWithAttributes:[[self class] defaultValueTextAttributes]];
         
@@ -377,11 +377,18 @@ static NSDictionary *sValueTextAttrs = nil;
 
 
 - (void)setMenuVisible:(BOOL)yn {
-    if (yn != _menuVisible) {
-        _menuVisible = yn;
+    if (yn != menuVisible) {
+        menuVisible = yn;
         
         [self updateGradientsForMenuVisible];
     }
 }
 
+@synthesize labelText;
+@synthesize valueText;
+@synthesize popUpButton;
+
+@synthesize labelTextSize;
+@synthesize valueTextSize;
+@synthesize menuVisible;
 @end
