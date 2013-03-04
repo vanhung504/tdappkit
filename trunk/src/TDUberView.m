@@ -15,6 +15,8 @@
 #import <TDAppKit/TDUberView.h>
 #import "TDUberViewSplitView.h"
 
+#define TDUBER_MAX 10000.0
+
 static NSString *const kTDUberViewSplitViewDividerStyleKey = @"TDUberViewSplitViewDividerStyle";
 static NSString *const kTDUberViewIsLeftViewOpenKey = @"TDUberViewIsLeftViewOpen";
 static NSString *const kTDUberViewIsRightViewOpenKey = @"TDUberViewIsRightViewOpen";
@@ -112,7 +114,7 @@ static NSComparisonResult TDHSplitViewSubviewComparatorFunc(id viewA, id viewB, 
         [self addSubview:verticalSplitView];
 
         self.leftSuperview = [[[NSView alloc] initWithFrame:NSZeroRect] autorelease];
-        [leftSuperview setFrame:NSMakeRect(0, 0, preferredLeftSplitWidth, MAXFLOAT)];
+        [leftSuperview setFrame:NSMakeRect(0, 0, preferredLeftSplitWidth, TDUBER_MAX)];
         
         self.horizontalSplitView = [[[TDUberViewSplitView alloc] initWithFrame:NSMakeRect(0, 0, frame.size.width, frame.size.height) uberView:self] autorelease];
         [horizontalSplitView setVertical:NO];
@@ -122,17 +124,17 @@ static NSComparisonResult TDHSplitViewSubviewComparatorFunc(id viewA, id viewB, 
         [verticalSplitView addSubview:horizontalSplitView];
 
         self.rightSuperview = [[[NSView alloc] initWithFrame:NSZeroRect] autorelease];
-        [rightSuperview setFrame:NSMakeRect(NSWidth([verticalSplitView frame]) - preferredLeftSplitWidth - preferredRightSplitWidth, 0, preferredRightSplitWidth, MAXFLOAT)];
+        [rightSuperview setFrame:NSMakeRect(NSWidth([verticalSplitView frame]) - preferredLeftSplitWidth - preferredRightSplitWidth, 0, preferredRightSplitWidth, TDUBER_MAX)];
 
         self.topSuperview = [[[NSView alloc] initWithFrame:NSZeroRect] autorelease];
-        [topSuperview setFrame:NSMakeRect(0, 0, MAXFLOAT, preferredTopSplitHeight)];
+        [topSuperview setFrame:NSMakeRect(0, 0, TDUBER_MAX, preferredTopSplitHeight)];
 
         self.midSuperview = [[[NSView alloc] initWithFrame:NSZeroRect] autorelease];
         [horizontalSplitView addSubview:midSuperview];
-        [midSuperview setFrame:NSMakeRect(0, 0, MAXFLOAT, MAXFLOAT)];
+        [midSuperview setFrame:NSMakeRect(0, 0, TDUBER_MAX, TDUBER_MAX)];
 
         self.bottomSuperview = [[[NSView alloc] initWithFrame:NSZeroRect] autorelease];
-        [bottomSuperview setFrame:NSMakeRect(0, 0, MAXFLOAT, preferredBottomSplitHeight)];
+        [bottomSuperview setFrame:NSMakeRect(0, 0, TDUBER_MAX, preferredBottomSplitHeight)];
 
         [leftSuperview setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
         [rightSuperview setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
@@ -1001,7 +1003,7 @@ static NSComparisonResult TDHSplitViewSubviewComparatorFunc(id viewA, id viewB, 
     
     NSRect bottomFrame = [bottomSuperview frame];
     
-    bottomFrame.size.width = MAXFLOAT;
+    bottomFrame.size.width = TDUBER_MAX;
     bottomFrame.size.height = bottomViewHeight;
     bottomFrame.origin.y = (midFrame.origin.y + midFrame.size.height + dividerThickness);
     [bottomSuperview setFrame:bottomFrame];
