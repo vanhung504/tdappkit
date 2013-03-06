@@ -32,6 +32,7 @@
                   [NSColor blackColor], NSForegroundColorAttributeName,
                   nil];
     
+    self.color = [NSColor colorWithDeviceWhite:0.9 alpha:1.0];
     self.borderColor = [NSColor grayColor];
     self.lineNumberRects = [NSArray arrayWithObject:[NSValue valueWithRect:NSMakeRect(0.0, 0.0, 100.0, 14.0)]];
 }
@@ -59,22 +60,30 @@
 
 
 - (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
+    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
     NSRect bounds = [self bounds];
-    //NSDrawWindowBackground(bounds);
+    
+    CGFloat boundsWidth = bounds.size.width;
     
     [self.color setFill];
     NSRectFill(bounds);
 
     // stroke vert line
     [borderColor set];
-    CGFloat boundsWidth = bounds.size.width;
-    
-    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-    CGPoint p1 = CGPointMake(boundsWidth + 0.0, 0.0);
-    CGPoint p2 = CGPointMake(boundsWidth + 0.0, bounds.size.height);
-    
     CGContextSetLineWidth(ctx, 1.0);
+
+    CGPoint p1 = CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds));
+    CGPoint p2 = CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds));
+    
+    CGContextMoveToPoint(ctx, p1.x, p1.y);
+    CGContextAddLineToPoint(ctx, p2.x, p2.y);
+    CGContextClosePath(ctx);
+    CGContextStrokePath(ctx);
+
+    // stroke horiz top line
+    p1 = CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds));
+    p2 = CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds));
+    
     CGContextMoveToPoint(ctx, p1.x, p1.y);
     CGContextAddLineToPoint(ctx, p2.x, p2.y);
     CGContextClosePath(ctx);
