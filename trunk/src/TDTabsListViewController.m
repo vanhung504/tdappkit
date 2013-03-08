@@ -40,8 +40,10 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 
 - (void)beginEditingTabTitle:(TDTabListItem *)li atIndex:(NSUInteger)i inRect:(NSRect)titleRect;
 - (void)tryInvalidateRestorableState;
+- (void)stopEditing;
 
 @property (nonatomic, retain) TDTabModel *draggingTabModel;
+@property (nonatomic, retain) NSTextField *fieldEditor;
 @end
 
 @implementation TDTabsListViewController
@@ -88,6 +90,9 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:TDTabPboardType, nil]];
     [listView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
     [listView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+    
+    NSAssert([scrollView contentView], @"");
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[scrollView contentView]];
 }
 
 
@@ -380,7 +385,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
     
     NSWindow *win = [li window];
     titleRect = TDNSRectOutset(titleRect, 2.0, 2.0);
-    NSTextField *fieldEditor = [[[NSTextField alloc] initWithFrame:titleRect] autorelease];
+    self.fieldEditor = [[[NSTextField alloc] initWithFrame:titleRect] autorelease];
     
     Class styleClass = [self.listItemStyle class];
     [fieldEditor setFont:[styleClass titleFont]];
@@ -430,10 +435,28 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 
 
 #pragma mark -
+#pragma mark Notifications
+
+- (void)viewBoundsDidChange:(NSNotification *)n {
+    if (self.fieldEditor) {
+        [self stopEditing];
+    }
+}
+
+
+#pragma mark -
 #pragma mark NSTextDelegate
 
 - (void)controlTextDidEndEditing:(NSNotification *)n {
-    NSTextField *fieldEditor = [n object];
+    NSAssert([n object] == self.fieldEditor, @"");
+    [self stopEditing];
+}
+
+
+- (void)stopEditing {
+    if (!fieldEditor) return;
+
+//    NSTextField *fieldEditor = [n object];
     
     TDTabModel *tm = [delegate tabsViewController:self tabModelAtIndex:editingIndex];
 
@@ -444,6 +467,8 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
     tm.title = [fieldEditor stringValue];
     
     [fieldEditor removeFromSuperview];
+    self.fieldEditor = nil;
+    
     [[listView window] endEditingFor:listView];
     [self tryInvalidateRestorableState];
 }
@@ -475,4 +500,5 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 @synthesize allowsTabTitleEditing;
 @synthesize listItemStyle;
 @synthesize draggingTabModel;
+@synthesize fieldEditor;
 @end

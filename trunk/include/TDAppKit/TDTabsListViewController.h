@@ -31,6 +31,8 @@
     TDTabListItemStyle *listItemStyle;
     NSUInteger editingIndex;
     TDTabModel *draggingTabModel;
+    
+    NSTextField *fieldEditor;
 }
 
 - (IBAction)closeTabButtonClick:(id)sender;
