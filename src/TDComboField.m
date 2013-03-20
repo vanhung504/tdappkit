@@ -63,7 +63,8 @@
 - (void)awakeFromNib {
     self.buttons = [NSMutableArray array];
     
-    self.progressImage = [NSImage imageNamed:@"combo_field_progress_indicator"]; //[NSImage imageNamed:@"combo_field_progress_indicator" inBundleForClass:[TDComboField class]];
+    NSImage *img = [NSImage imageNamed:@"location_field_progress_indicator_rounded"];
+    self.progressImage = img; //[NSImage imageNamed:@"combo_field_progress_indicator" inBundleForClass:[TDComboField class]];
 
     self.font = [NSFont controlContentFontOfSize:12.0];
 }
@@ -93,20 +94,27 @@
         y = bounds.origin.y + 2.0;
     }
     
-    NSSize pSize = NSMakeSize(size.width * progress, size.height);
-    NSRect pRect = NSMakeRect(bounds.origin.x + 1.0,
-                              y,
-                              pSize.width - 2.0,
-                              pSize.height - 2.0);
-    
-    NSRect imageRect = NSZeroRect;
-    imageRect.size = [progressImage size];
-    imageRect.origin = NSZeroPoint;
-    
-    [progressImage drawInRect:pRect
-                     fromRect:imageRect 
-                    operation:NSCompositePlusDarker
-                     fraction:1];
+    if (progress > 0.1) {
+        NSSize pSize = NSMakeSize(size.width * progress, size.height);
+        NSRect pRect = NSMakeRect(bounds.origin.x + 1.0,
+                                  y,
+                                  pSize.width - 2.0,
+                                  pSize.height - 2.0);
+        
+        NSRect imageRect = NSZeroRect;
+        imageRect.size = [progressImage size];
+        imageRect.origin = NSZeroPoint;
+        
+        [progressImage drawStretchableInRect:pRect
+                                  edgeInsets:TDEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)
+                                   operation:NSCompositePlusDarker
+                                    fraction:1.0];
+        
+        //    [progressImage drawInRect:pRect
+        //                     fromRect:imageRect
+        //                    operation:NSCompositePlusDarker
+        //                     fraction:1.0];
+    }
     
     NSRect cellRect = [[self cell] drawingRectForBounds:bounds];
     cellRect.origin.x -= 2.0;

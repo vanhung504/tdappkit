@@ -284,6 +284,7 @@
 		D392B08B1179594400823791 /* TDShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDShadowView.m; path = src/TDShadowView.m; sourceTree = "<group>"; };
 		D3A356B811DFFB2A00EFEE29 /* TDClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDClipView.h; path = src/TDClipView.h; sourceTree = "<group>"; };
 		D3A356B911DFFB2A00EFEE29 /* TDClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDClipView.m; path = src/TDClipView.m; sourceTree = "<group>"; };
+		D3AB30BA16FA26D000AB7404 /* combo_field_progress_indicator_rounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = combo_field_progress_indicator_rounded.png; path = res/img/combo_field_progress_indicator_rounded.png; sourceTree = "<group>"; };
 		D3C913FF11BD9742002A95CF /* TDComboFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDComboFieldCell.h; path = src/TDComboFieldCell.h; sourceTree = "<group>"; };
 		D3C9140011BD9742002A95CF /* TDComboFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDComboFieldCell.m; path = src/TDComboFieldCell.m; sourceTree = "<group>"; };
 		D3D8023C111E2D810025650C /* NSURLRequest+TDAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+TDAdditions.m"; path = "src/NSURLRequest+TDAdditions.m"; sourceTree = "<group>"; };
@@ -673,6 +674,7 @@
 				D38F3E8F128B9D8300DC5FDB /* close_button_pressed.tif */,
 				D38F3E90128B9D8300DC5FDB /* close_button.tif */,
 				D38F3E91128B9D8300DC5FDB /* combo_field_progress_indicator.png */,
+				D3AB30BA16FA26D000AB7404 /* combo_field_progress_indicator_rounded.png */,
 				D38F3E92128B9D8300DC5FDB /* progress_indicator.png */,
 			);
 			name = img;
