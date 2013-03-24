@@ -20,6 +20,8 @@
 #define TDFloorAlign(x) (floor((x)) + 0.5)
 #define TDCeilAlign(x) (ceil((x)) + 0.5)
 
+#define TD_BIG_FLOAT 1000000.0
+
 void TDPerformOnMainThread(void (^block)(void));
 void TDPerformOnBackgroundThread(void (^block)(void));
 void TDPerformOnMainThreadAfterDelay(double delay, void (^block)(void));

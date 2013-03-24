@@ -66,7 +66,7 @@ static NSDictionary *sHintAttrs = nil;
     CGFloat w = bounds.size.width - HINT_MARGIN_X * 2 - HINT_PADDING_X * 2;
     w = w < HINT_MIN_WIDTH ? HINT_MIN_WIDTH : w;
     
-    NSRect strRect = [hintText boundingRectWithSize:NSMakeSize(w, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:sHintAttrs];
+    NSRect strRect = [hintText boundingRectWithSize:NSMakeSize(w, TD_BIG_FLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:sHintAttrs];
 
     CGFloat h = strRect.size.height;
     CGFloat x = HINT_MARGIN_X + HINT_PADDING_X;
