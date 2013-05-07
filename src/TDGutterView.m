@@ -81,13 +81,13 @@
     CGContextStrokePath(ctx);
 
     // stroke horiz top line
-    p1 = CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds));
-    p2 = CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds));
-    
-    CGContextMoveToPoint(ctx, p1.x, p1.y);
-    CGContextAddLineToPoint(ctx, p2.x, p2.y);
-    CGContextClosePath(ctx);
-    CGContextStrokePath(ctx);
+//    p1 = CGPointMake(CGRectGetMinX(bounds), CGRectGetMinY(bounds));
+//    p2 = CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds));
+//    
+//    CGContextMoveToPoint(ctx, p1.x, p1.y);
+//    CGContextAddLineToPoint(ctx, p2.x, p2.y);
+//    CGContextClosePath(ctx);
+//    CGContextStrokePath(ctx);
     
 //    NSPoint p1 = NSMakePoint(boundsWidth, 0);
 //    NSPoint p2 = NSMakePoint(boundsWidth, bounds.size.height);
