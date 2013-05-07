@@ -320,7 +320,7 @@
         // clear auto-completed text
         NSRange r = [[self currentEditor] selectedRange];
         NSString *s = [[self stringValue] substringToIndex:r.location];
-        [self setStringValue:s];
+        if (s) [self setStringValue:s];
     } else {
         id delegate = [self delegate];
         if (delegate && [delegate respondsToSelector:@selector(comboFieldDidEscape:)]) {
