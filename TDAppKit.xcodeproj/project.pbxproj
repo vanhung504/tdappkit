@@ -14,6 +14,8 @@
 		D30121C816324AEA002E2EAB /* TDViewControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D30121C716324AEA002E2EAB /* TDViewControllerView.m */; };
 		D30121CE16324BA9002E2EAB /* TDView.h in Headers */ = {isa = PBXBuildFile; fileRef = D30121CD16324BA8002E2EAB /* TDView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D30121D016324BB1002E2EAB /* TDView.m in Sources */ = {isa = PBXBuildFile; fileRef = D30121CF16324BB1002E2EAB /* TDView.m */; };
+		D30713A317594AD5000B5C0F /* TDSemaphore.h in Headers */ = {isa = PBXBuildFile; fileRef = D30713A217594AD5000B5C0F /* TDSemaphore.h */; };
+		D30713A517594ADE000B5C0F /* TDSemaphore.m in Sources */ = {isa = PBXBuildFile; fileRef = D30713A417594ADE000B5C0F /* TDSemaphore.m */; };
 		D30FD7F611C1B5E3005A2437 /* TDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* TDAppKit.framework */; };
 		D3106ECE126F41AC00F9E37D /* TDFlippedColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3106ECC126F41AC00F9E37D /* TDFlippedColorView.m */; };
 		D3106ED0126F421B00F9E37D /* TDFlippedColorView.h in Headers */ = {isa = PBXBuildFile; fileRef = D3106ECF126F421B00F9E37D /* TDFlippedColorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -183,6 +185,8 @@
 		D30121C716324AEA002E2EAB /* TDViewControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDViewControllerView.m; path = src/TDViewControllerView.m; sourceTree = "<group>"; };
 		D30121CD16324BA8002E2EAB /* TDView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDView.h; path = include/TDAppKit/TDView.h; sourceTree = "<group>"; };
 		D30121CF16324BB1002E2EAB /* TDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDView.m; path = src/TDView.m; sourceTree = "<group>"; };
+		D30713A217594AD5000B5C0F /* TDSemaphore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDSemaphore.h; path = include/TDAppKit/TDSemaphore.h; sourceTree = "<group>"; };
+		D30713A417594ADE000B5C0F /* TDSemaphore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDSemaphore.m; path = src/TDSemaphore.m; sourceTree = "<group>"; };
 		D3106ECC126F41AC00F9E37D /* TDFlippedColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDFlippedColorView.m; path = src/TDFlippedColorView.m; sourceTree = "<group>"; };
 		D3106ECF126F421B00F9E37D /* TDFlippedColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDFlippedColorView.h; path = include/TDAppKit/TDFlippedColorView.h; sourceTree = "<group>"; };
 		D318A04C10F8570E00B6AA21 /* TDGutterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDGutterView.h; path = include/TDAppKit/TDGutterView.h; sourceTree = "<group>"; };
@@ -416,6 +420,8 @@
 				D31CC02310EFC6BB0013347D /* TDAppKit.h */,
 				D3EB2341110163F700633715 /* TDUtils.h */,
 				D3EB2342110163F700633715 /* TDUtils.m */,
+				D30713A217594AD5000B5C0F /* TDSemaphore.h */,
+				D30713A417594ADE000B5C0F /* TDSemaphore.m */,
 				D38F3D21128B8B9400DC5FDB /* ViewController */,
 				D36A360F128B245200AB56C9 /* TabbedDocumentApp */,
 				D36E1E8C11702E2700110DBA /* ComboField */,
@@ -808,6 +814,7 @@
 				D30121CE16324BA9002E2EAB /* TDView.h in Headers */,
 				D300984B1656FC77009D25D8 /* TDStatusBarPopUpView.h in Headers */,
 				D32F3D9C166020BF00EF8284 /* TDStatusBarButton.h in Headers */,
+				D30713A317594AD5000B5C0F /* TDSemaphore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -998,6 +1005,7 @@
 				D30121D016324BB1002E2EAB /* TDView.m in Sources */,
 				D30098491656FB7E009D25D8 /* TDStatusBarPopUpView.m in Sources */,
 				D32F3D9A166020AD00EF8284 /* TDStatusBarButton.m in Sources */,
+				D30713A517594ADE000B5C0F /* TDSemaphore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
