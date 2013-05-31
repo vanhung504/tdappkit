@@ -100,12 +100,14 @@
 #pragma mark Private
 
 - (void)lock {
+    TDAssertNotLocked();
     [_plock lock];
     self.locked = YES;
 }
 
 
 - (void)unlock {
+    TDAssertLocked();
     self.locked = NO;
     [_plock unlock];
 }
