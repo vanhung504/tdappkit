@@ -24,7 +24,7 @@
 - (void)signal;
 
 @property (assign) NSInteger value;
-@property (retain) NSRecursiveLock *rlock;
+@property (retain) NSLock *plock;
 @property (retain) NSCondition *condition;
 @property (assign) BOOL locked;
 @end
@@ -36,7 +36,7 @@
     self = [super init];
     if (self) {
         self.value = value;
-        self.rlock = [[[NSRecursiveLock alloc] init] autorelease];
+        self.plock = [[[NSLock alloc] init] autorelease];
         self.condition = [[[NSCondition alloc] init] autorelease];
     }
     return self;
@@ -44,7 +44,7 @@
 
 
 - (void)dealloc {
-    self.rlock = nil;
+    self.plock = nil;
     self.condition = nil;
     [super dealloc];
 }
@@ -100,14 +100,14 @@
 #pragma mark Private
 
 - (void)lock {
-    [_rlock lock];
+    [_plock lock];
     self.locked = YES;
 }
 
 
 - (void)unlock {
     self.locked = NO;
-    [_rlock unlock];
+    [_plock unlock];
 }
 
 
