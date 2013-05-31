@@ -70,17 +70,10 @@
 
 
 - (void)take {
-    [self lock];
-    [self decrement];
-    
-    while (![self available]) {
-        [self unlock];
+    while (![self attempt]) {
         // race condition here
         [self wait];
-        [self lock];
     }
-    
-    [self unlock];
 }
 
 
