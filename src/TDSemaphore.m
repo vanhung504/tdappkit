@@ -24,7 +24,7 @@
 - (void)signal;
 
 @property (assign) NSInteger value;
-@property (retain) NSLock *plock;
+@property (retain) NSLock *vlock;
 @property (retain) NSCondition *condition;
 @property (assign) BOOL locked;
 @end
@@ -36,7 +36,7 @@
     self = [super init];
     if (self) {
         self.value = value;
-        self.plock = [[[NSLock alloc] init] autorelease];
+        self.vlock = [[[NSLock alloc] init] autorelease];
         self.condition = [[[NSCondition alloc] init] autorelease];
     }
     return self;
@@ -44,7 +44,7 @@
 
 
 - (void)dealloc {
-    self.plock = nil;
+    self.vlock = nil;
     self.condition = nil;
     [super dealloc];
 }
@@ -94,7 +94,7 @@
 
 - (void)lock {
     TDAssertNotLocked();
-    [_plock lock];
+    [_vlock lock];
     self.locked = YES;
 }
 
@@ -102,7 +102,7 @@
 - (void)unlock {
     TDAssertLocked();
     self.locked = NO;
-    [_plock unlock];
+    [_vlock unlock];
 }
 
 
