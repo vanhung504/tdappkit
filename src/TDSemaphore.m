@@ -133,7 +133,7 @@
 
 - (void)wait {
     TDAssertNotLocked();
-    [_condition waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:10.0]]; // 10-sec polling to battle race condition above
+    [_condition wait]; //UntilDate:[NSDate dateWithTimeIntervalSinceNow:10.0]]; // 10-sec polling to battle race condition above
 }
 
 
