@@ -71,7 +71,7 @@
 
 - (void)take {
     while (![self attempt]) {
-        // race condition here
+        // race condition here?
         [self wait];
     }
 }
