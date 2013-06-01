@@ -82,7 +82,7 @@
 }
 
 
-- (void)take {
+- (void)acquire {
     [self lock];
     
     while (![self available]) {
@@ -94,7 +94,7 @@
 }
 
 
-- (void)put {
+- (void)relinquish {
     [self lock];
     [self increment];
 
