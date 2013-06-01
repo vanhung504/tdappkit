@@ -61,6 +61,9 @@
 
 
 - (BOOL)attemptBeforeDate:(NSDate *)limit {
+    NSParameterAssert(limit);
+    NSParameterAssert([self isValidDate:limit]);
+    
     [self lock];
     
     while ([self isValidDate:limit] && ![self available]) {
