@@ -29,7 +29,7 @@
 @implementation TDSemaphore
 
 - (id)initWithValue:(NSInteger)value {
-    NSParameterAssert(value > -1);
+    NSParameterAssert(value >= 0);
     self = [super init];
     if (self) {
         self.value = value;
