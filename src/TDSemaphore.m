@@ -70,21 +70,29 @@
 
 
 - (void)take {
+    NSLog(@"%@ taking", [[NSThread currentThread] name]);
+    
+    [_condition lock];
+    
     while (![self attempt]) {
         // race condition here?
-        [self wait];
+        [_condition wait];
     }
+    
+    [_condition unlock];
 }
 
 
 - (void)put {
+    NSLog(@"%@ putting", [[NSThread currentThread] name]);
+
     [self lock];
     [self increment];
     BOOL available = [self available];
     [self unlock];
     
     if (available) {
-        [self signal];
+        [_condition signal];
     }
 }
 
@@ -126,13 +134,15 @@
 
 - (void)wait {
     TDAssertNotLocked();
-    [_condition wait]; //UntilDate:[NSDate dateWithTimeIntervalSinceNow:10.0]]; // 10-sec polling to battle race condition above
+    [_condition wait];
 }
 
 
 - (void)signal {
     TDAssertNotLocked();
+    [_condition lock];
     [_condition signal];
+    [_condition unlock];
 }
 
 @end
