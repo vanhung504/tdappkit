@@ -8,9 +8,6 @@
 
 #import "TDSemaphore.h"
 
-#define TDAssertLocked() NSAssert1(self.locked , @"%s should be called while locked only.", __PRETTY_FUNCTION__);
-#define TDAssertNotLocked() NSAssert1(!self.locked , @"%s should not be called while locked.", __PRETTY_FUNCTION__);
-
 @interface TDSemaphore ()
 - (void)lock;
 - (void)unlock;
@@ -19,11 +16,10 @@
 - (void)increment;
 
 - (BOOL)available;
+- (void)signal;
 
 @property (assign) NSInteger value;
-@property (retain) NSLock *valueLock;
 @property (retain) NSCondition *condition;
-@property (assign) BOOL locked;
 @end
 
 @implementation TDSemaphore
@@ -33,7 +29,6 @@
     self = [super init];
     if (self) {
         self.value = value;
-        self.valueLock = [[[NSLock alloc] init] autorelease];
         self.condition = [[[NSCondition alloc] init] autorelease];
     }
     return self;
@@ -41,7 +36,6 @@
 
 
 - (void)dealloc {
-    self.valueLock = nil;
     self.condition = nil;
     [super dealloc];
 }
@@ -52,30 +46,30 @@
 
 - (BOOL)attempt {
     [self lock];
-    [self decrement];
     
-    BOOL available = [self available];
+    BOOL success = [self available];
     
-    if (!available) {
-        [self increment];
+    if (success) {
+        [self decrement];
     }
     
     [self unlock];
 
-    return available;
+    return success;
 }
 
 
 - (void)take {
     //NSLog(@"%@ taking", [[NSThread currentThread] name]);
     
-    [_condition lock];
+    [self lock];
     
-    while (![self attempt]) {
+    while (![self available]) {
         [_condition wait];
     }
     
-    [_condition unlock];
+    [self decrement];
+    [self unlock];
 }
 
 
@@ -84,14 +78,12 @@
 
     [self lock];
     [self increment];
-    BOOL available = [self available];
-    [self unlock];
-    
-    if (available) {
-        [_condition lock];
-        [_condition signal];
-        [_condition unlock];
+
+    if ([self available]) {
+        [self signal];
     }
+    
+    [self unlock];
 }
 
 
@@ -99,34 +91,37 @@
 #pragma mark Private
 
 - (void)lock {
-    TDAssertNotLocked();
-    [_valueLock lock];
-    self.locked = YES;
+    [_condition lock];
 }
 
 
 - (void)unlock {
-    TDAssertLocked();
-    self.locked = NO;
-    [_valueLock unlock];
+    [_condition unlock];
 }
 
 
 - (void)decrement {
-    TDAssertLocked();
     self.value--;
 }
 
 
 - (void)increment {
-    TDAssertLocked();
     self.value++;
 }
 
 
 - (BOOL)available {
-    TDAssertLocked();
-    return _value >= 0;
+    return _value > 0;
+}
+
+
+- (void)wait {
+    [_condition wait];
+}
+
+
+- (void)signal {
+    [_condition signal];
 }
 
 @end
