@@ -12,8 +12,8 @@
 
 - (id)initWithValue:(NSInteger)value;
 
-- (BOOL)attempt;
-- (BOOL)attemptBeforeDate:(NSDate *)limit;
-- (void)take;
-- (void)put;
+- (BOOL)attempt; // returns success
+- (BOOL)attemptBeforeDate:(NSDate *)limit; // returns success. can block up to limit
+- (void)take; // blocks forever
+- (void)put; // can block briefly, but never for long. essentially returns immediately.
 @end
