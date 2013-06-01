@@ -18,6 +18,8 @@
 - (BOOL)available;
 - (void)signal;
 
+- (BOOL)isValidDate:(NSDate *)limit;
+
 @property (assign) NSInteger value;
 @property (retain) NSCondition *condition;
 @end
@@ -25,7 +27,6 @@
 @implementation TDSemaphore
 
 - (id)initWithValue:(NSInteger)value {
-    NSParameterAssert(value >= 0);
     self = [super init];
     if (self) {
         self.value = value;
