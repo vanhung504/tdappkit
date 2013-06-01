@@ -20,9 +20,9 @@
     NSUInteger count = [self length];
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:count];
     
-    NSUInteger i = 0;
-    for ( ; i < count; i++) {
-        [result addObject:[self item:i]];
+    for (NSUInteger i = 0; i < count; i++) {
+        DOMNode *el = [self item:i];
+        if (el) [result addObject:el];
     }
     
     return result;
