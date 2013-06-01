@@ -76,7 +76,7 @@
     
     while (![self attempt]) {
         // race condition here?
-        [_condition wait];
+        [self wait];
     }
     
     [_condition unlock];
@@ -92,7 +92,7 @@
     [self unlock];
     
     if (available) {
-        [_condition signal];
+        [self signal];
     }
 }
 
