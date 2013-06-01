@@ -13,6 +13,7 @@
 - (id)initWithValue:(NSInteger)value;
 
 - (BOOL)attempt;
+- (BOOL)attemptBeforeDate:(NSDate *)limit;
 - (void)take;
 - (void)put;
 @end
