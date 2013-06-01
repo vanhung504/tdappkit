@@ -20,11 +20,8 @@
 
 - (BOOL)available;
 
-- (void)wait;
-- (void)signal;
-
 @property (assign) NSInteger value;
-@property (retain) NSLock *vlock;
+@property (retain) NSLock *valueLock;
 @property (retain) NSCondition *condition;
 @property (assign) BOOL locked;
 @end
@@ -36,7 +33,7 @@
     self = [super init];
     if (self) {
         self.value = value;
-        self.vlock = [[[NSLock alloc] init] autorelease];
+        self.valueLock = [[[NSLock alloc] init] autorelease];
         self.condition = [[[NSCondition alloc] init] autorelease];
     }
     return self;
@@ -44,7 +41,7 @@
 
 
 - (void)dealloc {
-    self.vlock = nil;
+    self.valueLock = nil;
     self.condition = nil;
     [super dealloc];
 }
@@ -70,13 +67,12 @@
 
 
 - (void)take {
-    NSLog(@"%@ taking", [[NSThread currentThread] name]);
+    //NSLog(@"%@ taking", [[NSThread currentThread] name]);
     
     [_condition lock];
     
     while (![self attempt]) {
-        // race condition here?
-        [self wait];
+        [_condition wait];
     }
     
     [_condition unlock];
@@ -84,7 +80,7 @@
 
 
 - (void)put {
-    NSLog(@"%@ putting", [[NSThread currentThread] name]);
+    //NSLog(@"%@ putting", [[NSThread currentThread] name]);
 
     [self lock];
     [self increment];
@@ -92,7 +88,9 @@
     [self unlock];
     
     if (available) {
-        [self signal];
+        [_condition lock];
+        [_condition signal];
+        [_condition unlock];
     }
 }
 
@@ -102,7 +100,7 @@
 
 - (void)lock {
     TDAssertNotLocked();
-    [_vlock lock];
+    [_valueLock lock];
     self.locked = YES;
 }
 
@@ -110,7 +108,7 @@
 - (void)unlock {
     TDAssertLocked();
     self.locked = NO;
-    [_vlock unlock];
+    [_valueLock unlock];
 }
 
 
@@ -129,20 +127,6 @@
 - (BOOL)available {
     TDAssertLocked();
     return _value >= 0;
-}
-
-
-- (void)wait {
-    TDAssertNotLocked();
-    [_condition wait];
-}
-
-
-- (void)signal {
-    TDAssertNotLocked();
-    [_condition lock];
-    [_condition signal];
-    [_condition unlock];
 }
 
 @end
