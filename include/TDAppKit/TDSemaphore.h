@@ -13,7 +13,7 @@
 - (void)relinquish;
 @end
 
-@interface TDSemaphore : NSObject
+@interface TDSemaphore : NSObject <TDLocking>
 
 - (id)initWithValue:(NSInteger)value;
 
