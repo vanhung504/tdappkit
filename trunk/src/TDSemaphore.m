@@ -59,6 +59,25 @@
 }
 
 
+- (BOOL)attemptBeforeDate:(NSDate *)limit {
+    [self lock];
+    
+    while ([self isValidDate:limit] && ![self available]) {
+        [_condition waitUntilDate:limit];
+    }
+    
+    BOOL success = [self available];
+    
+    if (success) {
+        [self decrement];
+    }
+
+    [self unlock];
+    
+    return success;
+}
+
+
 - (void)take {
     [self lock];
     
@@ -118,6 +137,11 @@
 
 - (void)signal {
     [_condition signal];
+}
+
+
+- (BOOL)isValidDate:(NSDate *)limit {
+    return [limit timeIntervalSinceNow] > 0.0;
 }
 
 @end
