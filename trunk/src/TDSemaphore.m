@@ -46,7 +46,17 @@
 #pragma mark Public
 
 - (BOOL)attempt {
-    return [self attemptBeforeDate:nil];
+    [self lock];
+    
+    BOOL success = [self available];
+    
+    if (success) {
+        [self decrement];
+    }
+    
+    [self unlock];
+
+    return success;
 }
 
 
@@ -132,7 +142,7 @@
 
 
 - (BOOL)isValidDate:(NSDate *)limit {
-    return limit && [limit timeIntervalSinceNow] > 0.0;
+    return [limit timeIntervalSinceNow] > 0.0;
 }
 
 @end
