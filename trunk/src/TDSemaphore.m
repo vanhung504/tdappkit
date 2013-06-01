@@ -60,8 +60,6 @@
 
 
 - (void)take {
-    //NSLog(@"%@ taking", [[NSThread currentThread] name]);
-    
     [self lock];
     
     while (![self available]) {
@@ -74,8 +72,6 @@
 
 
 - (void)put {
-    //NSLog(@"%@ putting", [[NSThread currentThread] name]);
-
     [self lock];
     [self increment];
 
