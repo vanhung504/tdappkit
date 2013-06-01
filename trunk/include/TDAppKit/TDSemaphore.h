@@ -8,12 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol TDLocking <NSObject>
+- (void)acquire;
+- (void)relinquish;
+@end
+
 @interface TDSemaphore : NSObject
 
 - (id)initWithValue:(NSInteger)value;
 
 - (BOOL)attempt; // returns success immediately
 - (BOOL)attemptBeforeDate:(NSDate *)limit; // returns success. can block up to limit
-- (void)take; // blocks forever
-- (void)put; // returns immediately
+
+- (void)acquire; // blocks forever
+- (void)relinquish; // returns immediately
 @end
