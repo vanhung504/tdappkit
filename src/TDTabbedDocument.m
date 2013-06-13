@@ -138,9 +138,9 @@ static NSMutableDictionary *sDocuments = nil;
 #pragma mark -
 #pragma mark NSDocument
 
-- (void)makeWindowControllers {
-
-}
+//- (void)makeWindowControllers {
+//
+//}
 
 
 - (void)tabListViewWasSetUp:(TDTabbedWindowController *)wc {
