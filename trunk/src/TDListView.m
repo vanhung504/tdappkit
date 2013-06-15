@@ -91,6 +91,9 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
     self.dataSource = nil;
     self.delegate = nil;
     self.backgroundColor = nil;
+    self.nonMainBackgroundColor = nil;
+    self.backgroundGradient = nil;
+    self.nonMainBackgroundGradient = nil;
     self.items = nil;
     self.unusedItems = nil;
     self.queue = nil;
@@ -103,9 +106,12 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 }
 
 
-//- (void)awakeFromNib {
-//
-//}
+- (void)awakeFromNib {
+    //NSAssert([self window], @"");
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidBecomeMainNotification object:[self window]];
+    [nc addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidResignMainNotification object:[self window]];
+}
 
 
 - (void)setUp {
@@ -123,7 +129,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
     self.displaysClippedItems = YES;
     
     [self setDraggingSourceOperationMask:NSDragOperationEvery forLocal:YES];
-    [self setDraggingSourceOperationMask:NSDragOperationNone forLocal:NO];    
+    [self setDraggingSourceOperationMask:NSDragOperationNone forLocal:NO];
 }
 
 
@@ -286,11 +292,16 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 #pragma mark Notifications
 
 - (void)viewBoundsChanged:(NSNotification *)n {
-    // if this returns false, the view hierarchy is being torn down. 
+    // if this returns false, the view hierarchy is being torn down.
     // don't try to layout in that case cuz it crashes on Leopard
     if ([[n object] superview] && dataSource) {
         [self layoutItems];
     }
+}
+
+
+- (void)windowDidBecomeMain:(NSNotification *)n {
+    [self setNeedsDisplay:YES];
 }
 
 
@@ -327,9 +338,24 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 
 
 - (void)drawRect:(NSRect)dirtyRect {
-    [self.backgroundColor set];
-//    NSRectFill(dirtyRect);
-    NSRectFill([self bounds]);
+    NSRect bounds = [self bounds];
+    
+    BOOL isMain = [[self window] isMainWindow];
+    if (isMain) {
+        if (backgroundGradient) {
+            [backgroundGradient drawInRect:bounds angle:90.0];
+        } else {
+            [backgroundColor set];
+            NSRectFill(bounds);
+        }
+    } else {
+        if (nonMainBackgroundGradient) {
+            [nonMainBackgroundGradient drawInRect:bounds angle:90.0];
+        } else {
+            [nonMainBackgroundColor set];
+            NSRectFill(bounds);
+        }
+    }
 }
 
 
@@ -1177,6 +1203,9 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 @synthesize dataSource;
 @synthesize delegate;
 @synthesize backgroundColor;
+@synthesize nonMainBackgroundColor;
+@synthesize backgroundGradient;
+@synthesize nonMainBackgroundGradient;
 @synthesize itemExtent;
 @synthesize itemMargin;
 @synthesize selectionIndexes;

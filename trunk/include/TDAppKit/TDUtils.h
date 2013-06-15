@@ -22,6 +22,8 @@
 
 #define TD_BIG_FLOAT 1000000.0
 
+NSColor *TDNSColorFromHex(NSUInteger x);
+
 void TDPerformOnMainThread(void (^block)(void));
 void TDPerformOnBackgroundThread(void (^block)(void));
 void TDPerformOnMainThreadAfterDelay(double delay, void (^block)(void));
