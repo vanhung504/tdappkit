@@ -36,6 +36,9 @@ extern NSString *const TDListItemPboardType;
     id <TDListViewDataSource>dataSource;
     id <TDListViewDelegate>delegate;
     NSColor *backgroundColor;
+    NSColor *nonMainBackgroundColor;
+    NSGradient *backgroundGradient;
+    NSGradient *nonMainBackgroundGradient;
     CGFloat itemExtent;
     CGFloat itemMargin;
     NSIndexSet *selectionIndexes;
@@ -98,6 +101,9 @@ extern NSString *const TDListItemPboardType;
 @property (nonatomic, assign) IBOutlet id <TDListViewDataSource>dataSource;
 @property (nonatomic, assign) IBOutlet id <TDListViewDelegate>delegate;
 @property (nonatomic, retain) NSColor *backgroundColor;
+@property (nonatomic, retain) NSColor *nonMainBackgroundColor;
+@property (nonatomic, retain) NSGradient *backgroundGradient;
+@property (nonatomic, retain) NSGradient *nonMainBackgroundGradient;
 @property (nonatomic, assign) CGFloat itemExtent; // height if isPortrait. width if isLandscape
 @property (nonatomic, assign) CGFloat itemMargin; // height if isPortrait. width if isLandscape
 @property (nonatomic, copy) NSIndexSet *selectionIndexes;

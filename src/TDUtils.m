@@ -17,6 +17,14 @@
 #import <QuartzCore/QuartzCore.h>
 #include <sys/utsname.h>
 
+NSColor *TDNSColorFromHex(NSUInteger x) {
+    NSUInteger red   = ((x & 0xFF0000) >> 16);
+    NSUInteger green = ((x & 0x00FF00) >>  8);
+    NSUInteger blue  = ((x & 0x0000FF) >>  0);
+    
+    return [NSColor colorWithDeviceRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1.0];
+}
+
 void TDPerformOnMainThread(void (^block)(void)) {
     //assert(block);
     dispatch_sync(dispatch_get_main_queue(), block);
