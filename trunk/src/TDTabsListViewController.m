@@ -73,6 +73,8 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
 #ifndef NDEBUG
     NSLog(@"%s %@", __PRETTY_FUNCTION__, self);
 #endif
@@ -101,8 +103,9 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
     [_listView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
     [_listView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
     
-    NSAssert([_scrollView contentView], @"");
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[_scrollView contentView]];
+    TDAssert([_scrollView contentView]);
+    [[_scrollView contentView] setPostsFrameChangedNotifications:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:[_scrollView contentView]];
 }
 
 
@@ -457,7 +460,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 #pragma mark -
 #pragma mark Notifications
 
-- (void)viewBoundsDidChange:(NSNotification *)n {
+- (void)viewFrameDidChange:(NSNotification *)n {
     if (_fieldEditor) {
         [self stopEditing];
     }
