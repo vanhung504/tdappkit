@@ -111,9 +111,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 
 - (void)awakeFromNib {
     //NSAssert([self window], @"");
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidBecomeMainNotification object:[self window]];
-    [nc addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidResignMainNotification object:[self window]];
+
 }
 
 
@@ -299,6 +297,16 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
     // don't try to layout in that case cuz it crashes on Leopard
     if ([[n object] superview] && dataSource) {
         [self layoutItems];
+    }
+}
+
+
+- (void)viewDidMoveToWindow {
+    NSWindow *win = [self window];
+    if (win) {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidBecomeMainNotification object:win];
+        [nc addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidResignMainNotification object:win];
     }
 }
 

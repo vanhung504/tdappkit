@@ -32,10 +32,6 @@
 
 
 - (void)awakeFromNib {
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidBecomeMainNotification object:[self window]];
-    [nc addObserver:self selector:@selector(windowDidResignMain:) name:NSWindowDidResignMainNotification object:[self window]];
-    
     NSColor *bgColor = [NSColor colorWithDeviceWhite:0.77 alpha:1.0];
     self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:0.7] endingColor:bgColor] autorelease];
     bgColor = [NSColor colorWithDeviceWhite:0.93 alpha:1.0];
@@ -51,6 +47,16 @@
 
 - (BOOL)shouldDrawTopBorder {
     return YES;
+}
+
+
+- (void)viewDidMoveToWindow {
+    NSWindow *win = [self window];
+    if (win) {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidBecomeMainNotification object:win];
+        [nc addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidResignMainNotification object:win];
+    }
 }
 
 
