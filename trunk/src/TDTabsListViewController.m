@@ -44,6 +44,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 
 @property (nonatomic, retain) TDTabModel *draggingTabModel;
 @property (nonatomic, retain) NSTextField *fieldEditor;
+@property (nonatomic, assign) NSUInteger editingIndex;
 @end
 
 @implementation TDTabsListViewController
@@ -72,27 +73,36 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 
 
 - (void)dealloc {
+#ifndef NDEBUG
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, self);
+#endif
+
     self.scrollView = nil;
     self.listView = nil;
+    self.overflowButtonContainerView = nil;
     self.draggingTabModel = nil;
     self.listItemStyle = nil;
+    self.fieldEditor = nil;
     [super dealloc];
 }
 
 
 - (void)viewDidLoad {    
+    TDAssert(_delegate);
+    TDAssert(_listView);
+
     // setup ui
-    listView.backgroundColor = [NSColor colorWithDeviceWhite:0.9 alpha:1.0];
-    listView.orientation = TDListViewOrientationLandscape;
-    listView.displaysClippedItems = YES;
+    _listView.backgroundColor = [NSColor colorWithDeviceWhite:0.9 alpha:1.0];
+    _listView.orientation = TDListViewOrientationLandscape;
+    _listView.displaysClippedItems = YES;
 
     // setup drag and drop
-    [listView registerForDraggedTypes:[NSArray arrayWithObjects:TDTabPboardType, nil]];
-    [listView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
-    [listView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+    [_listView registerForDraggedTypes:[NSArray arrayWithObjects:TDTabPboardType, nil]];
+    [_listView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
+    [_listView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
     
-    NSAssert([scrollView contentView], @"");
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[scrollView contentView]];
+    NSAssert([_scrollView contentView], @"");
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[_scrollView contentView]];
 }
 
 
@@ -100,8 +110,10 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 #pragma mark Actions
 
 - (IBAction)closeTabButtonClick:(id)sender {
-    [delegate tabsViewController:self didCloseTabModelAtIndex:[sender tag]];
-    //[listView reloadData];
+    TDAssert(_delegate);
+
+    [_delegate tabsViewController:self didCloseTabModelAtIndex:[sender tag]];
+    //[_listView reloadData];
 }
 
 
@@ -109,21 +121,29 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 #pragma mark TDListViewDataSource
 
 - (NSUInteger)numberOfItemsInListView:(TDListView *)lv {
-    NSUInteger c = [delegate numberOfTabsInTabsViewController:self];
+    TDAssert(_delegate);
+    
+    NSUInteger c = [_delegate numberOfTabsInTabsViewController:self];
+    //NSLog(@"%lu", c);
     return c;
 }
 
 
 - (TDListItem *)listView:(TDListView *)lv itemAtIndex:(NSUInteger)i {
-    TDTabModel *tm = [delegate tabsViewController:self tabModelAtIndex:i];
+    TDAssert(_delegate);
+    TDAssert(_listView);
+
+    TDTabModel *tm = [_delegate tabsViewController:self tabModelAtIndex:i];
     tm.index = i;
     
-    TDTabListItem *listItem = (TDTabListItem *)[listView dequeueReusableItemWithIdentifier:[TDTabListItem reuseIdentifier]];
+    TDTabListItem *listItem = (TDTabListItem *)[_listView dequeueReusableItemWithIdentifier:[TDTabListItem reuseIdentifier]];
     
     if (!listItem) {
         listItem = [[[TDTabListItem alloc] init] autorelease];
     }
     
+    TDAssert(listItem);
+
     listItem.tabModel = tm;
     listItem.tabsListViewController = self;
     
@@ -136,10 +156,10 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 #pragma mark TDListViewDelegate
 
 - (CGFloat)listView:(TDListView *)lv extentForItemAtIndex:(NSUInteger)i {
-    NSSize scrollSize = [scrollView frame].size;
-    BOOL isPortrait = listView.isPortrait;
+    NSSize scrollSize = [_scrollView frame].size;
+    BOOL isPortrait = _listView.isPortrait;
 
-    Class styleClass = [self.listItemStyle class];
+    Class styleClass = [_listItemStyle class];
     CGFloat extent = [styleClass tabItemExtentForScrollSize:scrollSize isPortrait:isPortrait];
     return extent;
 }
@@ -158,24 +178,24 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 //        [[lv window] makeFirstResponder:nil];
 //    }
 
-    [delegate tabsViewController:self didSelectTabModelAtIndex:[set firstIndex]];
+    [_delegate tabsViewController:self didSelectTabModelAtIndex:[set firstIndex]];
 }
 
 
 - (void)listViewEmptyAreaWasDoubleClicked:(TDListView *)lv {
-    [delegate tabsViewControllerWantsNewTab:self];
+    [_delegate tabsViewControllerWantsNewTab:self];
 }
 
 
 - (NSMenu *)listView:(TDListView *)lv contextMenuForItemsAtIndexes:(NSIndexSet *)set {
     NSUInteger i = [set firstIndex];
-    NSMenu *menu = [delegate tabsViewController:self contextMenuForTabModelAtIndex:i];
+    NSMenu *menu = [_delegate tabsViewController:self contextMenuForTabModelAtIndex:i];
     return menu;
 }
 
 
 - (void)listView:(TDListView *)lv itemWasDoubleClickedAtIndex:(NSUInteger)i {
-    if (!allowsTabTitleEditing) return;
+    if (!_allowsTabTitleEditing) return;
     
     NSEvent *evt = [[lv window] currentEvent];
     NSPoint p = [evt locationInWindow];
@@ -217,7 +237,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
     [pboard declareTypes:[NSArray arrayWithObjects:TDTabPboardType, TDListItemPboardType, nil] owner:self];
 
     // write
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:draggingTabModel];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_draggingTabModel];
     NSDictionary *plist = [NSDictionary dictionaryWithObjectsAndKeys:
                            data, TAB_MODEL_KEY,
                            [NSNumber numberWithInteger:i], TAB_MODEL_INDEX_KEY,
@@ -257,7 +277,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
         return NO;
     }
         
-    BOOL isLocal = (nil != draggingTabModel);
+    BOOL isLocal = (nil != _draggingTabModel);
 
     NSDictionary *plist = [pboard propertyListForType:TDTabPboardType];
     
@@ -266,7 +286,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
     NSUInteger oldIndex = NSNotFound;
     if (isLocal) {
         oldDoc = newDoc;
-        tm = draggingTabModel;
+        tm = _draggingTabModel;
 
         self.draggingTabModel = nil;
 
@@ -296,15 +316,15 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
     
 //    NSUInteger i = [set firstIndex];
 //    
-//    if (!draggingTabModel) {
+//    if (!_draggingTabModel) {
 //        return NO; // we dont yet support dragging tab thumbnails to a new window
 //    }
 //    
 //    TDTabbedDocument *doc = [self document];
 //    NSAssert(NSNotFound != i, @"");
-//    NSAssert([set containsIndex:[doc indexOfTabModel:draggingTabModel]], @"");
+//    NSAssert([set containsIndex:[doc indexOfTabModel:_draggingTabModel]], @"");
 //    
-//    [doc removeTabModel:draggingTabModel];
+//    [doc removeTabModel:_draggingTabModel];
 //    self.draggingTabModel = nil;
 //    
 //    [self updateAllTabModelsFromIndex:i];
@@ -355,7 +375,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 //    
 //    [self updateSelectedTabModel];
     
-    [listView reloadData];
+    [_listView reloadData];
 }
 
 
@@ -370,15 +390,15 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 //        self.selectedModel = [tabModels objectAtIndex:selectedIndex];
 //        selectedModel.selected = YES;
 //        
-//        listView.selectionIndexes = [NSIndexSet indexSetWithIndex:selectedIndex];
+//        _listView.selectionIndexes = [NSIndexSet indexSetWithIndex:selectedIndex];
 //    }
 }
 
 
 - (void)beginEditingTabTitle:(TDTabListItem *)li atIndex:(NSUInteger)i inRect:(NSRect)titleRect {    
-    editingIndex = i;
+    self.editingIndex = i;
     
-    TDTabModel *tm = [delegate tabsViewController:self tabModelAtIndex:i];
+    TDTabModel *tm = [_delegate tabsViewController:self tabModelAtIndex:i];
     
     NSString *str = [tm.title stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
     str = str ? str : @"";
@@ -387,20 +407,20 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
     titleRect = TDNSRectOutset(titleRect, 2.0, 2.0);
     self.fieldEditor = [[[NSTextField alloc] initWithFrame:titleRect] autorelease];
     
-    Class styleClass = [self.listItemStyle class];
-    [fieldEditor setFont:[styleClass titleFont]];
-    [fieldEditor setAlignment:[styleClass titleTextAlignment]];
-    [fieldEditor setDrawsBackground:YES];
-    [fieldEditor setBackgroundColor:[NSColor whiteColor]];
-    [fieldEditor setStringValue:str];
-    [fieldEditor setDelegate:self];
+    Class styleClass = [_listItemStyle class];
+    [_fieldEditor setFont:[styleClass titleFont]];
+    [_fieldEditor setAlignment:[styleClass titleTextAlignment]];
+    [_fieldEditor setDrawsBackground:YES];
+    [_fieldEditor setBackgroundColor:[NSColor whiteColor]];
+    [_fieldEditor setStringValue:str];
+    [_fieldEditor setDelegate:self];
     
-    [fieldEditor setNeedsDisplay:YES];
+    [_fieldEditor setNeedsDisplay:YES];
         
-    [[self view] addSubview:fieldEditor];
-    [listView reloadData];
+    [[self view] addSubview:_fieldEditor];
+    [_listView reloadData];
     
-    [win makeFirstResponder:fieldEditor];
+    [win makeFirstResponder:_fieldEditor];
 
     [self tryInvalidateRestorableState];
 }
@@ -421,7 +441,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 //        isEditingText = [[objs objectAtIndex:0] isEditingText];
 //    }
 //    [coder encodeBool:isEditingText forKey:@"JotTabViewControllerIsEditingText"];
-//    [coder encodeInteger:editingIndex forKey:@"JotTabViewControllerEditingIndex"];
+//    [coder encodeInteger:_editingIndex forKey:@"JotTabViewControllerEditingIndex"];
 //}
 //
 //
@@ -429,7 +449,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 //    [super restoreStateWithCoder:coder];
 //    
 //    BOOL isEditingText = [coder decodeBoolForKey:@"JotSelectedObjectIsEditingText"];
-//    editingIndex = [coder decodeIntegerForKey:@"JotSelectedObjectEditingIndex"];
+//    self.editingIndex = [coder decodeIntegerForKey:@"JotSelectedObjectEditingIndex"];
 //    
 //}
 
@@ -438,7 +458,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 #pragma mark Notifications
 
 - (void)viewBoundsDidChange:(NSNotification *)n {
-    if (self.fieldEditor) {
+    if (_fieldEditor) {
         [self stopEditing];
     }
 }
@@ -448,28 +468,28 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 #pragma mark NSTextDelegate
 
 - (void)controlTextDidEndEditing:(NSNotification *)n {
-    NSAssert([n object] == self.fieldEditor, @"");
+    NSAssert([n object] == _fieldEditor, @"");
     [self stopEditing];
 }
 
 
 - (void)stopEditing {
-    if (!fieldEditor) return;
+    if (!_fieldEditor) return;
 
 //    NSTextField *fieldEditor = [n object];
     
-    TDTabModel *tm = [delegate tabsViewController:self tabModelAtIndex:editingIndex];
+    TDTabModel *tm = [_delegate tabsViewController:self tabModelAtIndex:_editingIndex];
 
 //	NSUndoManager *mgr = [[self.view window] undoManager];
 //	[[mgr prepareWithInvocationTarget:tm] setTitle:tm.title];
 //	[mgr setActionName:NSLocalizedString(@"Change Page Title", @"")];
 
-    tm.title = [fieldEditor stringValue];
+    tm.title = [_fieldEditor stringValue];
     
-    [fieldEditor removeFromSuperview];
+    [_fieldEditor removeFromSuperview];
     self.fieldEditor = nil;
     
-    [[listView window] endEditingFor:listView];
+    [[_listView window] endEditingFor:_listView];
     [self tryInvalidateRestorableState];
 }
 
@@ -490,15 +510,11 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 
 
 - (void)useStyleNamed:(NSString *)styleName {
+    NSParameterAssert(styleName);
     Class cls = NSClassFromString([sClassNameForListItemStyleDict objectForKey:styleName]);
+    NSAssert(cls, @"");
     self.listItemStyle = [[[cls alloc] init] autorelease];
+    //_listView.displaysClippedItems = [[_listItemStyle class] displaysClippedItems];
 }
 
-@synthesize delegate;
-@synthesize scrollView;
-@synthesize listView;
-@synthesize allowsTabTitleEditing;
-@synthesize listItemStyle;
-@synthesize draggingTabModel;
-@synthesize fieldEditor;
 @end
