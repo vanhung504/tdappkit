@@ -50,6 +50,8 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 - (void)handleDoubleClickAtIndex:(NSUInteger)i;
 - (CGFloat)scrollFudgeExtent;
 
+@property (nonatomic, retain, readwrite) NSIndexSet *visibleIndexes;
+
 @property (nonatomic, retain) NSMutableArray *items;
 @property (nonatomic, retain) NSMutableArray *unusedItems;
 @property (nonatomic, retain) TDListItemQueue *queue;
@@ -100,6 +102,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
     self.lastMouseDownEvent = nil;
     self.itemFrames = nil;
     self.selectionIndexes = nil;
+    self.visibleIndexes = nil;
     self.draggingIndexes = nil;
     self.draggingVisibleIndexes = nil;
     [super dealloc];
@@ -999,6 +1002,9 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
     CGFloat w = isPortrait ? bounds.size.width : 0;
     CGFloat h = isPortrait ? 0 : bounds.size.height;
     
+    NSUInteger visStartIdx = NSNotFound;
+    NSUInteger visCount = 0;
+    
     NSUInteger c = [dataSource numberOfItemsInListView:self];
     BOOL respondsToExtentForItem = (delegate && [delegate respondsToSelector:@selector(listView:extentForItemAtIndex:)]);
     BOOL respondsToWillDisplay = (delegate && [delegate respondsToSelector:@selector(listView:willDisplayItem:atIndex:)]);
@@ -1022,6 +1028,9 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
         }
 
         if (isItemVisible) {
+            if (NSNotFound == visStartIdx) visStartIdx = i;
+            visCount++;
+            
             TDListItem *item = [dataSource listView:self itemAtIndex:i];
             if (!item) {
                 [NSException raise:EXCEPTION_NAME format:@"nil list item view returned for index: %lu by: %@", i, dataSource];
@@ -1044,7 +1053,9 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
             x += extent + itemMargin;
         }
     }
-    
+
+    self.visibleIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(visStartIdx, visCount)];
+
     for (TDListItem *item in unusedItems) {
         [item removeFromSuperview];
     }
@@ -1209,6 +1220,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 @synthesize itemExtent;
 @synthesize itemMargin;
 @synthesize selectionIndexes;
+@synthesize visibleIndexes;
 @synthesize anchorIndex;
 @synthesize orientation;
 @synthesize items;
