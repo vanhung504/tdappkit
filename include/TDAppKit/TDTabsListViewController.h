@@ -23,17 +23,7 @@
 - (void)tabsViewControllerWantsNewTab:(TDTabsListViewController *)tvc;
 @end
 
-@interface TDTabsListViewController : TDViewController <TDListViewDataSource, TDListViewDelegate, NSTextFieldDelegate> {
-    id <TDTabsListViewControllerDelegate> delegate;
-    NSScrollView *scrollView;
-    TDListView *listView;
-    BOOL allowsTabTitleEditing;
-    TDTabListItemStyle *listItemStyle;
-    NSUInteger editingIndex;
-    TDTabModel *draggingTabModel;
-    
-    NSTextField *fieldEditor;
-}
+@interface TDTabsListViewController : TDViewController <TDListViewDataSource, TDListViewDelegate, NSTextFieldDelegate>
 
 - (IBAction)closeTabButtonClick:(id)sender;
 
@@ -47,6 +37,7 @@
 @property (nonatomic, assign) id <TDTabsListViewControllerDelegate> delegate; // weak ref
 @property (nonatomic, retain) IBOutlet NSScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet TDListView *listView;
+@property (nonatomic, retain) IBOutlet NSView *overflowButtonContainerView;
 @property (nonatomic, assign) BOOL allowsTabTitleEditing;
 @property (nonatomic, retain) TDTabListItemStyle *listItemStyle;
 @end

@@ -14,8 +14,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define TDAssertMainThread() NSAssert1([NSThread isMainThread], @"%s should be called on the main thread only.", __PRETTY_FUNCTION__);
-
 #define TDRoundAlign(x) (round((x)) + 0.5)
 #define TDFloorAlign(x) (floor((x)) + 0.5)
 #define TDCeilAlign(x) (ceil((x)) + 0.5)
