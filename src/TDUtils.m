@@ -17,7 +17,7 @@
 #import <QuartzCore/QuartzCore.h>
 #include <sys/utsname.h>
 
-NSColor *TDNSColorFromHex(NSUInteger x) {
+NSColor *TDHexColor(NSUInteger x) {
     NSUInteger red   = ((x & 0xFF0000) >> 16);
     NSUInteger green = ((x & 0x00FF00) >>  8);
     NSUInteger blue  = ((x & 0x0000FF) >>  0);
