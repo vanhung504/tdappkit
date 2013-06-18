@@ -186,5 +186,7 @@ extern NSString *const TDListItemPboardType;
 
 - (BOOL)listView:(TDListView *)lv shouldRunPoofAt:(NSPoint)endPointInScreen forRemovedItemsAtIndexes:(NSIndexSet *)set;
 
+- (void)listView:(TDListView *)lv draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation;
+
 @end
 
