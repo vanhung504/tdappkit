@@ -796,6 +796,11 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
     [self layoutItems];
 
     [self draggingSourceDragDidEnd];
+
+    if (delegate && [delegate respondsToSelector:@selector(listView:draggingSession:endedAtPoint:operation:)]) {
+        [delegate listView:self draggingSession:nil endedAtPoint:endPointInScreen operation:op];
+    }
+    
 }
 
 
