@@ -8,7 +8,7 @@
 
 #import "TDTabbedWindow.h"
 #import "TDTabbedDocument.h"
-#import "NSEvent+TDAdditions.h"
+#import <TDAppKit/NSEvent+TDAdditions.h>
 
 #define CLOSE_CURLY 30
 #define OPEN_CURLY 33
