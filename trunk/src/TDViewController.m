@@ -8,7 +8,9 @@
 
 #import <TDAppKit/TDViewController.h>
 
-@implementation TDViewController
+@implementation TDViewController {
+    BOOL _TD_isViewLoaded;
+}
 
 - (void)dealloc {
 #ifdef TDDEBUG
@@ -23,7 +25,8 @@
 
 
 - (void)loadView {
-    [super loadView];    
+    [super loadView];
+    _TD_isViewLoaded = YES;
     [self viewDidLoad];
 }
 
@@ -31,6 +34,8 @@
 - (void)setView:(NSView *)v {
     if (v) {
         [(TDViewControllerView *)v setViewController:self];
+    } else {
+        _TD_isViewLoaded = NO;
     }
     [super setView:v];
 }
@@ -38,6 +43,11 @@
 
 - (TDViewControllerView *)viewControllerView {
     return (TDViewControllerView *)[self view];
+}
+
+
+- (BOOL)isViewLoaded {
+    return _TD_isViewLoaded;
 }
 
 
