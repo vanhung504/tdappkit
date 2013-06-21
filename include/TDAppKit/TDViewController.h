@@ -15,6 +15,8 @@
 
 @property (nonatomic, retain, readonly) TDViewControllerView *viewControllerView;
 
+- (BOOL)isViewLoaded;
+
 - (void)viewDidLoad;
 - (void)viewWillAppear;
 - (void)viewDidAppear;
