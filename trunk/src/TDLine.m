@@ -49,9 +49,9 @@
     //    CGPoint p2 = FakeAlignCGPointToUserSpace(ctx, CGPointMake(bounds.size.width, 1));
     
     CGContextSetLineWidth(ctx, 1.0);
+    CGContextBeginPath(ctx);
     CGContextMoveToPoint(ctx, p1.x, p1.y);
     CGContextAddLineToPoint(ctx, p2.x, p2.y);
-    CGContextClosePath(ctx);
     CGContextStrokePath(ctx);
     
     //    NSPoint p1 = FakeAlignNSPointToUserSpace(ctx, NSMakePoint(origin.x, origin.y + 1));

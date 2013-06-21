@@ -188,6 +188,7 @@ static NSGradient *sDivotGradient = nil;
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
     CGContextSetLineWidth(ctx, 1.0);
 
+    CGContextBeginPath(ctx);
 //    [path moveToPoint:NSMakePoint(NSMaxX(borderRect), NSMinY(borderRect))];
     CGContextMoveToPoint(ctx, NSMaxX(borderRect), NSMinY(borderRect));
     
@@ -220,7 +221,6 @@ static NSGradient *sDivotGradient = nil;
     [borderColor setStroke];
 //    [path stroke];
     
-    CGContextClosePath(ctx);
     CGContextStrokePath(ctx);
 }
 
@@ -235,6 +235,7 @@ static NSGradient *sDivotGradient = nil;
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
     CGContextSetLineWidth(ctx, 1.0);
 
+    CGContextBeginPath(ctx);
 //    [path moveToPoint:NSMakePoint(NSMinX(borderRect), NSMinY(borderRect))];
     CGContextMoveToPoint(ctx, NSMinX(borderRect), NSMinY(borderRect));
     
@@ -265,7 +266,6 @@ static NSGradient *sDivotGradient = nil;
     
     [borderColor setStroke];
 //    [path stroke];
-    CGContextClosePath(ctx);
     CGContextStrokePath(ctx);
 }
 

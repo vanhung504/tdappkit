@@ -147,9 +147,9 @@ static float minKnobWidth;
     CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
     
     CGContextSetLineWidth(ctx, 1.0);
+    CGContextBeginPath(ctx);
     CGContextMoveToPoint(ctx, p1.x, p1.y);
     CGContextAddLineToPoint(ctx, p2.x, p2.y);
-    CGContextClosePath(ctx);
     CGContextStrokePath(ctx);
     
     //[backgroundColor set];

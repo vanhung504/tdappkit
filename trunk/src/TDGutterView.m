@@ -75,9 +75,9 @@
     CGPoint p1 = CGPointMake(CGRectGetMaxX(bounds), CGRectGetMinY(bounds));
     CGPoint p2 = CGPointMake(CGRectGetMaxX(bounds), CGRectGetMaxY(bounds));
     
+    CGContextBeginPath(ctx);
     CGContextMoveToPoint(ctx, p1.x, p1.y);
     CGContextAddLineToPoint(ctx, p2.x, p2.y);
-    CGContextClosePath(ctx);
     CGContextStrokePath(ctx);
 
     // stroke horiz top line
