@@ -205,7 +205,6 @@ static NSDictionary *sValueTextAttrs = nil;
     CGContextMoveToPoint(ctx, TDFloorAlign(-(NSWidth(arrowsRect) / 2.0)), (1.0));
     CGContextAddLineToPoint(ctx, TDFloorAlign(NSWidth(arrowsRect) / 2.0), (1.0));
     CGContextAddLineToPoint(ctx, TDFloorAlign(0.0), ((NSHeight(arrowsRect) / 2.0)));
-    CGContextClosePath(ctx);
     CGContextFillPath(ctx);
     CGContextRestoreGState(ctx);
 
@@ -215,7 +214,6 @@ static NSDictionary *sValueTextAttrs = nil;
     CGContextMoveToPoint(ctx, TDFloorAlign(-(NSWidth(arrowsRect) / 2.0)), (-1.0));
     CGContextAddLineToPoint(ctx, TDFloorAlign(NSWidth(arrowsRect) / 2.0), (-1.0));
     CGContextAddLineToPoint(ctx, TDFloorAlign(0.0), (-(NSHeight(arrowsRect) / 2.0)));
-    CGContextClosePath(ctx);
     CGContextFillPath(ctx);
     CGContextRestoreGState(ctx);
 
