@@ -88,6 +88,11 @@
     return c;
 }
 
+
+- (void)clear {
+    [dict removeAllObjects];
+}
+
 @synthesize dict;
 @end
 
