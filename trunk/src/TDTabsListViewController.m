@@ -95,6 +95,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 
     // setup ui
     _listView.backgroundColor = [NSColor colorWithDeviceWhite:0.9 alpha:1.0];
+    _listView.nonMainBackgroundColor = [NSColor colorWithDeviceWhite:0.9 alpha:1.0];
     _listView.orientation = TDListViewOrientationLandscape;
     _listView.displaysClippedItems = YES;
 
