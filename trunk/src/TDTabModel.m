@@ -139,7 +139,7 @@
         
         [[self representedObject] setValue:s forKey:@"title"];
         
-//        [self didChangeValueForKey:@"title"];
+        [self didChangeValueForKey:@"title"];
     }
 }
 
