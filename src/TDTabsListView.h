@@ -8,8 +8,6 @@
 
 #import "TDListView.h"
 
-@interface TDTabsListView : TDListView {
-    
-}
+@interface TDTabsListView : TDListView
 
 @end
