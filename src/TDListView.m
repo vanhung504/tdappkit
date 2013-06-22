@@ -120,6 +120,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
     self.anchorIndex = NSNotFound;
 
     self.backgroundColor = [NSColor whiteColor];
+    self.nonMainBackgroundColor = [NSColor whiteColor];
     self.itemExtent = DEFAULT_ITEM_EXTENT;
     
     self.queue = [[[TDListItemQueue alloc] init] autorelease];
@@ -348,11 +349,14 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
 - (void)drawRect:(NSRect)dirtyRect {
     NSRect bounds = [self bounds];
     
+    TDAssert([self window]);
+
     BOOL isMain = [[self window] isMainWindow];
     if (isMain) {
         if (backgroundGradient) {
             [backgroundGradient drawInRect:bounds angle:90.0];
         } else {
+            TDAssert(backgroundColor);
             [backgroundColor set];
             NSRectFill(bounds);
         }
@@ -360,6 +364,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
         if (nonMainBackgroundGradient) {
             [nonMainBackgroundGradient drawInRect:bounds angle:90.0];
         } else {
+            TDAssert(nonMainBackgroundColor);
             [nonMainBackgroundColor set];
             NSRectFill(bounds);
         }
