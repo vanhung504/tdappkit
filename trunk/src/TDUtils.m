@@ -17,6 +17,13 @@
 #import <QuartzCore/QuartzCore.h>
 #include <sys/utsname.h>
 
+NSGradient *TDVertGradient(NSUInteger topHex, NSUInteger botHex) {
+    NSColor *topColor = TDHexColor(topHex);
+    NSColor *botColor = TDHexColor(botHex);
+    NSGradient *grad = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
+    return grad;
+}
+
 NSColor *TDHexColor(NSUInteger x) {
     NSUInteger red   = ((x & 0xFF0000) >> 16);
     NSUInteger green = ((x & 0x00FF00) >>  8);
