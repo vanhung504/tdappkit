@@ -20,6 +20,7 @@
 
 #define TD_BIG_FLOAT 1000000.0
 
+NSGradient *TDVertGradient(NSUInteger topHex, NSUInteger botHex);
 NSColor *TDHexColor(NSUInteger x);
 
 void TDPerformOnMainThread(void (^block)(void));
