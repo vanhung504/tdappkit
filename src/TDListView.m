@@ -1074,7 +1074,7 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
     }
 
     [unusedItems removeAllObjects];
-    [queue clear];
+    //[queue clear];
     
     NSDragOperation mask = [self draggingSourceOperationMaskForLocal:YES];
     CGFloat fudge = (mask == NSDragOperationNone) ? 0 : [self scrollFudgeExtent];
