@@ -20,57 +20,6 @@
 }
 
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    self.mainBgGradient = nil;
-    self.hiBgGradient = nil;
-    self.nonMainBgGradient = nil;
-    self.mainTopBorderColor = nil;
-    self.nonMainTopBorderColor = nil;
-    self.mainTopBevelColor = nil;
-    self.hiTopBevelColor = nil;
-    self.nonMainTopBevelColor = nil;
-    self.mainBottomBevelColor = nil;
-    self.nonMainBottomBevelColor = nil;
-    [super dealloc];
-}
-
-
-- (void)awakeFromNib {
-    
-    NSColor *topColor = nil;
-    NSColor *botColor = nil;
-    NSColor *topBevelColor = nil;
-
-    topColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
-    botColor = [NSColor colorWithDeviceWhite:0.65 alpha:1.0];
-    topBevelColor = [NSColor colorWithDeviceWhite:0.88 alpha:1.0];
-    self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
-    self.mainTopBevelColor = topBevelColor;
-    self.mainTopBorderColor = [NSColor colorWithDeviceWhite:0.53 alpha:1.0];
-    self.mainBottomBevelColor = [NSColor lightGrayColor];
-
-    topColor = [NSColor colorWithDeviceWhite:0.75 alpha:1.0];
-    botColor = [NSColor colorWithDeviceWhite:0.55 alpha:1.0];
-    topBevelColor = [NSColor colorWithDeviceWhite:0.78 alpha:1.0];
-
-    self.hiBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
-    self.hiTopBevelColor = topBevelColor;
-
-    NSColor *bgColor = [NSColor colorWithDeviceWhite:0.93 alpha:1.0];
-    self.nonMainBgGradient = [[[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:0.7] endingColor:bgColor] autorelease];
-    self.nonMainTopBorderColor = [NSColor colorWithDeviceWhite:0.78 alpha:1.0];
-    self.nonMainTopBevelColor = [NSColor colorWithDeviceWhite:0.99 alpha:1.0];
-    self.nonMainBottomBevelColor = [NSColor colorWithDeviceWhite:0.99 alpha:1.0];
-}
-
-
-- (BOOL)shouldDrawTopBorder {
-    return YES;
-}
-
-
 - (void)drawWithFrame:(NSRect)cellFrame inView:(TDStatusBarButton *)cv {
     BOOL isMain = [[cv window] isMainWindow];
     BOOL isHi = [self isHighlighted];
@@ -80,20 +29,20 @@
     NSColor *topBevelColor = nil;
     NSColor *bottomBevelColor = nil;
     if (isMain) {
-        bgGradient = _mainBgGradient;
-        topBorderColor = _mainTopBorderColor;
-        topBevelColor = _mainTopBevelColor;
-        bottomBevelColor = _mainBottomBevelColor;
+        bgGradient = cv.mainBgGradient;
+        topBorderColor = cv.mainTopBorderColor;
+        topBevelColor = cv.mainTopBevelColor;
+        bottomBevelColor = cv.mainBottomBevelColor;
     } else {
-        bgGradient = _nonMainBgGradient;
-        topBorderColor = _nonMainTopBorderColor;
-        topBevelColor = _nonMainTopBevelColor;
-        bottomBevelColor = _nonMainBottomBevelColor;
+        bgGradient = cv.nonMainBgGradient;
+        topBorderColor = cv.nonMainTopBorderColor;
+        topBevelColor = cv.nonMainTopBevelColor;
+        bottomBevelColor = cv.nonMainBottomBevelColor;
     }
     
     if (isHi) {
-        topBevelColor = _hiTopBevelColor;
-        bgGradient = _hiBgGradient;
+        topBevelColor = cv.hiTopBevelColor;
+        bgGradient = cv.hiBgGradient;
     }
     
     // background
