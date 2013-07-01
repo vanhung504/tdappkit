@@ -61,12 +61,9 @@
 
 
 - (void)windowDidBecomeMain:(NSNotification *)n {
-    [self setNeedsDisplay:YES];
-}
-
-
-- (void)windowDidResignMain:(NSNotification *)n {
-    [self setNeedsDisplay:YES];
+    if ([self window]) {
+        [self setNeedsDisplay:YES];
+    }
 }
 
 
