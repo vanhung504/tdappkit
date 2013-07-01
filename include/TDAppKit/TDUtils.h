@@ -17,6 +17,7 @@
 #define TDRoundAlign(x) (round((x)) + 0.5)
 #define TDFloorAlign(x) (floor((x)) + 0.5)
 #define TDCeilAlign(x) (ceil((x)) + 0.5)
+#define TDNoop(x) (x)
 
 #define TD_BIG_FLOAT 1000000.0
 
