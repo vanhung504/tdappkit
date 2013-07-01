@@ -31,4 +31,5 @@
 @property (nonatomic, copy) NSString *labelText;
 @property (nonatomic, copy) NSString *valueText;
 @property (nonatomic, retain) IBOutlet NSPopUpButton *popUpButton;
+@property (nonatomic, retain) IBOutlet NSButton *button;
 @end
