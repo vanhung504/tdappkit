@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSColor *mainTopBorderColor;
 @property (nonatomic, retain) NSColor *nonMainTopBorderColor;
 @property (nonatomic, retain) NSColor *mainTopBevelColor;
+@property (nonatomic, retain) NSColor *hiTopBevelColor;
 @property (nonatomic, retain) NSColor *nonMainTopBevelColor;
 @property (nonatomic, retain) NSColor *mainBottomBevelColor;
 @property (nonatomic, retain) NSColor *nonMainBottomBevelColor;

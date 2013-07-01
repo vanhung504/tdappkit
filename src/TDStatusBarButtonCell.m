@@ -29,6 +29,7 @@
     self.mainTopBorderColor = nil;
     self.nonMainTopBorderColor = nil;
     self.mainTopBevelColor = nil;
+    self.hiTopBevelColor = nil;
     self.nonMainTopBevelColor = nil;
     self.mainBottomBevelColor = nil;
     self.nonMainBottomBevelColor = nil;
@@ -37,20 +38,30 @@
 
 
 - (void)awakeFromNib {
-    NSColor *bgColor = [NSColor colorWithDeviceWhite:0.77 alpha:1.0];
-    self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:0.7] endingColor:bgColor] autorelease];
-
-    bgColor = [NSColor colorWithDeviceWhite:0.6 alpha:1.0];
-    self.hiBgGradient = [[[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:0.7] endingColor:bgColor] autorelease];
-
-    bgColor = [NSColor colorWithDeviceWhite:0.93 alpha:1.0];
-    self.nonMainBgGradient = [[[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:0.7] endingColor:bgColor] autorelease];
     
+    NSColor *topColor = nil;
+    NSColor *botColor = nil;
+    NSColor *topBevelColor = nil;
+
+    topColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
+    botColor = [NSColor colorWithDeviceWhite:0.65 alpha:1.0];
+    topBevelColor = [NSColor colorWithDeviceWhite:0.88 alpha:1.0];
+    self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
+    self.mainTopBevelColor = topBevelColor;
     self.mainTopBorderColor = [NSColor colorWithDeviceWhite:0.53 alpha:1.0];
-    self.nonMainTopBorderColor = [NSColor colorWithDeviceWhite:0.78 alpha:1.0];
-    self.mainTopBevelColor = [NSColor colorWithDeviceWhite:0.88 alpha:1.0];
-    self.nonMainTopBevelColor = [NSColor colorWithDeviceWhite:0.99 alpha:1.0];
     self.mainBottomBevelColor = [NSColor lightGrayColor];
+
+    topColor = [NSColor colorWithDeviceWhite:0.75 alpha:1.0];
+    botColor = [NSColor colorWithDeviceWhite:0.55 alpha:1.0];
+    topBevelColor = [NSColor colorWithDeviceWhite:0.78 alpha:1.0];
+
+    self.hiBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
+    self.hiTopBevelColor = topBevelColor;
+
+    NSColor *bgColor = [NSColor colorWithDeviceWhite:0.93 alpha:1.0];
+    self.nonMainBgGradient = [[[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:0.7] endingColor:bgColor] autorelease];
+    self.nonMainTopBorderColor = [NSColor colorWithDeviceWhite:0.78 alpha:1.0];
+    self.nonMainTopBevelColor = [NSColor colorWithDeviceWhite:0.99 alpha:1.0];
     self.nonMainBottomBevelColor = [NSColor colorWithDeviceWhite:0.99 alpha:1.0];
 }
 
@@ -81,6 +92,7 @@
     }
     
     if (isHi) {
+        topBevelColor = _hiTopBevelColor;
         bgGradient = _hiBgGradient;
     }
     
