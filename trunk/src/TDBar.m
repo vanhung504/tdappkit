@@ -21,6 +21,7 @@
     
     self.mainBgGradient = nil;
     self.nonMainBgGradient = nil;
+    self.hiBgGradient = nil;
     self.mainTopBorderColor = nil;
     self.nonMainTopBorderColor = nil;
     self.mainTopBevelColor = nil;
@@ -34,8 +35,12 @@
 - (void)awakeFromNib {
     NSColor *bgColor = [NSColor colorWithDeviceWhite:0.77 alpha:1.0];
     self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:0.7] endingColor:bgColor] autorelease];
+    
     bgColor = [NSColor colorWithDeviceWhite:0.93 alpha:1.0];
     self.nonMainBgGradient = [[[NSGradient alloc] initWithStartingColor:[bgColor colorWithAlphaComponent:0.7] endingColor:bgColor] autorelease];
+
+    self.hiBgGradient = [[[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0.75 alpha:1.0] endingColor:[NSColor colorWithDeviceWhite:0.55 alpha:1.0]] autorelease];
+
     self.mainTopBorderColor = [NSColor colorWithDeviceWhite:0.53 alpha:1.0];
     self.nonMainTopBorderColor = [NSColor colorWithDeviceWhite:0.78 alpha:1.0];
     self.mainTopBevelColor = [NSColor colorWithDeviceWhite:0.88 alpha:1.0];
@@ -69,13 +74,20 @@
 
 - (void)drawRect:(NSRect)dirtyRect {
     NSRect bounds = [self bounds];
+    BOOL isMain = [[self window] isMainWindow];
+    BOOL isHi = [self isHighlighted];
     
     NSGradient *bgGradient = nil;
     NSColor *topBorderColor = nil;
     NSColor *topBevelColor = nil;
     NSColor *bottomBevelColor = nil;
-    if ([[self window] isMainWindow]) {
-        bgGradient = mainBgGradient;
+    
+    if (isMain) {
+        if (isHi) {
+            bgGradient = hiBgGradient;
+        } else {
+            bgGradient = mainBgGradient;
+        }
         topBorderColor = mainTopBorderColor;
         topBevelColor = mainTopBevelColor;
         bottomBevelColor = mainBottomBevelColor;
@@ -131,8 +143,14 @@
     }
 }
 
+
+- (BOOL)isHighlighted {
+    return NO;
+}
+
 @synthesize mainBgGradient;
 @synthesize nonMainBgGradient;
+@synthesize hiBgGradient;
 @synthesize mainTopBorderColor;
 @synthesize nonMainTopBorderColor;
 @synthesize mainTopBevelColor;
