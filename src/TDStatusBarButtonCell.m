@@ -53,7 +53,8 @@
     // title
     NSString *title = [self title];
     CGRect titleRect = [cv titleRectForBounds:cellFrame];
-    [title drawInRect:titleRect withAttributes:[TDStatusBarPopUpView defaultLabelTextAttributes]];
+    NSDictionary *attrs = isMain ? [TDStatusBarPopUpView defaultLabelTextAttributes] : [TDStatusBarPopUpView defaultNonMainLabelTextAttributes];
+    [title drawInRect:titleRect withAttributes:attrs];
     
     CGFloat y = NSMaxY(cellFrame) - 1.5;
     NSPoint p1 = NSMakePoint(0.0, y);

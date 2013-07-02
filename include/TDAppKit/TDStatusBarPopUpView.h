@@ -20,6 +20,8 @@
 
 + (NSDictionary *)defaultLabelTextAttributes;
 + (NSDictionary *)defaultValueTextAttributes;
++ (NSDictionary *)defaultNonMainLabelTextAttributes;
++ (NSDictionary *)defaultNonMainValueTextAttributes;
 
 - (NSRect)labelTextRectForBounds:(NSRect)bounds;
 - (NSRect)valueTextRectForBounds:(NSRect)bounds;
@@ -31,5 +33,4 @@
 @property (nonatomic, copy) NSString *labelText;
 @property (nonatomic, copy) NSString *valueText;
 @property (nonatomic, retain) IBOutlet NSPopUpButton *popUpButton;
-@property (nonatomic, retain) IBOutlet NSButton *button;
 @end
