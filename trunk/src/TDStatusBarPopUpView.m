@@ -22,6 +22,8 @@
 
 static NSDictionary *sLabelTextAttrs = nil;
 static NSDictionary *sValueTextAttrs = nil;
+static NSDictionary *sNonMainLabelTextAttrs = nil;
+static NSDictionary *sNonMainValueTextAttrs = nil;
 
 @interface TDStatusBarPopUpView ()
 - (void)setUpSubviews;
@@ -58,6 +60,20 @@ static NSDictionary *sValueTextAttrs = nil;
                            //shadow, NSShadowAttributeName,
                            paraStyle, NSParagraphStyleAttributeName,
                            nil];
+        
+        sNonMainLabelTextAttrs = [[NSDictionary alloc] initWithObjectsAndKeys:
+                           [NSFont systemFontOfSize:9.0], NSFontAttributeName,
+                            [[NSColor textColor] colorWithAlphaComponent:0.6], NSForegroundColorAttributeName,
+                           //shadow, NSShadowAttributeName,
+                           paraStyle, NSParagraphStyleAttributeName,
+                           nil];
+
+        sNonMainValueTextAttrs = [[NSDictionary alloc] initWithObjectsAndKeys:
+                           [NSFont systemFontOfSize:9.0], NSFontAttributeName,
+                           [[NSColor textColor] colorWithAlphaComponent:0.6], NSForegroundColorAttributeName,
+                           //shadow, NSShadowAttributeName,
+                           paraStyle, NSParagraphStyleAttributeName,
+                           nil];
     }
 }
 
@@ -69,6 +85,16 @@ static NSDictionary *sValueTextAttrs = nil;
 
 + (NSDictionary *)defaultValueTextAttributes {
     return sValueTextAttrs;
+}
+
+
++ (NSDictionary *)defaultNonMainLabelTextAttributes {
+    return sNonMainLabelTextAttrs;
+}
+
+
++ (NSDictionary *)defaultNonMainValueTextAttributes {
+    return sNonMainValueTextAttrs;
 }
 
 
@@ -138,6 +164,9 @@ static NSDictionary *sValueTextAttrs = nil;
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
     
+    TDAssert([self window]);
+    BOOL isMain = [[self window] isMainWindow];
+    
     NSRect bounds = [self bounds];
     
     if (labelText) {
@@ -146,7 +175,8 @@ static NSDictionary *sValueTextAttrs = nil;
         [[NSColor redColor] setFill];
         NSRectFill(labelRect);
 #endif
-        [labelText drawInRect:labelRect withAttributes:[[self class] defaultLabelTextAttributes]];
+        NSDictionary *labelAttrs = isMain ? [TDStatusBarPopUpView defaultLabelTextAttributes] : [TDStatusBarPopUpView defaultNonMainLabelTextAttributes];
+        [labelText drawInRect:labelRect withAttributes:labelAttrs];
     }
     
     if (valueText) {
@@ -155,7 +185,8 @@ static NSDictionary *sValueTextAttrs = nil;
         [[NSColor greenColor] setFill];
         NSRectFill(valueRect);
 #endif
-        [valueText drawInRect:valueRect withAttributes:[[self class] defaultValueTextAttributes]];
+        NSDictionary *valAttrs = isMain ? [TDStatusBarPopUpView defaultValueTextAttributes] : [TDStatusBarPopUpView defaultNonMainValueTextAttributes];
+        [valueText drawInRect:valueRect withAttributes:valAttrs];
         
         NSRect arrowsRect = [self arrowsRectForBounds:bounds];
 #if DEBUG_DRAW
@@ -164,8 +195,7 @@ static NSDictionary *sValueTextAttrs = nil;
 #endif
         [self drawArrowsInRect:arrowsRect dirtyRect:dirtyRect];
     }
-    
-    BOOL isMain = [[self window] isMainWindow];
+
     NSColor *strokeColor = nil;
     if (isMain) {
         strokeColor = [NSColor colorWithDeviceWhite:0.2 alpha:1.0];
@@ -344,6 +374,26 @@ static NSDictionary *sValueTextAttrs = nil;
         self.valueText = [popUpButton titleOfSelectedItem];
         self.menuVisible = NO;
     });
+}
+
+
+#pragma mark -
+#pragma mark Notifications
+
+- (void)viewDidMoveToWindow {
+    NSWindow *win = [self window];
+    if (win) {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidBecomeMainNotification object:win];
+        [nc addObserver:self selector:@selector(windowDidBecomeMain:) name:NSWindowDidResignMainNotification object:win];
+    }
+}
+
+
+- (void)windowDidBecomeMain:(NSNotification *)n {
+    if ([self window]) {
+        [self setNeedsDisplay:YES];
+    }
 }
 
 
