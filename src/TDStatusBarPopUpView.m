@@ -333,6 +333,14 @@ static NSDictionary *sNonMainValueTextAttrs = nil;
     NSColor *botColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
     self.nonMainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
 
+    topColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
+    botColor = [NSColor colorWithDeviceWhite:0.65 alpha:1.0];
+    self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
+
+    topColor = [NSColor colorWithDeviceWhite:0.75 alpha:1.0];
+    botColor = [NSColor colorWithDeviceWhite:0.55 alpha:1.0];
+    self.hiBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
+
     self.mainBottomBevelColor = nil;
     self.nonMainBottomBevelColor = nil;
     
@@ -347,21 +355,14 @@ static NSDictionary *sNonMainValueTextAttrs = nil;
 
 
 - (void)updateGradientsForMenuVisible {
-    NSColor *topColor = nil;
-    NSColor *botColor = nil;
     NSColor *topBevelColor = nil;
     
     if (menuVisible) {
-        topColor = [NSColor colorWithDeviceWhite:0.75 alpha:1.0];
-        botColor = [NSColor colorWithDeviceWhite:0.55 alpha:1.0];
         topBevelColor = [NSColor colorWithDeviceWhite:0.78 alpha:1.0];
     } else {
-        topColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
-        botColor = [NSColor colorWithDeviceWhite:0.65 alpha:1.0];
         topBevelColor = [NSColor colorWithDeviceWhite:0.88 alpha:1.0];
     }
 
-    self.mainBgGradient = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:botColor] autorelease];
     self.mainTopBevelColor = topBevelColor;
 
     [self setNeedsDisplayInRect:[self bounds]];
@@ -399,6 +400,11 @@ static NSDictionary *sNonMainValueTextAttrs = nil;
 
 #pragma mark -
 #pragma mark Properties
+
+- (BOOL)isHighlighted {
+    return menuVisible;
+}
+
 
 - (void)setLabelText:(NSString *)s {
     if (s != labelText) {

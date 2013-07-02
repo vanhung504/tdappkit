@@ -17,6 +17,7 @@
 @interface TDBar : TDView {
     NSGradient *mainBgGradient;
     NSGradient *nonMainBgGradient;
+    NSGradient *hiBgGradient;
     NSColor *mainTopBorderColor;
     NSColor *nonMainTopBorderColor;
     NSColor *mainTopBevelColor;
@@ -26,9 +27,11 @@
 }
 
 - (BOOL)shouldDrawTopBorder;
+- (BOOL)isHighlighted;
 
 @property (nonatomic, retain) NSGradient *mainBgGradient;
 @property (nonatomic, retain) NSGradient *nonMainBgGradient;
+@property (nonatomic, retain) NSGradient *hiBgGradient;
 @property (nonatomic, retain) NSColor *mainTopBorderColor;
 @property (nonatomic, retain) NSColor *nonMainTopBorderColor;
 @property (nonatomic, retain) NSColor *mainTopBevelColor;
