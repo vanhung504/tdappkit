@@ -142,6 +142,7 @@
 - (void)drawInteriorWithFrame:(NSRect)cellFrame 
                        inView:(NSView*)controlView
 {
+    TDAssert(image);
     // Draw image
     if (image) {
         NSSize    imageSize;
@@ -178,6 +179,7 @@
 - (void)drawInteriorImageOnlyWithFrame:(NSRect)cellFrame 
                                 inView:(NSView*)controlView
 {
+    TDAssert(image);
     // Draw image
     if (image) {
         NSSize    imageSize;
