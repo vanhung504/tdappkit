@@ -63,11 +63,9 @@
 - (void)awakeFromNib {
     self.buttons = [NSMutableArray array];
     
-#if 1
-    NSImage *img = [NSImage imageNamed:@"combo_field_progress_indicator"];
-#else
-    NSImage *img = [NSImage imageNamed:@"location_field_progress_indicator_rounded"];
-#endif
+    NSString *imgName = self.isRounded ? @"location_field_progress_indicator_rounded" : @"combo_field_progress_indicator";
+    NSImage *img = [NSImage imageNamed:imgName];
+
     self.progressImage = img;
     TDAssert(progressImage);
 
@@ -106,7 +104,7 @@
         NSRect pRect = NSMakeRect(bounds.origin.x + 1.0,
                                   y,
                                   pSize.width - 2.0,
-                                  pSize.height - 2.0);
+                                  pSize.height - (isRounded ? 2.0 : 1.0));
         
         NSRect imageRect = NSZeroRect;
         imageRect.size = [progressImage size];
@@ -660,4 +658,5 @@
 @synthesize buttons;
 @synthesize progress;
 @synthesize progressImage;
+@synthesize isRounded;
 @end
