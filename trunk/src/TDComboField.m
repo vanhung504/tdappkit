@@ -63,8 +63,13 @@
 - (void)awakeFromNib {
     self.buttons = [NSMutableArray array];
     
+#if 1
+    NSImage *img = [NSImage imageNamed:@"combo_field_progress_indicator"];
+#else
     NSImage *img = [NSImage imageNamed:@"location_field_progress_indicator_rounded"];
-    self.progressImage = img; //[NSImage imageNamed:@"combo_field_progress_indicator" inBundleForClass:[TDComboField class]];
+#endif
+    self.progressImage = img;
+    TDAssert(progressImage);
 
     self.font = [NSFont controlContentFontOfSize:12.0];
 }
@@ -77,7 +82,9 @@
     
     [self resizeSubviewsWithOldSize:NSZeroSize];
     
-    [self showDefaultIcon];    
+    if (![self image]) {
+        [self showDefaultIcon];
+    }
 }
 
 
@@ -105,6 +112,7 @@
         imageRect.size = [progressImage size];
         imageRect.origin = NSZeroPoint;
         
+        TDAssert(progressImage);
         [progressImage drawStretchableInRect:pRect
                                   edgeInsets:TDEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)
                                    operation:NSCompositePlusDarker
@@ -497,7 +505,7 @@
 #pragma mark Progress
 
 - (void)showDefaultIcon {
-    [self setImage:[NSImage imageNamed:@"favicon"]];
+    [self setImage:[NSImage imageNamed:@"default_favicon"]];
 }
 
 
