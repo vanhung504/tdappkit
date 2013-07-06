@@ -39,6 +39,7 @@
     BOOL shouldDrag;
     NSImage *progressImage;
     CGFloat progress;
+    BOOL isRounded;
 }
 
 - (void)escape:(id)sender;
@@ -60,6 +61,7 @@
 @property (nonatomic, retain) TDListView *listView;
 @property (nonatomic, retain) NSWindow *listWindow;
 @property (nonatomic, retain) TDComboFieldTextView *fieldEditor;
+@property (nonatomic, assign) BOOL isRounded;
 
 // favicon image
 @property (nonatomic, retain) NSImage *image;
