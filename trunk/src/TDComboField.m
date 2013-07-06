@@ -217,23 +217,13 @@
 
 - (NSRect)listWindowRectForBounds:(NSRect)bounds {
     NSRect listRect = [self listViewRectForBounds:bounds];
-//
-////    NSRect windowFrame = [[self window] frame];
-//    NSRect textFrame = [self frame];
-////    CGFloat x = windowFrame.origin.x + textFrame.origin.x;
-////    CGFloat y = windowFrame.origin.y + windowFrame.size.height + textFrame.origin.y - listRect.size.height - LIST_MARGIN_Y;
-//    
-//    NSPoint p = [[self window] convertBaseToScreen:[self convertPoint:[self frame].origin fromView:nil]];
-//    p.x += 380.0;
-//    p.y -= listRect.size.height + textFrame.size.height;
-    
-//    NSRect screenFrame = [[[self window] screen] frame];
+
     NSRect textFrame = [self frame];
-//    NSRect winFrame = [[self window] frame];
     NSRect locInWin = [self convertRect:textFrame toView:nil];
     NSRect locInScreen = [[self window] convertRectToScreen:locInWin];
     
-    locInScreen.origin.y += (textFrame.origin.y - listRect.size.height);
+#define SPACING 2.0
+    locInScreen.origin.y += (textFrame.origin.y - (listRect.size.height + SPACING));
     locInScreen.origin.x -= textFrame.origin.x;
     
     return NSMakeRect(locInScreen.origin.x, locInScreen.origin.y, listRect.size.width, listRect.size.height);
