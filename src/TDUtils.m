@@ -25,12 +25,23 @@ NSGradient *TDVertGradient(NSUInteger topHex, NSUInteger botHex) {
 }
 
 NSColor *TDHexColor(NSUInteger x) {
-    NSUInteger red   = ((x & 0xFF0000) >> 16);
-    NSUInteger green = ((x & 0x00FF00) >>  8);
-    NSUInteger blue  = ((x & 0x0000FF) >>  0);
+    NSUInteger red   = (0xFF0000 & x) >> 16;
+    NSUInteger green = (0x00FF00 & x) >>  8;
+    NSUInteger blue  = (0x0000FF & x) >>  0;
     
     return [NSColor colorWithDeviceRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1.0];
 }
+
+
+NSColor *TDHexaColor(NSUInteger x) {
+    NSUInteger red   = (0xFF000000 & x) >> 24;
+    NSUInteger green = (0x00FF0000 & x) >> 16;
+    NSUInteger blue  = (0x0000FF00 & x) >>  8;
+    NSUInteger alpha = (0x000000FF & x) >>  0;
+    
+    return [NSColor colorWithDeviceRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:alpha/255.0];
+}
+
 
 void TDPerformOnMainThread(void (^block)(void)) {
     //assert(block);
