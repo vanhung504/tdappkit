@@ -173,6 +173,9 @@
     }
     
     // Draw text
+    if (![(TDComboField *)controlView isRounded]) {
+        cellFrame.origin.y += 1.0;
+    }
     [super drawInteriorWithFrame:cellFrame inView:controlView];
 }
 
