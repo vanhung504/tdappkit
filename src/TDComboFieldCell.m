@@ -105,8 +105,12 @@
     
     buttonFrame = [(TDComboField*)controlView buttonFrame];
     textFrame.size.width -= buttonFrame.size.width + 2;
-    
-    [super selectWithFrame:textFrame 
+
+    if (![(TDComboField *)controlView isRounded]) {
+        textFrame.origin.y += 1.0;
+    }
+
+    [super selectWithFrame:textFrame
                     inView:controlView 
                     editor:textObj 
                   delegate:object 
@@ -128,7 +132,11 @@
     buttonFrame = [(TDComboField *)controlView buttonFrame];
     textFrame.size.width -= buttonFrame.size.width + 2;
     
-    [super editWithFrame:textFrame 
+    if (![(TDComboField *)controlView isRounded]) {
+        textFrame.origin.y += 1.0;
+    }
+
+    [super editWithFrame:textFrame
                   inView:controlView 
                   editor:textObj 
                 delegate:object 
