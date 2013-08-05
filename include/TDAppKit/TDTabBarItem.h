@@ -19,4 +19,5 @@
 - (id)initWithTitle:(NSString *)title image:(NSImage *)image tag:(NSInteger)tag;
 
 @property (nonatomic, copy) NSString *badgeValue;    // default is nil
+@property (nonatomic, retain) NSButton *button;
 @end

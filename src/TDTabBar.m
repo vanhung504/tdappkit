@@ -20,12 +20,8 @@
 
 #define BUTTON_WIDTH 28.0
 #define BUTTON_MARGIN_X 1.0
-#define BUTTON_MARGIN_TOP 1.0
+#define BUTTON_MARGIN_TOP 0.0
 #define BUTTON_MARGIN_BOTTOM 1.0
-
-@interface TDTabBarItem ()
-@property (nonatomic, retain) NSButton *button;
-@end
 
 @implementation TDTabBar
 
@@ -68,9 +64,9 @@
         CGFloat totalWidth = ceil(BUTTON_WIDTH*c + BUTTON_MARGIN_X*(c-1));
 
         CGFloat x = CGRectGetWidth(bounds)/2.0 - totalWidth/2.0;
-        CGFloat y = CGRectGetMinY(bounds) + BUTTON_MARGIN_TOP;
+        CGFloat y = CGRectGetMinY(bounds) + BUTTON_MARGIN_BOTTOM;
         CGFloat w = BUTTON_WIDTH;
-        CGFloat h = CGRectGetHeight(bounds) - (BUTTON_MARGIN_TOP + BUTTON_MARGIN_BOTTOM);
+        CGFloat h = CGRectGetHeight(bounds) - (BUTTON_MARGIN_TOP + BUTTON_MARGIN_TOP);
         
         for (NSButton *b in buttons) {
             CGRect r = CGRectMake(x, y, w, h);
