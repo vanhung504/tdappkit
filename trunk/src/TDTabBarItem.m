@@ -14,10 +14,6 @@
 
 #import <TDAppKit/TDTabBarItem.h>
 
-@interface TDTabBarItem ()
-@property (nonatomic, retain) NSButton *button;
-@end
-
 @implementation TDTabBarItem
 
 - (id)initWithTitle:(NSString *)aTitle image:(NSImage *)img tag:(NSInteger)aTag {

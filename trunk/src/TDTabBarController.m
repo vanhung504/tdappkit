@@ -18,10 +18,6 @@
 #import <TDAppKit/TDFlippedView.h>
 #import "TDTabBarControllerView.h"
 
-@interface TDTabBarItem ()
-@property (nonatomic, retain) NSButton *button;
-@end
-
 @interface TDTabBarController ()
 - (void)layoutSubviews;
 - (void)layoutTabBarItems;
