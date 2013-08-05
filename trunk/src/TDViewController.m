@@ -7,6 +7,7 @@
 //
 
 #import <TDAppKit/TDViewController.h>
+#import <TDAppKit/TDTabBarItem.h>
 
 @implementation TDViewController {
     BOOL _TD_isViewLoaded;
@@ -20,6 +21,7 @@
     if (v) {
         [(TDViewControllerView *)v setViewController:nil];
     }
+    self.tabBarItem = nil;
     [super dealloc];
 }
 
@@ -56,22 +58,22 @@
 }
 
 
-- (void)viewWillAppear {
+- (void)viewWillAppear:(BOOL)animated {
     
 }
 
 
-- (void)viewDidAppear {
+- (void)viewDidAppear:(BOOL)animated {
     
 }
 
 
-- (void)viewWillDisappear {
+- (void)viewWillDisappear:(BOOL)animated {
     
 }
 
 
-- (void)viewDidDisappear {
+- (void)viewDidDisappear:(BOOL)animated {
     
 }
 

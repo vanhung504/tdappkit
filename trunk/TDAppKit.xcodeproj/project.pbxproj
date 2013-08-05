@@ -107,6 +107,20 @@
 		D392B08D1179594400823791 /* TDShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = D392B08B1179594400823791 /* TDShadowView.m */; };
 		D3A356BA11DFFB2A00EFEE29 /* TDClipView.h in Headers */ = {isa = PBXBuildFile; fileRef = D3A356B811DFFB2A00EFEE29 /* TDClipView.h */; };
 		D3A356BB11DFFB2A00EFEE29 /* TDClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A356B911DFFB2A00EFEE29 /* TDClipView.m */; };
+		D3B10F0817B03C8900B9AAF1 /* TDBarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B10EFC17B03C8900B9AAF1 /* TDBarItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3B10F0A17B03C8900B9AAF1 /* TDTabBar.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B10EFE17B03C8900B9AAF1 /* TDTabBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3B10F0C17B03C8900B9AAF1 /* TDTabBarController.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B10F0017B03C8900B9AAF1 /* TDTabBarController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3B10F0E17B03C8900B9AAF1 /* TDTabBarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B10F0217B03C8900B9AAF1 /* TDTabBarItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3B10F1C17B03D4500B9AAF1 /* TDBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B10F1417B03D4400B9AAF1 /* TDBarItem.m */; };
+		D3B10F1D17B03D4500B9AAF1 /* TDTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B10F1517B03D4500B9AAF1 /* TDTabBar.m */; };
+		D3B10F1E17B03D4500B9AAF1 /* TDTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B10F1617B03D4500B9AAF1 /* TDTabBarController.m */; };
+		D3B10F1F17B03D4500B9AAF1 /* TDTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B10F1717B03D4500B9AAF1 /* TDTabBarItem.m */; };
+		D3B10F2017B03D4500B9AAF1 /* TDTabBarItemButton.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B10F1817B03D4500B9AAF1 /* TDTabBarItemButton.h */; };
+		D3B10F2117B03D4500B9AAF1 /* TDTabBarItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B10F1917B03D4500B9AAF1 /* TDTabBarItemButton.m */; };
+		D3B10F2217B03D4500B9AAF1 /* TDTabBarItemButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B10F1A17B03D4500B9AAF1 /* TDTabBarItemButtonCell.h */; };
+		D3B10F2317B03D4500B9AAF1 /* TDTabBarItemButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B10F1B17B03D4500B9AAF1 /* TDTabBarItemButtonCell.m */; };
+		D3B10F2A17B0449D00B9AAF1 /* TDTabBarControllerView.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B10F2817B0449D00B9AAF1 /* TDTabBarControllerView.h */; };
+		D3B10F2B17B0449D00B9AAF1 /* TDTabBarControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B10F2917B0449D00B9AAF1 /* TDTabBarControllerView.m */; };
 		D3C9140111BD9742002A95CF /* TDComboFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = D3C913FF11BD9742002A95CF /* TDComboFieldCell.h */; };
 		D3C9140211BD9742002A95CF /* TDComboFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C9140011BD9742002A95CF /* TDComboFieldCell.m */; };
 		D3D8023E111E2D810025650C /* NSURLRequest+TDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D8023C111E2D810025650C /* NSURLRequest+TDAdditions.m */; };
@@ -293,6 +307,20 @@
 		D3A356B811DFFB2A00EFEE29 /* TDClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDClipView.h; path = src/TDClipView.h; sourceTree = "<group>"; };
 		D3A356B911DFFB2A00EFEE29 /* TDClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDClipView.m; path = src/TDClipView.m; sourceTree = "<group>"; };
 		D3AB30BA16FA26D000AB7404 /* combo_field_progress_indicator_rounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = combo_field_progress_indicator_rounded.png; path = res/img/combo_field_progress_indicator_rounded.png; sourceTree = "<group>"; };
+		D3B10EFC17B03C8900B9AAF1 /* TDBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDBarItem.h; path = include/TDAppKit/TDBarItem.h; sourceTree = "<group>"; };
+		D3B10EFE17B03C8900B9AAF1 /* TDTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDTabBar.h; path = include/TDAppKit/TDTabBar.h; sourceTree = "<group>"; };
+		D3B10F0017B03C8900B9AAF1 /* TDTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDTabBarController.h; path = include/TDAppKit/TDTabBarController.h; sourceTree = "<group>"; };
+		D3B10F0217B03C8900B9AAF1 /* TDTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDTabBarItem.h; path = include/TDAppKit/TDTabBarItem.h; sourceTree = "<group>"; };
+		D3B10F1417B03D4400B9AAF1 /* TDBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDBarItem.m; path = src/TDBarItem.m; sourceTree = "<group>"; };
+		D3B10F1517B03D4500B9AAF1 /* TDTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDTabBar.m; path = src/TDTabBar.m; sourceTree = "<group>"; };
+		D3B10F1617B03D4500B9AAF1 /* TDTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDTabBarController.m; path = src/TDTabBarController.m; sourceTree = "<group>"; };
+		D3B10F1717B03D4500B9AAF1 /* TDTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDTabBarItem.m; path = src/TDTabBarItem.m; sourceTree = "<group>"; };
+		D3B10F1817B03D4500B9AAF1 /* TDTabBarItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDTabBarItemButton.h; path = src/TDTabBarItemButton.h; sourceTree = "<group>"; };
+		D3B10F1917B03D4500B9AAF1 /* TDTabBarItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDTabBarItemButton.m; path = src/TDTabBarItemButton.m; sourceTree = "<group>"; };
+		D3B10F1A17B03D4500B9AAF1 /* TDTabBarItemButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDTabBarItemButtonCell.h; path = src/TDTabBarItemButtonCell.h; sourceTree = "<group>"; };
+		D3B10F1B17B03D4500B9AAF1 /* TDTabBarItemButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDTabBarItemButtonCell.m; path = src/TDTabBarItemButtonCell.m; sourceTree = "<group>"; };
+		D3B10F2817B0449D00B9AAF1 /* TDTabBarControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDTabBarControllerView.h; path = src/TDTabBarControllerView.h; sourceTree = "<group>"; };
+		D3B10F2917B0449D00B9AAF1 /* TDTabBarControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDTabBarControllerView.m; path = src/TDTabBarControllerView.m; sourceTree = "<group>"; };
 		D3C913FF11BD9742002A95CF /* TDComboFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDComboFieldCell.h; path = src/TDComboFieldCell.h; sourceTree = "<group>"; };
 		D3C9140011BD9742002A95CF /* TDComboFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDComboFieldCell.m; path = src/TDComboFieldCell.m; sourceTree = "<group>"; };
 		D3D8023C111E2D810025650C /* NSURLRequest+TDAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+TDAdditions.m"; path = "src/NSURLRequest+TDAdditions.m"; sourceTree = "<group>"; };
@@ -426,6 +454,7 @@
 				D3EB2342110163F700633715 /* TDUtils.m */,
 				D30713A217594AD5000B5C0F /* TDSemaphore.h */,
 				D30713A417594ADE000B5C0F /* TDSemaphore.m */,
+				D3B10EFB17B03C7E00B9AAF1 /* TabBar */,
 				D38F3D21128B8B9400DC5FDB /* ViewController */,
 				D36A360F128B245200AB56C9 /* TabbedDocumentApp */,
 				D36E1E8C11702E2700110DBA /* ComboField */,
@@ -669,6 +698,27 @@
 			name = ViewController;
 			sourceTree = "<group>";
 		};
+		D3B10EFB17B03C7E00B9AAF1 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				D3B10F0017B03C8900B9AAF1 /* TDTabBarController.h */,
+				D3B10F1617B03D4500B9AAF1 /* TDTabBarController.m */,
+				D3B10F2817B0449D00B9AAF1 /* TDTabBarControllerView.h */,
+				D3B10F2917B0449D00B9AAF1 /* TDTabBarControllerView.m */,
+				D3B10EFE17B03C8900B9AAF1 /* TDTabBar.h */,
+				D3B10F1517B03D4500B9AAF1 /* TDTabBar.m */,
+				D3B10EFC17B03C8900B9AAF1 /* TDBarItem.h */,
+				D3B10F1417B03D4400B9AAF1 /* TDBarItem.m */,
+				D3B10F0217B03C8900B9AAF1 /* TDTabBarItem.h */,
+				D3B10F1717B03D4500B9AAF1 /* TDTabBarItem.m */,
+				D3B10F1817B03D4500B9AAF1 /* TDTabBarItemButton.h */,
+				D3B10F1917B03D4500B9AAF1 /* TDTabBarItemButton.m */,
+				D3B10F1A17B03D4500B9AAF1 /* TDTabBarItemButtonCell.h */,
+				D3B10F1B17B03D4500B9AAF1 /* TDTabBarItemButtonCell.m */,
+			);
+			name = TabBar;
+			sourceTree = "<group>";
+		};
 		D3EAB017128B4582006EDFF7 /* nib */ = {
 			isa = PBXGroup;
 			children = (
@@ -822,6 +872,13 @@
 				D30713A317594AD5000B5C0F /* TDSemaphore.h in Headers */,
 				D37E6C8917821F21001BBF05 /* TDStatusBarButton.h in Headers */,
 				D37E6C8B17821F37001BBF05 /* TDStatusBarButtonCell.h in Headers */,
+				D3B10F0817B03C8900B9AAF1 /* TDBarItem.h in Headers */,
+				D3B10F0A17B03C8900B9AAF1 /* TDTabBar.h in Headers */,
+				D3B10F0C17B03C8900B9AAF1 /* TDTabBarController.h in Headers */,
+				D3B10F0E17B03C8900B9AAF1 /* TDTabBarItem.h in Headers */,
+				D3B10F2017B03D4500B9AAF1 /* TDTabBarItemButton.h in Headers */,
+				D3B10F2217B03D4500B9AAF1 /* TDTabBarItemButtonCell.h in Headers */,
+				D3B10F2A17B0449D00B9AAF1 /* TDTabBarControllerView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1014,6 +1071,13 @@
 				D32F3D9A166020AD00EF8284 /* TDStatusBarButtonCell.m in Sources */,
 				D30713A517594ADE000B5C0F /* TDSemaphore.m in Sources */,
 				D37E6C8717821F13001BBF05 /* TDStatusBarButton.m in Sources */,
+				D3B10F1C17B03D4500B9AAF1 /* TDBarItem.m in Sources */,
+				D3B10F1D17B03D4500B9AAF1 /* TDTabBar.m in Sources */,
+				D3B10F1E17B03D4500B9AAF1 /* TDTabBarController.m in Sources */,
+				D3B10F1F17B03D4500B9AAF1 /* TDTabBarItem.m in Sources */,
+				D3B10F2117B03D4500B9AAF1 /* TDTabBarItemButton.m in Sources */,
+				D3B10F2317B03D4500B9AAF1 /* TDTabBarItemButtonCell.m in Sources */,
+				D3B10F2B17B0449D00B9AAF1 /* TDTabBarControllerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
