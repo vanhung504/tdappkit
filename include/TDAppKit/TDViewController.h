@@ -9,19 +9,20 @@
 #import <Cocoa/Cocoa.h>
 #import <TDAppKit/TDViewControllerView.h>
 
-@interface TDViewController : NSViewController {
+@class TDTabBarItem;
 
-}
+@interface TDViewController : NSViewController
 
 @property (nonatomic, retain, readonly) TDViewControllerView *viewControllerView;
+@property (nonatomic, retain) TDTabBarItem *tabBarItem;
 
 - (BOOL)isViewLoaded;
 
 - (void)viewDidLoad;
-- (void)viewWillAppear;
-- (void)viewDidAppear;
-- (void)viewWillDisappear;
-- (void)viewDidDisappear;
+- (void)viewWillAppear:(BOOL)animated;
+- (void)viewDidAppear:(BOOL)animated;
+- (void)viewWillDisappear:(BOOL)animated;
+- (void)viewDidDisappear:(BOOL)animated;
 
 - (void)viewWillMoveToSuperview:(NSView *)v;
 - (void)viewDidMoveToSuperview;
