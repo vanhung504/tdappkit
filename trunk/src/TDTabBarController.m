@@ -127,6 +127,15 @@
 
 - (void)layoutTabBarItems {
     [self.tabBar setNeedsLayout];
+    
+    [self highlightButtonAtIndex:self.selectedIndex];
+    
+//    NSUInteger i = 0;
+//    NSUInteger selIdx = self.selectedIndex;
+//    for (TDTabBarItem *item in self.tabBarItems) {
+//        [[item.button cell] setHighlighted:(i == selIdx)];
+//        ++i;
+//    }
 }
 
 
@@ -236,9 +245,11 @@
     
     if (selectedTabBarItem != newItem) {
         [selectedTabBarItem.button setState:NSOffState];
+        [[selectedTabBarItem.button cell] setHighlighted:NO];
         self.selectedTabBarItem = newItem;
     }
     [selectedTabBarItem.button setState:NSOnState];
+    [[selectedTabBarItem.button cell] setHighlighted:YES];
 }
 
 
