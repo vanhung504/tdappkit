@@ -13,7 +13,6 @@
 //  limitations under the License.
 
 #import <TDAppKit/TDTabBarItem.h>
-#import "TDTabBarItemButton.h"
 
 @interface TDTabBarItem ()
 @property (nonatomic, retain) NSButton *button;
@@ -23,7 +22,7 @@
 
 - (id)initWithTitle:(NSString *)aTitle image:(NSImage *)img tag:(NSInteger)aTag {
     if (self = [super init]) {
-        self.button = [[[TDTabBarItemButton alloc] initWithFrame:NSZeroRect] autorelease];
+        self.button = [[[NSButton alloc] initWithFrame:NSZeroRect] autorelease];
         
         self.title = aTitle;
         self.image = img;
