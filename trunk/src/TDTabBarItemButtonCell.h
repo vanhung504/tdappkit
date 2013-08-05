@@ -14,8 +14,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface TDTabBarItemButtonCell : NSButtonCell {
-
-}
+@interface TDTabBarItemButtonCell : NSButtonCell
 
 @end

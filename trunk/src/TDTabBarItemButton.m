@@ -44,5 +44,4 @@
     return YES;
 }
 
-@synthesize item;
 @end

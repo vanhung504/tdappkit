@@ -16,9 +16,6 @@
 
 @class TDTabBarItem;
 
-@interface TDTabBarItemButton : NSButton {
-    TDTabBarItem *item;
-}
-
+@interface TDTabBarItemButton : NSButton
 @property (nonatomic, retain) TDTabBarItem *item;
 @end
