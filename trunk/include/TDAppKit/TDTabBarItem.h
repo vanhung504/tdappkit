@@ -14,21 +14,6 @@
 
 #import <TDAppKit/TDBarItem.h>
 
-typedef enum {
-    TDTabBarSystemItemMore,
-    TDTabBarSystemItemFavorites,
-    TDTabBarSystemItemFeatured,
-    TDTabBarSystemItemTopRated,
-    TDTabBarSystemItemRecents,
-    TDTabBarSystemItemContacts,
-    TDTabBarSystemItemHistory,
-    TDTabBarSystemItemBookmarks,
-    TDTabBarSystemItemSearch,
-    TDTabBarSystemItemDownloads,
-    TDTabBarSystemItemMostRecent,
-    TDTabBarSystemItemMostViewed,
-} TDTabBarSystemItem;
-
 @interface TDTabBarItem : TDBarItem
 // designated initializer
 - (id)initWithTitle:(NSString *)title image:(NSImage *)image tag:(NSInteger)tag;
