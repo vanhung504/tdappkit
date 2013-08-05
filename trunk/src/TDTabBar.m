@@ -15,7 +15,7 @@
 #import <TDAppKit/TDTabBar.h>
 #import <TDAppKit/TDTabBarItem.h>
 
-#define TABBAR_HEIGHT 44.0
+#define TABBAR_HEIGHT 24.0
 #define TABBAR_ITEM_MARGIN_X 1.5
 
 @interface TDTabBarItem ()
@@ -43,26 +43,30 @@
 
 
 - (void)layoutSubviews {
-//    CGRect bounds = [self bounds];
-//    
-//    NSArray *tabBarItems = [self subviews];
-//    NSInteger c = [[self subviews] count];
-//    
-//    if (c > 0) {
-//        NSInteger i = 0;
-//        CGFloat x = TABBAR_ITEM_MARGIN_X;
-//        CGFloat totalWidth = NSWidth(bounds) - (TABBAR_ITEM_MARGIN_X * 2);
-//        CGFloat w = totalWidth / c;
-//        CGFloat h = NSHeight(bounds);
-//        for (TDTabBarItem *item in tabBarItems) {
-////            if (selectedIndex == i) {
-////                [self highlightButtonAtIndex:i];
-////            }
-//            i++;
-//            //[item.button setFrame:NSMakeRect(x, 0, w, h)];
-//            x += w;
-//        }
-//    }
+    CGRect bounds = [self bounds];
+    
+    NSArray *buttons = [self subviews];
+    TDAssert(buttons);
+    NSInteger c = [[self subviews] count];
+    TDAssert(c);
+    
+    if (c > 0) {
+        NSUInteger i = 0;
+        
+        CGFloat x = TABBAR_ITEM_MARGIN_X;
+        CGFloat totalWidth = NSWidth(bounds) - (TABBAR_ITEM_MARGIN_X * 2.0);
+        CGFloat w = totalWidth / c;
+        CGFloat h = NSHeight(bounds);
+        for (NSButton *b in buttons) {
+//            if (selectedIndex == i) {
+//                [self highlightButtonAtIndex:i];
+//            }
+            i++;
+            CGRect r = CGRectMake(x, 0.0, w, h);
+            [b setFrame:r];
+            x += w;
+        }
+    }
 }
 
 

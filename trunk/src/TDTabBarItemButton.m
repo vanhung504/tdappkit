@@ -25,7 +25,7 @@
 
 - (id)initWithFrame:(NSRect)frame {
     if (self = [super initWithFrame:frame]) {
-        [self setFont:[NSFont boldSystemFontOfSize:10]];
+        [self setFont:[NSFont boldSystemFontOfSize:10.0]];
         [self setButtonType:NSPushOnPushOffButton];
         [self setBordered:NO];
         [self setFocusRingType:NSFocusRingTypeNone];

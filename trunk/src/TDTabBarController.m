@@ -210,6 +210,7 @@
             
             TDTabBarItem *item = [vc tabBarItem];
             if (!item) {
+                TDAssert([vc.title length]);
                 item = [[[TDTabBarItem alloc] initWithTitle:vc.title image:nil tag:tag++] autorelease];
             }
 

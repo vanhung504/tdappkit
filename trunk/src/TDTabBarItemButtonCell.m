@@ -76,7 +76,7 @@ static NSShadow *sTitleShadow = nil;
 }
 
 
-- (void)drawInteriorWithFrame:(NSRect)r inView:(NSView *)cv { 
+//- (void)drawInteriorWithFrame:(NSRect)r inView:(NSView *)cv { 
 //    //TDTabBarItemButton *b = (TDTabBarItemButton *)cv;
 //    //TDTabBarItem *item = b.item;
 //    
@@ -152,6 +152,6 @@ static NSShadow *sTitleShadow = nil;
 //            [title drawWithRect:d options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin attributes:attributes];
 //        }
 //    }
-}
+//}
 
 @end
