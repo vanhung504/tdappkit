@@ -15,6 +15,7 @@
 #import <TDAppKit/TDTabBarController.h>
 #import <TDAppKit/TDTabBar.h>
 #import <TDAppKit/TDTabBarItem.h>
+#import <TDAppKit/TDFlippedView.h>
 #import "TDTabBarControllerView.h"
 
 @interface TDTabBarItem ()

@@ -14,9 +14,14 @@
 
 #import <TDAppKit/TDTabBar.h>
 #import <TDAppKit/TDTabBarItem.h>
+#import <TDAppKit/TDUtils.h>
 
-#define TABBAR_HEIGHT 24.0
-#define TABBAR_ITEM_MARGIN_X 1.5
+#define TABBAR_HEIGHT 22.0
+
+#define BUTTON_WIDTH 28.0
+#define BUTTON_MARGIN_X 1.0
+#define BUTTON_MARGIN_TOP 1.0
+#define BUTTON_MARGIN_BOTTOM 1.0
 
 @interface TDTabBarItem ()
 @property (nonatomic, retain) NSButton *button;
@@ -31,7 +36,11 @@
 
 - (id)initWithFrame:(NSRect)r {
     if (self = [super initWithFrame:r]) {
-
+        self.mainBgGradient = TDVertGradient(0xefefef, 0xcccccc);
+        self.mainBottomBevelColor = [NSColor colorWithDeviceWhite:0.48 alpha:1.0];
+        
+        self.nonMainBgGradient = TDVertGradient(0xefefef, 0xdfdfdf);
+        self.nonMainBottomBevelColor = [NSColor colorWithDeviceWhite:0.7 alpha:1.0];
     }
     return self;
 }
@@ -39,6 +48,11 @@
 
 - (void)dealloc {
     [super dealloc];
+}
+
+
+- (void)awakeFromNib {
+    
 }
 
 
@@ -51,32 +65,26 @@
     TDAssert(c);
     
     if (c > 0) {
-        NSUInteger i = 0;
+        CGFloat totalWidth = ceil(BUTTON_WIDTH*c + BUTTON_MARGIN_X*(c-1));
+
+        CGFloat x = CGRectGetWidth(bounds)/2.0 - totalWidth/2.0;
+        CGFloat y = CGRectGetMinY(bounds) + BUTTON_MARGIN_TOP;
+        CGFloat w = BUTTON_WIDTH;
+        CGFloat h = CGRectGetHeight(bounds) - (BUTTON_MARGIN_TOP + BUTTON_MARGIN_BOTTOM);
         
-        CGFloat x = TABBAR_ITEM_MARGIN_X;
-        CGFloat totalWidth = NSWidth(bounds) - (TABBAR_ITEM_MARGIN_X * 2.0);
-        CGFloat w = totalWidth / c;
-        CGFloat h = NSHeight(bounds);
         for (NSButton *b in buttons) {
-//            if (selectedIndex == i) {
-//                [self highlightButtonAtIndex:i];
-//            }
-            i++;
-            CGRect r = CGRectMake(x, 0.0, w, h);
+            CGRect r = CGRectMake(x, y, w, h);
             [b setFrame:r];
-            x += w;
+            x += w + BUTTON_MARGIN_X;
         }
     }
 }
 
 
-
-
-- (void)drawRect:(NSRect)dirtyRect {
-    NSRect bounds = [self bounds];
-    [[NSColor redColor] setFill];
-    NSRectFill(bounds);
-}
-
+//- (void)drawRect:(NSRect)dirtyRect {
+//    NSRect bounds = [self bounds];
+//    [[NSColor redColor] setFill];
+//    NSRectFill(bounds);
+//}
 
 @end
