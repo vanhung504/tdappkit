@@ -57,7 +57,7 @@ static NSShadow *sTitleShadow = nil;
 
 
 - (void)commonInit {
-    [self setImagePosition:NSImageAbove];
+    [self setImagePosition:NSImageOnly];
 }
 
 
@@ -71,12 +71,12 @@ static NSShadow *sTitleShadow = nil;
 }
 
 
-- (void)drawWithFrame:(NSRect)r inView:(NSView *)cv {
-    [self drawInteriorWithFrame:r inView:cv];
-}
-
-
-//- (void)drawInteriorWithFrame:(NSRect)r inView:(NSView *)cv { 
+//- (void)drawWithFrame:(NSRect)r inView:(NSView *)cv {
+//    [self drawInteriorWithFrame:r inView:cv];
+//}
+//
+//
+//- (void)drawInteriorWithFrame:(NSRect)r inView:(NSView *)cv {
 //    //TDTabBarItemButton *b = (TDTabBarItemButton *)cv;
 //    //TDTabBarItem *item = b.item;
 //    

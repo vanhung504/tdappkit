@@ -30,9 +30,4 @@
     [super dealloc];
 }
 
-@synthesize enabled;
-@synthesize title;
-@synthesize image;
-@synthesize imageInsets;
-@synthesize tag;
 @end

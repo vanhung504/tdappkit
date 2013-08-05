@@ -21,88 +21,6 @@
 
 @implementation TDTabBarItem
 
-- (id)initWithTabBarSystemItem:(TDTabBarSystemItem)systemItem tag:(NSInteger)aTag {
-    NSString *aTitle = nil;
-    NSString *imgPath = nil;
-    NSString *imgHiPath = nil;
-    
-    NSBundle *b = [NSBundle bundleForClass:[TDTabBarItem class]];
-    
-    switch (systemItem) {
-        case TDTabBarSystemItemMore:
-            aTitle = NSLocalizedString(@"More", @"");
-            imgPath = [b pathForImageResource:@"tabbar_system_item_more.png"];
-            imgHiPath = [b pathForImageResource:@"tabbar_system_item_more_hi.png"];
-            break;
-        case TDTabBarSystemItemFavorites:
-            aTitle = NSLocalizedString(@"Favorites", @"");
-            imgPath = [b pathForImageResource:@"tabbar_system_item_favorites.png"];
-            imgHiPath = [b pathForImageResource:@"tabbar_system_item_favorites_hi.png"];
-            break;
-        case TDTabBarSystemItemFeatured:
-            aTitle = NSLocalizedString(@"Featured", @"");
-            imgPath = [b pathForImageResource:@"tabbar_system_item_featured.png"];
-            imgHiPath = [b pathForImageResource:@"tabbar_system_item_featured_hi.png"];
-            break;
-        case TDTabBarSystemItemTopRated:
-            aTitle = NSLocalizedString(@"Top Rated", @"");
-            imgPath = [b pathForImageResource:@"tabbar_system_item_toprated.png"];
-            imgHiPath = [b pathForImageResource:@"tabbar_system_item_toprated_hi.png"];
-            break;
-        case TDTabBarSystemItemRecents:
-            aTitle = NSLocalizedString(@"Recents", @"");
-            imgPath = [b pathForImageResource:@"tabbar_system_item_recents.png"];
-            imgHiPath = [b pathForImageResource:@"tabbar_system_item_recents_hi.png"];
-            break;
-        case TDTabBarSystemItemContacts:
-            aTitle = NSLocalizedString(@"Contacts", @"");
-            imgPath = [b pathForImageResource:@"tabbar_system_item_contacts.png"];
-            imgHiPath = [b pathForImageResource:@"tabbar_system_item_contacts_hi.png"];
-            break;
-        case TDTabBarSystemItemHistory:
-            aTitle = NSLocalizedString(@"History", @"");
-            imgPath = [b pathForImageResource:@"tabbar_system_item_history.png"];
-            imgHiPath = [b pathForImageResource:@"tabbar_system_item_history_hi.png"];
-            break;
-        case TDTabBarSystemItemBookmarks:
-            aTitle = NSLocalizedString(@"Bookmarks", @"");
-            imgPath = [b pathForImageResource:@"tabbar_system_item_bookmarks.png"];
-            imgHiPath = [b pathForImageResource:@"tabbar_system_item_bookmarks_hi.png"];
-            break;
-        case TDTabBarSystemItemSearch:
-            aTitle = NSLocalizedString(@"Search", @"");
-            imgPath = [b pathForImageResource:@"tabbar_system_item_search.png"];
-            imgHiPath = [b pathForImageResource:@"tabbar_system_item_search_hi.png"];
-            break;
-        case TDTabBarSystemItemDownloads:
-            aTitle = NSLocalizedString(@"Downloads", @"");
-            imgPath = [b pathForImageResource:@"tabbar_system_item_downloads.png"];
-            imgHiPath = [b pathForImageResource:@"tabbar_system_item_downloads_hi.png"];
-            break;
-        case TDTabBarSystemItemMostRecent:
-            aTitle = NSLocalizedString(@"Most Recent", @"");
-            imgPath = [b pathForImageResource:@"tabbar_system_item_mostrecent.png"];
-            imgHiPath = [b pathForImageResource:@"tabbar_system_item_mostrecent_hi.png"];
-            break;
-        case TDTabBarSystemItemMostViewed:
-            aTitle = NSLocalizedString(@"Most Viewed", @"");
-            imgPath = [b pathForImageResource:@"tabbar_system_item_mostviewed.png"];
-            imgHiPath = [b pathForImageResource:@"tabbar_system_item_mostviewed_hi.png"];
-            break;
-        default:
-            break;
-    }
-    
-    NSImage *img = [[[NSImage alloc] initWithContentsOfFile:imgPath] autorelease];
-    NSImage *imgHi = [[[NSImage alloc] initWithContentsOfFile:imgHiPath] autorelease];
-
-    self = [self initWithTitle:aTitle image:img tag:aTag];
-    [button setAlternateImage:imgHi];
-    return self;
-}
-
-
-
 - (id)initWithTitle:(NSString *)aTitle image:(NSImage *)img tag:(NSInteger)aTag {
     if (self = [super init]) {
         self.button = [[[TDTabBarItemButton alloc] initWithFrame:NSZeroRect] autorelease];
@@ -116,7 +34,7 @@
 
 
 - (void)dealloc {
-    [button removeFromSuperview];
+    [_button removeFromSuperview];
     self.button = nil;
     self.badgeValue = nil;
     [super dealloc];
@@ -130,47 +48,45 @@
 
 - (void)setEnabled:(BOOL)yn {
     [super setEnabled:yn];
-    [button setEnabled:yn];
+    [_button setEnabled:yn];
 }
 
 
 - (id)target {
-    return [button target];
+    return [_button target];
 }
 
 
 - (void)setTarget:(id)t {
-    [button setTarget:t];
+    [_button setTarget:t];
 }
 
 
 - (SEL)action {
-    return [button action];
+    return [_button action];
 }
 
 
 - (void)setAction:(SEL)sel {
-    [button setAction:sel];
+    [_button setAction:sel];
 }
 
 
 - (void)setTitle:(NSString *)aTitle {
     [super setTitle:aTitle];
-    [button setTitle:aTitle];
+    [_button setTitle:aTitle];
 }
 
 
 - (void)setImage:(NSImage *)img {
     [super setImage:img];
-    [button setImage:img];
+    [_button setImage:img];
 }
 
 
 - (void)setTag:(NSInteger)aTag {
     [super setTag:aTag];
-    [button setTag:aTag];
+    [_button setTag:aTag];
 }
 
-@synthesize button;
-@synthesize badgeValue;
 @end

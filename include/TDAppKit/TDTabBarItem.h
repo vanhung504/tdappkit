@@ -29,12 +29,7 @@ typedef enum {
     TDTabBarSystemItemMostViewed,
 } TDTabBarSystemItem;
 
-@interface TDTabBarItem : TDBarItem {
-    NSButton *button;
-    NSString *badgeValue;
-}
-
-- (id)initWithTabBarSystemItem:(TDTabBarSystemItem)systemItem tag:(NSInteger)tag;
+@interface TDTabBarItem : TDBarItem
 // designated initializer
 - (id)initWithTitle:(NSString *)title image:(NSImage *)image tag:(NSInteger)tag;
 

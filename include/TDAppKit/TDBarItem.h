@@ -14,14 +14,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface TDBarItem : NSObject {
-    BOOL enabled;
-    NSString *title;
-    NSImage *image;
-    NSEdgeInsets imageInsets;
-    NSInteger tag;
-}
-
+@interface TDBarItem : NSObject
 @property (nonatomic, getter=isEnabled) BOOL enabled;       // default is YES
 @property (nonatomic, copy) NSString *title;                // default is nil
 @property (nonatomic, retain) NSImage *image;               // default is nil
