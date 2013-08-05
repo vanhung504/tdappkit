@@ -20,7 +20,7 @@
 #define TITLE_OFFSET_Y 1
 #define IMAGE_OFFSET_Y 4
 
-static NSShadow *sTitleShadow = nil;
+//static NSShadow *sTitleShadow = nil;
 
 @interface TDTabBarItemButtonCell ()
 - (void)commonInit;
@@ -31,11 +31,10 @@ static NSShadow *sTitleShadow = nil;
 + (void)initialize {
     if ([TDTabBarItemButtonCell class] == self) {
         
-        sTitleShadow = [[NSShadow alloc] init];
-        [sTitleShadow setShadowColor:[[NSColor blackColor] colorWithAlphaComponent:0.5]];
-        [sTitleShadow setShadowOffset:NSMakeSize(0, 1)];
-        [sTitleShadow setShadowBlurRadius:0];
-        
+//        sTitleShadow = [[NSShadow alloc] init];
+//        [sTitleShadow setShadowColor:[[NSColor blackColor] colorWithAlphaComponent:0.5]];
+//        [sTitleShadow setShadowOffset:NSMakeSize(0, 1)];
+//        [sTitleShadow setShadowBlurRadius:0];
     }
 }
 
