@@ -75,7 +75,6 @@
     tbcv.tabBar = self.tabBar;
     tbcv.containerView = self.containerView;
     
-    [self highlightButtonAtIndex:0];
     [self viewDidLoad];
 }
 
@@ -230,6 +229,7 @@
     }
     
     self.tabBarItems = [[items copy] autorelease];
+    [self highlightButtonAtIndex:selectedIndex];
 }
 
 
