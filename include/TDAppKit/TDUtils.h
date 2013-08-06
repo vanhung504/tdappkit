@@ -24,6 +24,8 @@
 NSGradient *TDVertGradient(NSUInteger topHex, NSUInteger botHex);
 NSColor *TDHexColor(NSUInteger x);
 NSColor *TDHexaColor(NSUInteger x);
+id TDCGHexColor(NSUInteger x);
+id TDCGHexaColor(NSUInteger x);
 
 void TDPerformOnMainThread(void (^block)(void));
 void TDPerformOnBackgroundThread(void (^block)(void));
