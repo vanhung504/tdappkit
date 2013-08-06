@@ -24,6 +24,7 @@ NSGradient *TDVertGradient(NSUInteger topHex, NSUInteger botHex) {
     return grad;
 }
 
+
 NSColor *TDHexColor(NSUInteger x) {
     NSUInteger red   = (0xFF0000 & x) >> 16;
     NSUInteger green = (0x00FF00 & x) >>  8;
@@ -40,6 +41,16 @@ NSColor *TDHexaColor(NSUInteger x) {
     NSUInteger alpha = (0x000000FF & x) >>  0;
     
     return [NSColor colorWithDeviceRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:alpha/255.0];
+}
+
+
+id TDCGHexColor(NSUInteger x) {
+    return (id)[TDHexColor(x) CGColor];
+}
+
+
+id TDCGHexaColor(NSUInteger x) {
+    return (id)[TDHexaColor(x) CGColor];
 }
 
 
