@@ -190,7 +190,7 @@ BOOL TDIsOptionKeyPressed(NSInteger modifierFlags) {
 }
 
 
-CGPoint TDAlignPointToUserSpace(CGContextRef ctx, CGPoint p) {
+CGPoint TDAlignPointToDeviceSpace(CGContextRef ctx, CGPoint p) {
     p = CGContextConvertPointToDeviceSpace(ctx, p);
     p.x = floor(p.x);
     p.y = floor(p.y);
@@ -200,7 +200,7 @@ CGPoint TDAlignPointToUserSpace(CGContextRef ctx, CGPoint p) {
 
 
 CGPoint TDDeviceFloorAlign(CGContextRef ctx, CGPoint p) {
-    p = TDAlignPointToUserSpace(ctx, p);
+    p = TDAlignPointToDeviceSpace(ctx, p);
     p.x += 0.5;
     p.y += 0.5;
     return p;
