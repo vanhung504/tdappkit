@@ -63,15 +63,15 @@
     if (c > 0) {
         CGFloat totalWidth = ceil(BUTTON_WIDTH*c + BUTTON_MARGIN_X*(c-1));
 
-        CGFloat x = CGRectGetWidth(bounds)/2.0 - totalWidth/2.0;
-        CGFloat y = CGRectGetMinY(bounds) + BUTTON_MARGIN_BOTTOM;
+        CGFloat x = floor(CGRectGetWidth(bounds)/2.0 - totalWidth/2.0);
+        CGFloat y = floor(CGRectGetMinY(bounds) + BUTTON_MARGIN_BOTTOM);
         CGFloat w = BUTTON_WIDTH;
-        CGFloat h = CGRectGetHeight(bounds) - (BUTTON_MARGIN_TOP + BUTTON_MARGIN_TOP);
+        CGFloat h = ceil(CGRectGetHeight(bounds) - (BUTTON_MARGIN_TOP + BUTTON_MARGIN_TOP));
         
         for (NSButton *b in buttons) {
             CGRect r = CGRectMake(x, y, w, h);
             [b setFrame:r];
-            x += w + BUTTON_MARGIN_X;
+            x += floor(w + BUTTON_MARGIN_X);
         }
     }
 }
