@@ -17,9 +17,12 @@
 #ifdef TDDEBUG
     NSLog(@"%s %@", __PRETTY_FUNCTION__, self);
 #endif
-    NSView *v = [self view];
-    if (v) {
-        [(TDViewControllerView *)v setViewController:nil];
+    
+    if ([self isViewLoaded]) {
+        TDViewControllerView *v = [self viewControllerView];
+        if (v) {
+            v.viewController = nil;
+        }
     }
     self.tabBarItem = nil;
     [super dealloc];
