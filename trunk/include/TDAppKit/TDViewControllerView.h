@@ -8,11 +8,6 @@
 
 #import <TDAppKit/TDColorView.h>
 
-@class TDViewController;
+@interface TDViewControllerView : TDColorView
 
-@interface TDViewControllerView : TDColorView {
-    TDViewController *viewController;
-}
-
-@property (nonatomic, assign) TDViewController *viewController;
 @end

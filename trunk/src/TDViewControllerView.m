@@ -23,7 +23,6 @@
 #ifdef TDDEBUG
     NSLog(@"%s %@", __PRETTY_FUNCTION__, self);
 #endif
-    self.viewController = nil;
     [super dealloc];
 }
 
@@ -34,23 +33,32 @@
 
 
 - (void)viewWillMoveToSuperview:(NSView *)v {
-    [viewController viewWillMoveToSuperview:v];
+    if (v) {
+        NSDictionary *info = @{@"superview": v};
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:TDViewControllerViewWillMoveToSuperviewNotification object:self userInfo:info];
+    }
 }
 
 
 - (void)viewDidMoveToSuperview {
-    [viewController viewDidMoveToSuperview];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:TDViewControllerViewDidMoveToSuperviewNotification object:self];
 }
 
 
 - (void)viewWillMoveToWindow:(NSWindow *)win {
-    [viewController viewWillMoveToWindow:win];
+    if (win) {
+        NSDictionary *info = @{@"window": win};
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:TDViewControllerViewWillMoveToWindowNotification object:self userInfo:info];
+    }
 }
 
 
 - (void)viewDidMoveToWindow {
-    [viewController viewDidMoveToWindow];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:TDViewControllerViewDidMoveToWindowNotification object:self];
 }
 
-@synthesize viewController;
 @end

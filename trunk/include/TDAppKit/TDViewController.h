@@ -7,13 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <TDAppKit/TDViewControllerView.h>
 
 @class TDTabBarItem;
 
+extern NSString * const TDViewControllerViewWillMoveToSuperviewNotification;
+extern NSString * const TDViewControllerViewDidMoveToSuperviewNotification;
+extern NSString * const TDViewControllerViewWillMoveToWindowNotification;
+extern NSString * const TDViewControllerViewDidMoveToWindowNotification;
+
 @interface TDViewController : NSViewController
 
-@property (nonatomic, retain, readonly) TDViewControllerView *viewControllerView;
 @property (nonatomic, retain) TDTabBarItem *tabBarItem;
 
 - (BOOL)isViewLoaded;
@@ -28,5 +31,4 @@
 - (void)viewDidMoveToSuperview;
 - (void)viewWillMoveToWindow:(NSWindow *)win;
 - (void)viewDidMoveToWindow;
-
 @end
