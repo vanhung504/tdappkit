@@ -75,8 +75,9 @@
     _tabBar.frame =  [self tabBarRectForBounds:bounds];
     _containerView.frame = [self containerViewRectForBounds:bounds];
     
-    if ([[_containerView subviews] count]) {
-        [[_containerView subviews][0] setFrame:[_containerView bounds]];
+    NSArray *subviews = [_containerView subviews];
+    if ([subviews count]) {
+        [subviews[0] setFrame:[_containerView bounds]];
     }
     
     [self setNeedsDisplay:YES];
