@@ -15,7 +15,7 @@
 #import <TDAppKit/TDTabBarController.h>
 #import <TDAppKit/TDTabBar.h>
 #import <TDAppKit/TDTabBarItem.h>
-#import <TDAppKit/TDFlippedView.h>
+#import <TDAppKit/TDFlippedColorView.h>
 #import "TDTabBarControllerView.h"
 
 @interface TDTabBarController ()
@@ -68,7 +68,7 @@
     [tabBar setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
     [tbcv addSubview:tabBar];
     
-    self.containerView = [[[TDFlippedView alloc] initWithFrame:NSZeroRect] autorelease];
+    self.containerView = [[[TDFlippedColorView alloc] initWithFrame:NSZeroRect] autorelease];
     [self.containerView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [tbcv addSubview:containerView];
     
@@ -115,7 +115,7 @@
 
 
 - (void)layoutSubviews {
-    TDViewControllerView *v = (TDViewControllerView *)[self view];
+    TDTabBarControllerView *v = (TDTabBarControllerView *)[self view];
     [v setNeedsLayout];
     [self layoutTabBarItems];
 }
