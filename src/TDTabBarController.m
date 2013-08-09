@@ -174,7 +174,8 @@
     }
     
     [self view]; // trigger view load if necessary
-
+    
+    [selectedViewController.view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [selectedViewController.view setFrame:[containerView bounds]];
     
     [selectedViewController viewWillAppear:NO];
