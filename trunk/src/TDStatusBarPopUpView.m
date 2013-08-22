@@ -113,6 +113,7 @@ static NSDictionary *sNonMainValueTextAttrs = nil;
 - (void)dealloc {
     self.labelText = nil;
     self.valueText = nil;
+    self.checkbox = nil;
     self.popUpButton = nil;
     [super dealloc];
 }
@@ -440,6 +441,7 @@ static NSDictionary *sNonMainValueTextAttrs = nil;
 
 @synthesize labelText;
 @synthesize valueText;
+@synthesize checkbox;
 @synthesize popUpButton;
 
 @synthesize labelTextSize;

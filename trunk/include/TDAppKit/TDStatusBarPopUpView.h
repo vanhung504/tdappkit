@@ -11,6 +11,7 @@
 @interface TDStatusBarPopUpView : TDBar <NSMenuDelegate>  {
     NSString *labelText;
     NSString *valueText;
+    NSButton *checkbox;
     NSPopUpButton *popUpButton;
 
     NSSize labelTextSize;
@@ -32,5 +33,6 @@
 
 @property (nonatomic, copy) NSString *labelText;
 @property (nonatomic, copy) NSString *valueText;
+@property (nonatomic, retain) IBOutlet NSButton *checkbox;
 @property (nonatomic, retain) IBOutlet NSPopUpButton *popUpButton;
 @end
