@@ -749,7 +749,9 @@ NSString *const TDListItemPboardType = @"TDListItemPboardType";
         NSRect itemFrame = [item frame];
         width = itemFrame.size.width;
         height += itemFrame.size.height;
-        [images addObject:[item draggingImage]];
+        id image = [item draggingImage];
+        TDAssert(image);
+        if (image) [images addObject:image];
         i = [set indexGreaterThanIndex:i];
     }
 
