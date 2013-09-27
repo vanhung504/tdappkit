@@ -32,6 +32,7 @@ NSString * const TDViewControllerViewDidMoveToWindowNotification = @"TDViewContr
 
 
 - (void)loadView {
+    TDAssertMainThread();
     [super loadView];
     _TD_isViewLoaded = YES;
     TDAssert([[self view] isKindOfClass:[TDViewControllerView class]]);
