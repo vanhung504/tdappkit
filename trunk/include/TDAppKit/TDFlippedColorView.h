@@ -14,8 +14,6 @@
 
 #import <TDAppKit/TDColorView.h>
 
-@interface TDFlippedColorView : TDColorView {
-
-}
+@interface TDFlippedColorView : TDColorView
 
 @end
