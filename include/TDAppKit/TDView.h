@@ -8,10 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface TDView : NSView {
-    
-}
-
+@interface TDView : NSView
 - (void)setNeedsLayout;
 - (void)layoutSubviews;
 @end

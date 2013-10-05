@@ -14,9 +14,7 @@
 
 #import <TDAppKit/TDView.h>
 
-@interface TDColorView : TDView {
-    NSColor *color;
-}
+@interface TDColorView : TDView
 
 @property (nonatomic, retain) NSColor *color;
 @end
