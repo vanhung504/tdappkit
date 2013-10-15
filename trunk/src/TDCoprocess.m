@@ -49,13 +49,13 @@ static void sig_pipe(int signo) {
 #pragma mark Public
 
 - (NSFileHandle *)fileHandleForWriting {
-    TDAssert(_childStdinPipe);
+    //TDAssert(_childStdinPipe);
     return [_childStdinPipe fileHandleForReading];
 }
 
 
 - (NSFileHandle *)fileHandleForReading {
-    TDAssert(_childStdoutPipe);
+    //TDAssert(_childStdoutPipe);
     return [_childStdoutPipe fileHandleForReading];
 }
 
@@ -64,7 +64,7 @@ static void sig_pipe(int signo) {
 #pragma mark Private
 
 - (NSError *)errorWithFormat:(NSString *)fmt, ... {
-    TDAssert([fmt length]);
+    //TDAssert([fmt length]);
     
     va_list vargs;
     va_start(vargs, fmt);
@@ -77,7 +77,7 @@ static void sig_pipe(int signo) {
 
 
 - (BOOL)forkAndExecWithError:(NSError **)outErr {
-    TDAssert(!_hasRun);
+    //TDAssert(!_hasRun);
     
     // programmer error.
     if (_hasRun) {
@@ -85,9 +85,11 @@ static void sig_pipe(int signo) {
         return NO;
     }
     
-    TDAssert([_commandString length]);
-    TDAssert(!_childStdinPipe);
-    TDAssert(!_childStdoutPipe);
+    self.hasRun = YES;
+    
+    //TDAssert([_command length]);
+    //TDAssert(!_childStdinPipe);
+    //TDAssert(!_childStdoutPipe);
     
     if (signal(SIGPIPE, sig_pipe) < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not set SIGPIE handler"];
@@ -114,7 +116,7 @@ static void sig_pipe(int signo) {
     
     // child
     else {
-        TDAssert(0 == pid);
+        //TDAssert(0 == pid);
         
         // close unused file descs
         [[_childStdinPipe fileHandleForWriting] closeFile];
@@ -139,7 +141,25 @@ static void sig_pipe(int signo) {
         }
         
         // exec
-        if (execl([_commandString UTF8String], [[_commandString lastPathComponent] UTF8String], (char *)0)) {
+        NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        //TDAssert([args length] > 1);
+        
+        NSString *exePath = args[0];
+        NSString *exeName = [exePath lastPathComponent];
+        
+        NSUInteger len = [args count] + 1;
+        const char *argv[len];
+        argv[0] = [exeName UTF8String];
+        
+        NSUInteger i = 1;
+        for (NSString *arg in args) {
+            //TDAssert([arg isKindOfClass:[NSString class]]);
+            argv[i++] = [arg UTF8String];
+        }
+        
+        NSLog(@"%@ %@", exePath, exeName);
+        
+        if (execv([exePath UTF8String], (char * const *)argv)) {
             NSLog(@"error while attching exec'ing command string: `%@`", _commandString);
         }
     }
