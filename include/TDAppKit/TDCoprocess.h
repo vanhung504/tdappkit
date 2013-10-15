@@ -15,6 +15,6 @@
 
 - (BOOL)forkAndExecWithError:(NSError **)outErr;
 
-- (NSFileHandle *)fileHandleForReading; // child processes' stdout
 - (NSFileHandle *)fileHandleForWriting; // child processes' stdin
+- (NSFileHandle *)fileHandleForReading; // child processes' stdout
 @end
