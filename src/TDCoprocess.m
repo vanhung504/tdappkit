@@ -38,6 +38,8 @@ static void sig_pipe(int signo) {
 
 
 - (void)dealloc {
+    printf("in coprocess child dealloc\n"); fflush(stdout);
+
     self.commandString = nil;
     self.childStdinPipe = nil;
     self.childStdoutPipe = nil;
@@ -101,6 +103,8 @@ static void sig_pipe(int signo) {
     self.childStdinPipe = [NSPipe pipe];
     self.childStdoutPipe = [NSPipe pipe];
     
+    NSString *cmdString = [_commandString copy]; // leaks
+    
     pid_t pid;
     
     if ((pid = fork()) < 0) {
@@ -147,18 +151,19 @@ static void sig_pipe(int signo) {
             }
             
             printf("in coprocess child 4\n"); fflush(stdout);
+            printf("in coprocess child 5, _commandString: %s\n", [cmdString UTF8String]); fflush(stdout);
             // exec
-            NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            NSArray *args = [cmdString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
             //TDAssert([args length] > 1);
+            NSUInteger len = [args count];
+            printf("in coprocess 6: len: %lu\n", len); fflush(stdout);
             
             NSString *exePath = args[0];
             NSString *exeName = [exePath lastPathComponent];
-            
-            NSUInteger len = [args count];
-            const char *argv[len];
-            argv[0] = [exeName UTF8String];
-            
             printf("in coprocess: %s %s\n", [exePath UTF8String], [exeName UTF8String]); fflush(stdout);
+            
+            const char *argv[len+1];
+            argv[0] = [exeName UTF8String];
             
             NSUInteger i = 1;
             for (NSString *arg in [args subarrayWithRange:NSMakeRange(1, len-1)]) {
@@ -166,11 +171,17 @@ static void sig_pipe(int signo) {
                 printf("arg %lu: %s\n", i, [arg UTF8String]); fflush(stdout);
                 argv[i++] = [arg UTF8String];
             }
+            argv[i] = NULL;
             
+            for (NSUInteger i =0 ; i < len+1; ++i) {
+                const char *argc = argv[i];
+                printf("arg %lu: %s\n", i, argc); fflush(stdout);
+            }
             
             if (execv([exePath UTF8String], (char * const *)argv)) {
-                printf("error while attching exec'ing command string: `%s`\n", [_commandString UTF8String]);
+                printf("error while attching exec'ing command string: `%s`\n", [cmdString UTF8String]);
             }
+            printf("did exec string: `%s`\n", [cmdString UTF8String]);
         }
     }
 
