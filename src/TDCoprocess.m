@@ -87,6 +87,8 @@ static void sig_pipe(int signo) {
     
     self.hasRun = YES;
     
+    NSLog(@"%@", _commandString);
+    
     //TDAssert([_command length]);
     //TDAssert(!_childStdinPipe);
     //TDAssert(!_childStdoutPipe);
@@ -116,51 +118,59 @@ static void sig_pipe(int signo) {
     
     // child
     else {
-        //TDAssert(0 == pid);
-        
-        // close unused file descs
-        [[_childStdinPipe fileHandleForWriting] closeFile];
-        [[_childStdoutPipe fileHandleForReading] closeFile];
-
-        // attach pipe to stdin
-        NSFileHandle *childStdinHandle = [_childStdinPipe fileHandleForReading];
-        if ([childStdinHandle fileDescriptor] != STDIN_FILENO) {
-            if (dup2([childStdinHandle fileDescriptor], STDIN_FILENO)) {
-                NSLog(@"error while attching pipe to child stdin");
+        @autoreleasepool {
+            //TDAssert(0 == pid);
+            printf("in coprocess child 1\n");// fflush(stdout);
+            
+            // close unused file descs
+            [[_childStdinPipe fileHandleForWriting] closeFile];
+            [[_childStdoutPipe fileHandleForReading] closeFile];
+            
+            printf("in coprocess child 2\n");// fflush(stdout);
+            // attach pipe to stdin
+            NSFileHandle *childStdinHandle = [_childStdinPipe fileHandleForReading];
+            if ([childStdinHandle fileDescriptor] != STDIN_FILENO) {
+                if (dup2([childStdinHandle fileDescriptor], STDIN_FILENO)) {
+                    printf("error while attching pipe to child stdin\n");
+                }
+                [childStdinHandle closeFile];
             }
-            [childStdinHandle closeFile];
-        }
-        
-        // attach pipe to stdout
-        NSFileHandle *childStdoutHandle = [_childStdoutPipe fileHandleForWriting];
-        if ([childStdoutHandle fileDescriptor] != STDOUT_FILENO) {
-            if (dup2([childStdoutHandle fileDescriptor], STDOUT_FILENO)) {
-                NSLog(@"error while attching pipe to child stdout");
+            
+            printf("in coprocess child 3\n");// fflush(stdout);
+            // attach pipe to stdout
+            NSFileHandle *childStdoutHandle = [_childStdoutPipe fileHandleForWriting];
+            if ([childStdoutHandle fileDescriptor] != STDOUT_FILENO) {
+                if (dup2([childStdoutHandle fileDescriptor], STDOUT_FILENO)) {
+                    printf("error while attching pipe to child stdout\n");
+                }
+                [childStdoutHandle closeFile];
             }
-            [childStdoutHandle closeFile];
-        }
-        
-        // exec
-        NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        //TDAssert([args length] > 1);
-        
-        NSString *exePath = args[0];
-        NSString *exeName = [exePath lastPathComponent];
-        
-        NSUInteger len = [args count] + 1;
-        const char *argv[len];
-        argv[0] = [exeName UTF8String];
-        
-        NSUInteger i = 1;
-        for (NSString *arg in args) {
-            //TDAssert([arg isKindOfClass:[NSString class]]);
-            argv[i++] = [arg UTF8String];
-        }
-        
-        NSLog(@"%@ %@", exePath, exeName);
-        
-        if (execv([exePath UTF8String], (char * const *)argv)) {
-            NSLog(@"error while attching exec'ing command string: `%@`", _commandString);
+            
+            printf("in coprocess child 4\n"); fflush(stdout);
+            // exec
+            NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            //TDAssert([args length] > 1);
+            
+            NSString *exePath = args[0];
+            NSString *exeName = [exePath lastPathComponent];
+            
+            NSUInteger len = [args count];
+            const char *argv[len];
+            argv[0] = [exeName UTF8String];
+            
+            printf("in coprocess: %s %s\n", [exePath UTF8String], [exeName UTF8String]); fflush(stdout);
+            
+            NSUInteger i = 1;
+            for (NSString *arg in [args subarrayWithRange:NSMakeRange(1, len-1)]) {
+                //TDAssert([arg isKindOfClass:[NSString class]]);
+                printf("arg %lu: %s\n", i, [arg UTF8String]); fflush(stdout);
+                argv[i++] = [arg UTF8String];
+            }
+            
+            
+            if (execv([exePath UTF8String], (char * const *)argv)) {
+                printf("error while attching exec'ing command string: `%s`\n", [_commandString UTF8String]);
+            }
         }
     }
 
