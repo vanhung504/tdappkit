@@ -14,7 +14,7 @@
 		D30121C816324AEA002E2EAB /* TDViewControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D30121C716324AEA002E2EAB /* TDViewControllerView.m */; };
 		D30121CE16324BA9002E2EAB /* TDView.h in Headers */ = {isa = PBXBuildFile; fileRef = D30121CD16324BA8002E2EAB /* TDView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D30121D016324BB1002E2EAB /* TDView.m in Sources */ = {isa = PBXBuildFile; fileRef = D30121CF16324BB1002E2EAB /* TDView.m */; };
-		D30713A317594AD5000B5C0F /* TDSemaphore.h in Headers */ = {isa = PBXBuildFile; fileRef = D30713A217594AD5000B5C0F /* TDSemaphore.h */; };
+		D30713A317594AD5000B5C0F /* TDSemaphore.h in Headers */ = {isa = PBXBuildFile; fileRef = D30713A217594AD5000B5C0F /* TDSemaphore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D30713A517594ADE000B5C0F /* TDSemaphore.m in Sources */ = {isa = PBXBuildFile; fileRef = D30713A417594ADE000B5C0F /* TDSemaphore.m */; };
 		D30FD7F611C1B5E3005A2437 /* TDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* TDAppKit.framework */; };
 		D3106ECE126F41AC00F9E37D /* TDFlippedColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3106ECC126F41AC00F9E37D /* TDFlippedColorView.m */; };
@@ -37,7 +37,7 @@
 		D31CC05E10EFC80B0013347D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D31CC05D10EFC80B0013347D /* main.m */; };
 		D31CC0B010EFC9750013347D /* ListViewDemoMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D31CC0AF10EFC9750013347D /* ListViewDemoMainMenu.xib */; };
 		D323C7D2180DDEE40075FA56 /* TDCoprocess.m in Sources */ = {isa = PBXBuildFile; fileRef = D323C7D0180DDEE40075FA56 /* TDCoprocess.m */; };
-		D323C7D4180DDEF60075FA56 /* TDCoprocess.h in Headers */ = {isa = PBXBuildFile; fileRef = D323C7D3180DDEF60075FA56 /* TDCoprocess.h */; };
+		D323C7D4180DDEF60075FA56 /* TDCoprocess.h in Headers */ = {isa = PBXBuildFile; fileRef = D323C7D3180DDEF60075FA56 /* TDCoprocess.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D32F3D9A166020AD00EF8284 /* TDStatusBarButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D32F3D98166020AD00EF8284 /* TDStatusBarButtonCell.m */; };
 		D33B19F111168A3300F754AD /* TDScroller.h in Headers */ = {isa = PBXBuildFile; fileRef = D33B19EF11168A3300F754AD /* TDScroller.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D33B19F211168A3300F754AD /* TDScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = D33B19F011168A3300F754AD /* TDScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };

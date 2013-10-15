@@ -42,6 +42,10 @@
 #import <TDAppKit/TDStatusBarButton.h>
 #import <TDAppKit/TDStatusBarPopUpView.h>
 
+// Multiprocess stuff
+#import <TDAppKit/TDSemaphore.h>
+#import <TDAppKit/TDCoprocess.h>
+
 // Tabbed App stuff
 #import <TDAppKit/TDTabbedDocumentController.h>
 #import <TDAppKit/TDTabbedDocument.h>
