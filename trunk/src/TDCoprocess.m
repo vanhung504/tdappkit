@@ -130,7 +130,7 @@ static void sig_pipe(int signo) {
             // attach pipe to stdin
             NSFileHandle *childStdinHandle = [_childStdinPipe fileHandleForReading];
             if ([childStdinHandle fileDescriptor] != STDIN_FILENO) {
-                if (dup2([childStdinHandle fileDescriptor], STDIN_FILENO)) {
+                if (dup2([childStdinHandle fileDescriptor], STDIN_FILENO) != STDIN_FILENO) {
                     printf("error while attching pipe to child stdin\n");
                 }
                 [childStdinHandle closeFile];
@@ -140,7 +140,7 @@ static void sig_pipe(int signo) {
             // attach pipe to stdout
             NSFileHandle *childStdoutHandle = [_childStdoutPipe fileHandleForWriting];
             if ([childStdoutHandle fileDescriptor] != STDOUT_FILENO) {
-                if (dup2([childStdoutHandle fileDescriptor], STDOUT_FILENO)) {
+                if (dup2([childStdoutHandle fileDescriptor], STDOUT_FILENO) != STDOUT_FILENO) {
                     printf("error while attching pipe to child stdout\n");
                 }
                 [childStdoutHandle closeFile];
