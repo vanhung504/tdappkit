@@ -17,6 +17,8 @@ static void sig_pipe(int signo) {
 @property (nonatomic, copy) NSString *commandString;
 @property (nonatomic, retain) NSPipe *childStdinPipe;
 @property (nonatomic, retain) NSPipe *childStdoutPipe;
+
+@property (nonatomic, assign) BOOL hasRun;
 @end
 
 @implementation TDCoprocess
@@ -46,16 +48,15 @@ static void sig_pipe(int signo) {
 #pragma mark -
 #pragma mark Public
 
-- (NSFileHandle *)fileHandleForReading {
-    TDAssert(_childStdoutPipe);
-    return [_childStdoutPipe fileHandleForReading];
-}
-
-
 - (NSFileHandle *)fileHandleForWriting {
     TDAssert(_childStdinPipe);
     return [_childStdinPipe fileHandleForReading];
-    
+}
+
+
+- (NSFileHandle *)fileHandleForReading {
+    TDAssert(_childStdoutPipe);
+    return [_childStdoutPipe fileHandleForReading];
 }
 
 
@@ -76,6 +77,14 @@ static void sig_pipe(int signo) {
 
 
 - (BOOL)forkAndExecWithError:(NSError **)outErr {
+    TDAssert(!_hasRun);
+    
+    // programmer error.
+    if (_hasRun) {
+        [NSException raise:@"NSException" format:@"each %@ object is one-shot. this one has already run. you should create a new one for running instead of reusing this one.", NSStringFromClass([self class])];
+        return NO;
+    }
+    
     TDAssert([_commandString length]);
     TDAssert(!_childStdinPipe);
     TDAssert(!_childStdoutPipe);
