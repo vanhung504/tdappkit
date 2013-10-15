@@ -103,8 +103,6 @@ static void sig_pipe(int signo) {
     self.childStdinPipe = [NSPipe pipe];
     self.childStdoutPipe = [NSPipe pipe];
     
-    NSString *cmdString = [_commandString copy]; // leaks
-    
     pid_t pid;
     
     if ((pid = fork()) < 0) {
@@ -151,9 +149,9 @@ static void sig_pipe(int signo) {
             }
             
             printf("in coprocess child 4\n"); fflush(stdout);
-            printf("in coprocess child 5, _commandString: %s\n", [cmdString UTF8String]); fflush(stdout);
+            printf("in coprocess child 5, _commandString: %s\n", [_commandString UTF8String]); fflush(stdout);
             // exec
-            NSArray *args = [cmdString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
             //TDAssert([args length] > 1);
             NSUInteger len = [args count];
             printf("in coprocess 6: len: %lu\n", len); fflush(stdout);
@@ -179,9 +177,9 @@ static void sig_pipe(int signo) {
             }
             
             if (execv([exePath UTF8String], (char * const *)argv)) {
-                printf("error while attching exec'ing command string: `%s`\n", [cmdString UTF8String]);
+                printf("error while attching exec'ing command string: `%s`\n", [_commandString UTF8String]);
             }
-            printf("did exec string: `%s`\n", [cmdString UTF8String]);
+            printf("did exec string: `%s`\n", [_commandString UTF8String]);
         }
     }
 
