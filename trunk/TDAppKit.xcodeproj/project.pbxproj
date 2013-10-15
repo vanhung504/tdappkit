@@ -36,6 +36,8 @@
 		D31CC02410EFC6BB0013347D /* TDAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D31CC02310EFC6BB0013347D /* TDAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D31CC05E10EFC80B0013347D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D31CC05D10EFC80B0013347D /* main.m */; };
 		D31CC0B010EFC9750013347D /* ListViewDemoMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D31CC0AF10EFC9750013347D /* ListViewDemoMainMenu.xib */; };
+		D323C7D2180DDEE40075FA56 /* TDCoprocess.m in Sources */ = {isa = PBXBuildFile; fileRef = D323C7D0180DDEE40075FA56 /* TDCoprocess.m */; };
+		D323C7D4180DDEF60075FA56 /* TDCoprocess.h in Headers */ = {isa = PBXBuildFile; fileRef = D323C7D3180DDEF60075FA56 /* TDCoprocess.h */; };
 		D32F3D9A166020AD00EF8284 /* TDStatusBarButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D32F3D98166020AD00EF8284 /* TDStatusBarButtonCell.m */; };
 		D33B19F111168A3300F754AD /* TDScroller.h in Headers */ = {isa = PBXBuildFile; fileRef = D33B19EF11168A3300F754AD /* TDScroller.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D33B19F211168A3300F754AD /* TDScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = D33B19F011168A3300F754AD /* TDScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -223,6 +225,8 @@
 		D31CC02310EFC6BB0013347D /* TDAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDAppKit.h; path = include/TDAppKit/TDAppKit.h; sourceTree = "<group>"; };
 		D31CC05D10EFC80B0013347D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = demo/listview/main.m; sourceTree = "<group>"; };
 		D31CC0AF10EFC9750013347D /* ListViewDemoMainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ListViewDemoMainMenu.xib; path = demo/listview/ListViewDemoMainMenu.xib; sourceTree = "<group>"; };
+		D323C7D0180DDEE40075FA56 /* TDCoprocess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDCoprocess.m; path = src/TDCoprocess.m; sourceTree = "<group>"; };
+		D323C7D3180DDEF60075FA56 /* TDCoprocess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDCoprocess.h; path = include/TDAppKit/TDCoprocess.h; sourceTree = "<group>"; };
 		D32F3D98166020AD00EF8284 /* TDStatusBarButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDStatusBarButtonCell.m; path = src/TDStatusBarButtonCell.m; sourceTree = "<group>"; };
 		D33B19EF11168A3300F754AD /* TDScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDScroller.h; path = include/TDAppKit/TDScroller.h; sourceTree = "<group>"; };
 		D33B19F011168A3300F754AD /* TDScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDScrollView.h; path = include/TDAppKit/TDScrollView.h; sourceTree = "<group>"; };
@@ -444,8 +448,7 @@
 				D31CC02310EFC6BB0013347D /* TDAppKit.h */,
 				D3EB2341110163F700633715 /* TDUtils.h */,
 				D3EB2342110163F700633715 /* TDUtils.m */,
-				D30713A217594AD5000B5C0F /* TDSemaphore.h */,
-				D30713A417594ADE000B5C0F /* TDSemaphore.m */,
+				D323C7D5180DDF000075FA56 /* MultiProcess */,
 				D3B10EFB17B03C7E00B9AAF1 /* TabBar */,
 				D38F3D21128B8B9400DC5FDB /* ViewController */,
 				D36A360F128B245200AB56C9 /* TabbedDocumentApp */,
@@ -538,6 +541,17 @@
 				D31CC0AF10EFC9750013347D /* ListViewDemoMainMenu.xib */,
 			);
 			name = "ListView Demo App";
+			sourceTree = "<group>";
+		};
+		D323C7D5180DDF000075FA56 /* MultiProcess */ = {
+			isa = PBXGroup;
+			children = (
+				D30713A217594AD5000B5C0F /* TDSemaphore.h */,
+				D30713A417594ADE000B5C0F /* TDSemaphore.m */,
+				D323C7D3180DDEF60075FA56 /* TDCoprocess.h */,
+				D323C7D0180DDEE40075FA56 /* TDCoprocess.m */,
+			);
+			name = MultiProcess;
 			sourceTree = "<group>";
 		};
 		D33B19ED11168A2600F754AD /* ScrollView */ = {
@@ -858,6 +872,7 @@
 				D30121CE16324BA9002E2EAB /* TDView.h in Headers */,
 				D300984B1656FC77009D25D8 /* TDStatusBarPopUpView.h in Headers */,
 				D30713A317594AD5000B5C0F /* TDSemaphore.h in Headers */,
+				D323C7D4180DDEF60075FA56 /* TDCoprocess.h in Headers */,
 				D37E6C8917821F21001BBF05 /* TDStatusBarButton.h in Headers */,
 				D37E6C8B17821F37001BBF05 /* TDStatusBarButtonCell.h in Headers */,
 				D3B10F0817B03C8900B9AAF1 /* TDBarItem.h in Headers */,
@@ -1001,6 +1016,7 @@
 				D371244810F0520800D7107B /* TDBar.m in Sources */,
 				D371244910F0520D00D7107B /* TDLine.m in Sources */,
 				D371246110F0526B00D7107B /* TDUberViewSplitView.m in Sources */,
+				D323C7D2180DDEE40075FA56 /* TDCoprocess.m in Sources */,
 				D318A05110F8570E00B6AA21 /* TDGutterView.m in Sources */,
 				D318A05310F8570E00B6AA21 /* TDSourceCodeTextView.m in Sources */,
 				D3EB233F1101632B00633715 /* NSImage+TDAdditions.m in Sources */,
