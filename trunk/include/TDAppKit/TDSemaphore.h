@@ -15,7 +15,7 @@
 
 @interface TDSemaphore : NSObject <TDLocking>
 
-- (id)initWithValue:(NSInteger)value;
+- (instancetype)initWithValue:(NSInteger)value;
 
 - (BOOL)attempt; // returns success immediately
 - (BOOL)attemptBeforeDate:(NSDate *)limit; // returns success. can block up to limit
