@@ -115,6 +115,7 @@ static void sig_pipe(int signo) {
     // child
     else {
         TDAssert(0 == pid);
+        
         // close unused file descs
         [[_childStdinPipe fileHandleForWriting] closeFile];
         [[_childStdoutPipe fileHandleForReading] closeFile];
