@@ -124,6 +124,14 @@ static void sig_pipe(int signo) {
             NSAssert(0 == pid, @"");
             printf("in coprocess child 1\n");// fflush(stdout);
             
+            // set stdout to line buffer instead of fully buffered
+//            if (setvbuf(stdin, NULL, _IOLBF, 0) != 0) {
+//                printf("setvbug error\n");
+//            }
+            if (setvbuf(stdout, NULL, _IOLBF, 0) != 0) {
+                printf("setvbug error\n");
+            }
+            
             // close unused file descs
             [[_childStdinPipe fileHandleForWriting] closeFile];
             [[_childStdoutPipe fileHandleForReading] closeFile];
@@ -148,17 +156,17 @@ static void sig_pipe(int signo) {
                 [childStdoutHandle closeFile];
             }
             
-            printf("in coprocess child 4\n"); fflush(stdout);
-            printf("in coprocess child 5, _commandString: %s\n", [_commandString UTF8String]); fflush(stdout);
+            printf("in coprocess child 4\n"); //fflush(stdout);
+            printf("in coprocess child 5, _commandString: %s\n", [_commandString UTF8String]); //fflush(stdout);
             // exec
             NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
             NSUInteger len = [args count];
             NSAssert(len > 1, @"");
-            printf("in coprocess 6: len: %lu\n", len); fflush(stdout);
+            printf("in coprocess 6: len: %lu\n", len); //fflush(stdout);
             
             NSString *exePath = args[0];
             NSString *exeName = [exePath lastPathComponent];
-            printf("in coprocess: %s %s\n", [exePath UTF8String], [exeName UTF8String]); fflush(stdout);
+            printf("in coprocess: %s %s\n", [exePath UTF8String], [exeName UTF8String]); //fflush(stdout);
             
             const char *argv[len+1];
             argv[0] = [exeName UTF8String];
@@ -166,14 +174,14 @@ static void sig_pipe(int signo) {
             NSUInteger i = 1;
             for (NSString *arg in [args subarrayWithRange:NSMakeRange(1, len-1)]) {
                 NSAssert([arg isKindOfClass:[NSString class]], @"");
-                printf("arg %lu: %s\n", i, [arg UTF8String]); fflush(stdout);
+                printf("arg %lu: %s\n", i, [arg UTF8String]); //fflush(stdout);
                 argv[i++] = [arg UTF8String];
             }
             argv[i] = NULL;
             
             for (NSUInteger i =0 ; i < len+1; ++i) {
                 const char *argc = argv[i];
-                printf("arg %lu: %s\n", i, argc); fflush(stdout);
+                printf("arg %lu: %s\n", i, argc); //fflush(stdout);
             }
             
             if (execv([exePath UTF8String], (char * const *)argv)) {
