@@ -162,28 +162,28 @@ static void sig_pipe(int signo) {
             printf("in coprocess child 5, _commandString: %s\n", [_commandString UTF8String]); //fflush(stdout);
             // exec
             NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-            NSUInteger len = [args count];
-            NSAssert(len > 1, @"");
-            printf("in coprocess 6: len: %lu\n", len); //fflush(stdout);
+            NSUInteger argc = [args count];
+            NSAssert(argc > 1, @"");
+            printf("in coprocess 6: len: %lu\n", argc); //fflush(stdout);
             
             NSString *exePath = args[0];
             NSString *exeName = [exePath lastPathComponent];
             printf("in coprocess: %s %s\n", [exePath UTF8String], [exeName UTF8String]); //fflush(stdout);
             
-            const char *argv[len+1];
+            const char *argv[argc+1];
             argv[0] = [exeName UTF8String];
             
             NSUInteger i = 1;
-            for (NSString *arg in [args subarrayWithRange:NSMakeRange(1, len-1)]) {
+            for (NSString *arg in [args subarrayWithRange:NSMakeRange(1, argc-1)]) {
                 NSAssert([arg isKindOfClass:[NSString class]], @"");
                 printf("arg %lu: %s\n", i, [arg UTF8String]); //fflush(stdout);
                 argv[i++] = [arg UTF8String];
             }
             argv[i] = NULL;
             
-            for (NSUInteger i =0 ; i < len+1; ++i) {
-                const char *argc = argv[i];
-                printf("arg %lu: %s\n", i, argc); //fflush(stdout);
+            for (NSUInteger i =0 ; i < argc+1; ++i) {
+                const char *s = argv[i];
+                printf("arg %lu: %s\n", i, s); //fflush(stdout);
             }
             
             if (execv([exePath UTF8String], (char * const *)argv)) {
