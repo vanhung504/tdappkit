@@ -115,23 +115,17 @@ static void sig_pipe(int signo) {
         // close unused file descs
         [[_childStdinPipe fileHandleForReading] closeFile];
         [[_childStdoutPipe fileHandleForWriting] closeFile];
-        
     }
     
     // child
     else {
         @autoreleasepool {
             NSAssert(0 == pid, @"");
-            printf("in coprocess child 1\n");// fflush(stdout);
             
-            // set stdout to line buffer instead of fully buffered
-//            if (setvbuf(stdin, NULL, _IOLBF, 0) != 0) {
-//                printf("setvbug error\n");
-//            }
-            if (setvbuf(stdout, NULL, _IOLBF, 0) != 0) {
-                printf("setvbug error\n");
-            }
+            printf("in coprocess child 1:\n"); //fflush(stdout);
             
+            //sleep(13);
+
             // close unused file descs
             [[_childStdinPipe fileHandleForWriting] closeFile];
             [[_childStdoutPipe fileHandleForReading] closeFile];
@@ -154,6 +148,14 @@ static void sig_pipe(int signo) {
                     printf("error while attching pipe to child stdout\n");
                 }
                 [childStdoutHandle closeFile];
+            }
+            
+            // set stdout to line buffer instead of fully buffered
+            //            if (setvbuf(stdin, NULL, _IOLBF, 0) != 0) {
+            //                printf("setvbug error\n");
+            //            }
+            if (setvbuf(stdout, NULL, _IOLBF, 0) != 0) {
+                printf("setvbug error\n");
             }
             
             printf("in coprocess child 4\n"); //fflush(stdout);
