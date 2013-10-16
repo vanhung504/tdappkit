@@ -156,7 +156,7 @@ static void sig_pipe(int signo) {
             NSUInteger len = [args count];
             printf("in coprocess 6: len: %lu\n", len); fflush(stdout);
             
-            NSString *exePath = [args firstObject];
+            NSString *exePath = args[0];
             NSString *exeName = [exePath lastPathComponent];
             printf("in coprocess: %s %s\n", [exePath UTF8String], [exeName UTF8String]); fflush(stdout);
             
