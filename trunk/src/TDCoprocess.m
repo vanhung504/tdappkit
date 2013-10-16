@@ -136,6 +136,7 @@ static void sig_pipe(int signo) {
     
     // child
     else {
+//        execl("/usr/bin/python", "/Users/itod/Documents/foo/source/main.py", (char *)0);
         @autoreleasepool {
             NSAssert(0 == pid, @"");
             
