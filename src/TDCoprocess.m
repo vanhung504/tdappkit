@@ -78,13 +78,13 @@ static void sig_pipe(int signo) {
 }
 
 
-- (BOOL)forkAndExecWithError:(NSError **)outErr {
+- (int)spawnWithError:(NSError **)outErr {
     NSAssert(!_hasRun, @"");
     
     // programmer error.
     if (_hasRun) {
         [NSException raise:@"NSException" format:@"each %@ object is one-shot. this one has already run. you should create a new one for running instead of reusing this one.", NSStringFromClass([self class])];
-        return NO;
+        return -1;
     }
     
     self.hasRun = YES;
@@ -97,7 +97,7 @@ static void sig_pipe(int signo) {
     
     if (signal(SIGPIPE, sig_pipe) < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not set SIGPIE handler"];
-        return NO;
+        return -1;
     }
     
     self.childStdinPipe = [NSPipe pipe];
@@ -107,7 +107,7 @@ static void sig_pipe(int signo) {
     
     if ((pid = fork()) < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not fork coprocess"];
-        return NO;
+        return -1;
     }
     
     // parent
@@ -115,6 +115,14 @@ static void sig_pipe(int signo) {
         // close unused file descs
         [[_childStdinPipe fileHandleForReading] closeFile];
         [[_childStdoutPipe fileHandleForWriting] closeFile];
+        
+        int status;
+        if (waitpid(pid, &status, 0) != pid) {
+            if (outErr) *outErr = [self errorWithFormat:@"waitpid error"];
+            return -1;
+        } else {
+            return status;
+        }
     }
     
     // child
@@ -122,7 +130,7 @@ static void sig_pipe(int signo) {
         @autoreleasepool {
             NSAssert(0 == pid, @"");
             
-            printf("in coprocess child 1:\n"); //fflush(stdout);
+            printf("in coprocess child 1:\n");
             
             //sleep(13);
 
@@ -130,7 +138,7 @@ static void sig_pipe(int signo) {
             [[_childStdinPipe fileHandleForWriting] closeFile];
             [[_childStdoutPipe fileHandleForReading] closeFile];
             
-            printf("in coprocess child 2\n");// fflush(stdout);
+            printf("in coprocess child 2\n");
             // attach pipe to stdin
             NSFileHandle *childStdinHandle = [_childStdinPipe fileHandleForReading];
             if ([childStdinHandle fileDescriptor] != STDIN_FILENO) {
@@ -140,7 +148,7 @@ static void sig_pipe(int signo) {
                 [childStdinHandle closeFile];
             }
             
-            printf("in coprocess child 3\n");// fflush(stdout);
+            printf("in coprocess child 3\n");
             // attach pipe to stdout
             NSFileHandle *childStdoutHandle = [_childStdoutPipe fileHandleForWriting];
             if ([childStdoutHandle fileDescriptor] != STDOUT_FILENO) {
@@ -150,10 +158,7 @@ static void sig_pipe(int signo) {
                 [childStdoutHandle closeFile];
             }
             
-            // set stdout to line buffer instead of fully buffered
-            //            if (setvbuf(stdin, NULL, _IOLBF, 0) != 0) {
-            //                printf("setvbug error\n");
-            //            }
+            // set stdout to be line buffered instead of fully buffered
             if (setvbuf(stdout, NULL, _IOLBF, 0) != 0) {
                 printf("setvbug error\n");
             }
@@ -193,7 +198,7 @@ static void sig_pipe(int signo) {
         }
     }
 
-    return YES;
+    return 0;
 }
 
 @end

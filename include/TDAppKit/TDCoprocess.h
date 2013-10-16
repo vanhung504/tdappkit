@@ -13,7 +13,7 @@
 + (instancetype)coprocessWithCommandString:(NSString *)cmdString;
 - (instancetype)initWithCommandString:(NSString *)cmdString;
 
-- (BOOL)forkAndExecWithError:(NSError **)outErr;
+- (int)spawnWithError:(NSError **)outErr;
 
 - (NSFileHandle *)fileHandleForWriting; // child processes' stdin
 - (NSFileHandle *)fileHandleForReading; // child processes' stdout
