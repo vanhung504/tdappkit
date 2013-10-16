@@ -126,6 +126,10 @@ static void sig_pipe(int signo) {
             if (outErr) *outErr = [self errorWithFormat:@"waitpid error"];
             return -1;
         } else {
+            if (status != 0) {
+                char *errstr = strerror(errno);
+                if (outErr) *outErr = [self errorWithFormat:@"child process exit status: %d: %s", status, errstr];
+            }
             return status;
         }
     }
