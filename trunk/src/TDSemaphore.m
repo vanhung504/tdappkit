@@ -61,7 +61,6 @@
 
 
 - (BOOL)attemptBeforeDate:(NSDate *)limit {
-    NSParameterAssert(limit);
     NSParameterAssert([self isValidDate:limit]);
     
     [self lock];
@@ -125,34 +124,40 @@
 
 
 #pragma mark -
-#pragma mark Convenience
+#pragma mark Private Convenience
 
 - (void)lock {
+    NSAssert(_condition, @"");
     [_condition lock];
 }
 
 
 - (void)unlock {
+    NSAssert(_condition, @"");
     [_condition unlock];
 }
 
 
 - (void)wait {
+    NSAssert(_condition, @"");
     [_condition wait];
 }
 
 
 - (void)waitUntilDate:(NSDate *)date {
+    NSAssert(_condition, @"");
     [_condition waitUntilDate:date];
 }
 
 
 - (void)signal {
+    NSAssert(_condition, @"");
     [_condition signal];
 }
 
 
 - (BOOL)isValidDate:(NSDate *)limit {
+    NSParameterAssert(limit);
     return [limit timeIntervalSinceNow] > 0.0;
 }
 
