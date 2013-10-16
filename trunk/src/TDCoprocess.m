@@ -127,7 +127,6 @@ static void sig_pipe(int signo) {
     }
     
     FILE *stdin_writer = NULL;
-
     if ((stdin_writer = fdopen(fd[1], "w")) == NULL) {
         if (outErr) *outErr = [self errorWithFormat:@"could not open pipe to child: %s", strerror(errno)];
         return -1;
@@ -136,10 +135,8 @@ static void sig_pipe(int signo) {
 
     // spawn child process with popen while also creating a readerer of the child's stdout
     FILE *stdout_reader = NULL;
-    
     if ((stdout_reader = popen([_commandString UTF8String], "r")) == NULL) {
-        char *zmsg = strerror(errno);
-        if (outErr) *outErr = [self errorWithFormat:@"could not open pipe to child: %s", zmsg];
+        if (outErr) *outErr = [self errorWithFormat:@"could not open pipe to child: %s", strerror(errno)];
         return -1;
     } else {
         self.childReader = [[[NSFileHandle alloc] initWithFileDescriptor:fileno(stdout_reader) closeOnDealloc:YES] autorelease]; // TODO close???
