@@ -274,7 +274,7 @@ static void sig_pipe(int signo) {
             }
             
             if (execv([exePath UTF8String], (char * const *)argv)) {
-                printf("error while exec'ing command string: `%s`\n%s\n", [_commandString UTF8String], strerror(errno));
+                printf("error while execing command string: `%s`\n%s\n", [_commandString UTF8String], strerror(errno));
             }
             printf("did exec string: `%s`\n", [_commandString UTF8String]);
         }
