@@ -67,7 +67,7 @@
     [self lock];
     
     while ([self isValidDate:limit] && ![self available]) {
-        [_condition waitUntilDate:limit];
+        [self waitUntilDate:limit];
     }
     
     BOOL success = [self available];
@@ -107,17 +107,7 @@
 
 
 #pragma mark -
-#pragma mark Private
-
-- (void)lock {
-    [_condition lock];
-}
-
-
-- (void)unlock {
-    [_condition unlock];
-}
-
+#pragma mark Private Business
 
 - (void)decrement {
     self.value--;
@@ -134,8 +124,26 @@
 }
 
 
+#pragma mark -
+#pragma mark Convenience
+
+- (void)lock {
+    [_condition lock];
+}
+
+
+- (void)unlock {
+    [_condition unlock];
+}
+
+
 - (void)wait {
     [_condition wait];
+}
+
+
+- (void)waitUntilDate:(NSDate *)date {
+    [_condition waitUntilDate:date];
 }
 
 
