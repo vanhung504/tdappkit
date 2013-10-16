@@ -51,13 +51,13 @@ static void sig_pipe(int signo) {
 #pragma mark Public
 
 - (NSFileHandle *)fileHandleForWriting {
-    //TDAssert(_childStdinPipe);
+    NSAssert(_childStdinPipe, @"");
     return [_childStdinPipe fileHandleForReading];
 }
 
 
 - (NSFileHandle *)fileHandleForReading {
-    //TDAssert(_childStdoutPipe);
+    NSAssert(_childStdoutPipe, @"");
     return [_childStdoutPipe fileHandleForReading];
 }
 
@@ -66,7 +66,7 @@ static void sig_pipe(int signo) {
 #pragma mark Private
 
 - (NSError *)errorWithFormat:(NSString *)fmt, ... {
-    //TDAssert([fmt length]);
+    NSAssert([fmt length], @"");
     
     va_list vargs;
     va_start(vargs, fmt);
@@ -79,7 +79,7 @@ static void sig_pipe(int signo) {
 
 
 - (BOOL)forkAndExecWithError:(NSError **)outErr {
-    //TDAssert(!_hasRun);
+    NSAssert(!_hasRun, @"");
     
     // programmer error.
     if (_hasRun) {
@@ -91,9 +91,9 @@ static void sig_pipe(int signo) {
     
     NSLog(@"%@", _commandString);
     
-    //TDAssert([_command length]);
-    //TDAssert(!_childStdinPipe);
-    //TDAssert(!_childStdoutPipe);
+    NSAssert([_commandString length], @"");
+    NSAssert(!_childStdinPipe, @"");
+    NSAssert(!_childStdoutPipe, @"");
     
     if (signal(SIGPIPE, sig_pipe) < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not set SIGPIE handler"];
@@ -121,7 +121,7 @@ static void sig_pipe(int signo) {
     // child
     else {
         @autoreleasepool {
-            //TDAssert(0 == pid);
+            NSAssert(0 == pid, @"");
             printf("in coprocess child 1\n");// fflush(stdout);
             
             // close unused file descs
@@ -152,8 +152,8 @@ static void sig_pipe(int signo) {
             printf("in coprocess child 5, _commandString: %s\n", [_commandString UTF8String]); fflush(stdout);
             // exec
             NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-            //TDAssert([args length] > 1);
             NSUInteger len = [args count];
+            NSAssert(len > 1, @"");
             printf("in coprocess 6: len: %lu\n", len); fflush(stdout);
             
             NSString *exePath = args[0];
@@ -165,7 +165,7 @@ static void sig_pipe(int signo) {
             
             NSUInteger i = 1;
             for (NSString *arg in [args subarrayWithRange:NSMakeRange(1, len-1)]) {
-                //TDAssert([arg isKindOfClass:[NSString class]]);
+                NSAssert([arg isKindOfClass:[NSString class]], @"");
                 printf("arg %lu: %s\n", i, [arg UTF8String]); fflush(stdout);
                 argv[i++] = [arg UTF8String];
             }
