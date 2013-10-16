@@ -141,8 +141,6 @@ static void sig_pipe(int signo) {
             
             printf("in coprocess child 1:\n");
             
-            //sleep(13);
-
             // close unused file descs
             [[_childStdinPipe fileHandleForWriting] closeFile];
             [[_childStdoutPipe fileHandleForReading] closeFile];
