@@ -26,7 +26,7 @@
 
 @implementation TDSemaphore
 
-- (id)initWithValue:(NSInteger)value {
+- (instancetype)initWithValue:(NSInteger)value {
     self = [super init];
     if (self) {
         self.value = value;
@@ -86,7 +86,7 @@
     [self lock];
     
     while (![self available]) {
-        [_condition wait];
+        [self wait];
     }
     
     [self decrement];
