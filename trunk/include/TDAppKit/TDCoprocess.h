@@ -13,7 +13,8 @@
 + (instancetype)coprocessWithCommandString:(NSString *)cmdString;
 - (instancetype)initWithCommandString:(NSString *)cmdString;
 
-- (int)spawnWithError:(NSError **)outErr;
+- (int)spawnWithError:(NSError **)outErr; // This should prolly go away. doesn't make much sense for coprocess
+- (void)spawnWithCompletion:(void (^)(int status, NSError *err))completion;
 
 - (NSFileHandle *)fileHandleForWriting; // child processes' stdin
 - (NSFileHandle *)fileHandleForReading; // child processes' stdout

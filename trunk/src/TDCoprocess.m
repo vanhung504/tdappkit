@@ -78,6 +78,11 @@ static void sig_pipe(int signo) {
 }
 
 
+- (void)spawnWithCompletion:(void (^)(int status, NSError *err))completion {
+    
+}
+
+
 - (int)spawnWithError:(NSError **)outErr {
     NSAssert(!_hasRun, @"");
     
