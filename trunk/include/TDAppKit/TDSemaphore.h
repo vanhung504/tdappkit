@@ -21,5 +21,5 @@
 - (BOOL)attemptBeforeDate:(NSDate *)limit; // returns success. can block up to limit
 
 - (void)acquire; // blocks forever
-- (void)relinquish; // returns immediately
+- (void)relinquish;
 @end
