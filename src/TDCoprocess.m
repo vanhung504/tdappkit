@@ -115,7 +115,6 @@ static void sig_pipe(int signo) {
     
     // create a stdin writer by duping this processes' stdin. child will inherit stdin, and we can write to it.
     int fd[2];
-    
     if (pipe(fd) < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not create pipe for stdin : %s", strerror(errno)];
         return -1;
@@ -139,7 +138,7 @@ static void sig_pipe(int signo) {
         if (outErr) *outErr = [self errorWithFormat:@"could not open pipe to child: %s", strerror(errno)];
         return -1;
     } else {
-        self.childReader = [[[NSFileHandle alloc] initWithFileDescriptor:fileno(stdout_reader) closeOnDealloc:YES] autorelease]; // TODO close???
+        self.childReader = [[[NSFileHandle alloc] initWithFileDescriptor:fileno(stdout_reader) closeOnDealloc:YES] autorelease]; // TODO close?
         return 0;
     }
 }
