@@ -91,21 +91,6 @@ static void sig_pipe(int signo) {
 }
 
 
-- (void)setUpStdinWriter {
-    // create a stdin writer
-    int p[2];
-    
-    // error return checks omitted
-    pipe(p);
-    dup2(p[0], STDIN_FILENO);
-    
-    FILE *stdin_writer = fdopen(p[1], "w");
-    int filenum = fileno(stdin_writer);
-    
-    self.childWriter = [[[NSFileHandle alloc] initWithFileDescriptor:filenum closeOnDealloc:NO] autorelease]; // TODO close?
-}
-
-
 - (int)spawnWithError:(NSError **)outErr {
     NSAssert(!_hasRun, @"");
     
@@ -128,16 +113,36 @@ static void sig_pipe(int signo) {
         return -1;
     }
     
-    [self setUpStdinWriter];
+    // create a stdin writer by duping this processes' stdin. child will inherit stdin, and we can write to it.
+    int fd[2];
     
-    FILE *p = NULL;
+    if (pipe(fd) < 0) {
+        if (outErr) *outErr = [self errorWithFormat:@"could not create pipe for stdin : %s", strerror(errno)];
+        return -1;
+    }
+
+    if (dup2(fd[0], STDIN_FILENO) != STDIN_FILENO) {
+        if (outErr) *outErr = [self errorWithFormat:@"could not create stdin writer : %s", strerror(errno)];
+        return -1;
+    }
     
-    if ((p = popen([_commandString UTF8String], "r")) == NULL) {
+    FILE *stdin_writer = NULL;
+
+    if ((stdin_writer = fdopen(fd[1], "w")) == NULL) {
+        if (outErr) *outErr = [self errorWithFormat:@"could not open pipe to child: %s", strerror(errno)];
+        return -1;
+    }
+    self.childWriter = [[[NSFileHandle alloc] initWithFileDescriptor:fileno(stdin_writer) closeOnDealloc:NO] autorelease]; // TODO close?
+
+    // spawn child process with popen while also creating a readerer of the child's stdout
+    FILE *stdout_reader = NULL;
+    
+    if ((stdout_reader = popen([_commandString UTF8String], "r")) == NULL) {
         char *zmsg = strerror(errno);
         if (outErr) *outErr = [self errorWithFormat:@"could not open pipe to child: %s", zmsg];
         return -1;
     } else {
-        self.childReader = [[[NSFileHandle alloc] initWithFileDescriptor:fileno(p) closeOnDealloc:NO] autorelease]; // TODO close???
+        self.childReader = [[[NSFileHandle alloc] initWithFileDescriptor:fileno(stdout_reader) closeOnDealloc:YES] autorelease]; // TODO close???
         return 0;
     }
 }
