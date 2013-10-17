@@ -54,6 +54,7 @@
 }
 
 
+// caller must free retval
 - (const char **)getArgumentsAndExePath:(const char **)outExePath {
     NSAssert([_commandString length], @"");
     
@@ -65,6 +66,7 @@
     NSString *exeName = [exePath lastPathComponent];
     
     const char **argv = malloc(argc+1 * sizeof(char *)); // +1 for NULL terminator
+    //static const char *argv[128];
     argv[0] = [exeName UTF8String];
     
     NSUInteger i = 1;
