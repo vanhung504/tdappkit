@@ -84,57 +84,6 @@ static void sig_pipe(int signo) {
     return _childReader;
 }
 
-//- (int)spawnWithError:(NSError **)outErr {
-//    NSAssert(!_hasRun, @"");
-//    
-//    // programmer error.
-//    if (_hasRun) {
-//        [NSException raise:@"NSException" format:@"each %@ object is one-shot. this one has already run. you should create a new one for running instead of reusing this one.", NSStringFromClass([self class])];
-//        return -1;
-//    }
-//    
-//    self.hasRun = YES;
-//    
-//    NSLog(@"%@", _commandString);
-//    
-//    NSAssert([_commandString length], @"");
-//    NSAssert(!_childStdinPipe, @"");
-//    NSAssert(!_childStdoutPipe, @"");
-//    
-//    if (signal(SIGPIPE, sig_pipe) < 0) {
-//        if (outErr) *outErr = [self errorWithFormat:@"could not set SIGPIE handler"];
-//        return -1;
-//    }
-//    
-//    // create a stdin writer by duping this processes' stdin. child will inherit stdin, and we can write to it.
-//    int fd[2];
-//    if (pipe(fd) < 0) {
-//        if (outErr) *outErr = [self errorWithFormat:@"could not create pipe for stdin : %s", strerror(errno)];
-//        return -1;
-//    }
-//
-//    if (dup2(fd[0], STDIN_FILENO) != STDIN_FILENO) {
-//        if (outErr) *outErr = [self errorWithFormat:@"could not create stdin writer : %s", strerror(errno)];
-//        return -1;
-//    }
-//    
-//    FILE *stdin_writer = NULL;
-//    if ((stdin_writer = fdopen(fd[1], "w")) == NULL) {
-//        if (outErr) *outErr = [self errorWithFormat:@"could not open pipe to child: %s", strerror(errno)];
-//        return -1;
-//    }
-//    self.childWriter = [[[NSFileHandle alloc] initWithFileDescriptor:fileno(stdin_writer) closeOnDealloc:NO] autorelease]; // TODO close?
-//
-//    // spawn child process with popen while also creating a readerer of the child's stdout
-//    FILE *stdout_reader = NULL;
-//    if ((stdout_reader = popen([_commandString UTF8String], "r")) == NULL) {
-//        if (outErr) *outErr = [self errorWithFormat:@"could not open pipe to child: %s", strerror(errno)];
-//        return -1;
-//    } else {
-//        self.childReader = [[[NSFileHandle alloc] initWithFileDescriptor:fileno(stdout_reader) closeOnDealloc:YES] autorelease]; // TODO close?
-//        return 0;
-//    }
-//}
 
 - (int)spawnWithError:(NSError **)outErr {
     NSAssert(!_hasRun, @"");
