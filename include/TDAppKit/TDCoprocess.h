@@ -10,8 +10,8 @@
 
 @interface TDCoprocess : NSObject
 
-+ (instancetype)coprocessWithCommandString:(NSString *)cmdString;
-- (instancetype)initWithCommandString:(NSString *)cmdString;
++ (instancetype)coprocessWithCommandString:(NSString *)cmd environmentVariables:(NSDictionary *)env;
+- (instancetype)initWithCommandString:(NSString *)cmd environmentVariables:(NSDictionary *)env;;
 
 // returns child pid
 - (pid_t)spawnWithError:(NSError **)outErr;

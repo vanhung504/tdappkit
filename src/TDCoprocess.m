@@ -12,13 +12,14 @@
 @interface TDCoprocess ()
 @property (nonatomic, retain) NSString *exePath;
 @property (nonatomic, retain) NSArray *args;
+@property (nonatomic, copy) NSDictionary *envVars;
 @property (nonatomic, retain, readwrite) NSFileHandle *tty;
 @end
 
 @implementation TDCoprocess
 
-+ (instancetype)coprocessWithCommandString:(NSString *)cmdString {
-    return [[[TDCoprocess alloc] initWithCommandString:cmdString] autorelease];
++ (instancetype)coprocessWithCommandString:(NSString *)cmd environmentVariables:(NSDictionary *)env {
+    return [[[TDCoprocess alloc] initWithCommandString:cmd environmentVariables:env] autorelease];
 }
 
 
@@ -28,10 +29,11 @@
 }
 
 
-- (instancetype)initWithCommandString:(NSString *)cmdString {
+- (instancetype)initWithCommandString:(NSString *)cmd environmentVariables:(NSDictionary *)env {
     self = [super init];
     if (self) {
-        [self parseArgsFromCommandString:cmdString];
+        [self parseArgsFromCommandString:cmd];
+        self.envVars = env;
     }
     return self;
 }
@@ -96,9 +98,14 @@
     NSAssert([_exePath length], @"");
     NSAssert(!_tty, @"");
     
-    // parse exec args. yes, do this in the parent, cuz doing Cocoa (or anything, really) in the child process after-fork/before-exec is scary.
+    // parse exec args.
+    // yes, do this in the parent, cuz doing Cocoa (or anything, really)
+    // in the child process after-fork/before-exec is scary.
+    
+    // parse execPath.
     const char *exePath = [_exePath UTF8String];
     
+    // parse argv
     NSUInteger argc = [_args count];
     const char *argv[argc+1]; // +1 for NULL terminator
     
@@ -109,6 +116,20 @@
     }
     NSAssert(i == argc, @"");
     argv[i] = NULL; // add NULL terminator
+    
+    // parse env vars
+    NSUInteger envc = [_envVars count];
+    const char *envVars[envc*2+1]; // +1 for NULL terminator
+
+    i = 0;
+    for (NSString *key in _envVars) {
+        NSString *val = _envVars[key];
+        NSAssert([key isKindOfClass:[NSString class]], @"");
+        NSAssert([val isKindOfClass:[NSString class]], @"");
+        envVars[i++] = [key UTF8String];
+        envVars[i++] = [val UTF8String];
+    }
+    envVars[i] = NULL;
     
     // fork pseudo terminal
     int master;
@@ -128,7 +149,7 @@
         assert(0 == pid);
         
         // exec
-        if (execv(exePath, (char * const *)argv)) {
+        if (execve(exePath, (char * const *)argv, (char * const *)envVars)) {
             printf("error while execing : `%s`\n%s\n", exePath, strerror(errno));
         }
         assert(0); // should not reach
