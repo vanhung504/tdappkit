@@ -21,7 +21,7 @@
 - (BOOL)isValidDate:(NSDate *)limit;
 
 @property (assign) NSInteger value;
-@property (retain) NSCondition *condition;
+@property (retain) NSCondition *monitor;
 @end
 
 @implementation TDSemaphore
@@ -30,14 +30,14 @@
     self = [super init];
     if (self) {
         self.value = value;
-        self.condition = [[[NSCondition alloc] init] autorelease];
+        self.monitor = [[[NSCondition alloc] init] autorelease];
     }
     return self;
 }
 
 
 - (void)dealloc {
-    self.condition = nil;
+    self.monitor = nil;
     [super dealloc];
 }
 
@@ -127,32 +127,32 @@
 #pragma mark Private Convenience
 
 - (void)lock {
-    NSAssert(_condition, @"");
-    [_condition lock];
+    NSAssert(_monitor, @"");
+    [_monitor lock];
 }
 
 
 - (void)unlock {
-    NSAssert(_condition, @"");
-    [_condition unlock];
+    NSAssert(_monitor, @"");
+    [_monitor unlock];
 }
 
 
 - (void)wait {
-    NSAssert(_condition, @"");
-    [_condition wait];
+    NSAssert(_monitor, @"");
+    [_monitor wait];
 }
 
 
 - (void)waitUntilDate:(NSDate *)date {
-    NSAssert(_condition, @"");
-    [_condition waitUntilDate:date];
+    NSAssert(_monitor, @"");
+    [_monitor waitUntilDate:date];
 }
 
 
 - (void)signal {
-    NSAssert(_condition, @"");
-    [_condition signal];
+    NSAssert(_monitor, @"");
+    [_monitor signal];
 }
 
 
