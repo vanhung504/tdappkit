@@ -98,10 +98,11 @@ static void sig_pipe(int signo) {
     
     self.hasRun = YES;
     
-    int master[2];
-    pid_t pid;
-
-    if ((pid = forkpty(master, NULL, NULL, NULL)) < 0) {
+    // fork pseudo terminal
+    int master;
+    pid_t pid = forkpty(&master, NULL, NULL, NULL);
+    
+    if (pid < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not fork coprocess"];
         goto done;
     }
@@ -110,7 +111,7 @@ static void sig_pipe(int signo) {
     else if (pid > 0) {
         // close unused file descs
 
-        self.tty = [[[NSFileHandle alloc] initWithFileDescriptor:master[0] closeOnDealloc:NO] autorelease];
+        self.tty = [[[NSFileHandle alloc] initWithFileDescriptor:master closeOnDealloc:YES] autorelease];
         
         status = 0;
         
