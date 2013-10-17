@@ -13,9 +13,9 @@
 + (instancetype)coprocessWithCommandString:(NSString *)cmdString;
 - (instancetype)initWithCommandString:(NSString *)cmdString;
 
-- (int)spawnWithError:(NSError **)outErr; // This should prolly go away. doesn't make much sense for coprocess
-- (void)spawnWithCompletion:(void (^)(int status, NSError *err))completion;
+// returns child pid
+- (pid_t)spawnWithError:(NSError **)outErr;
 
-- (NSFileHandle *)fileHandleForWriting; // child processes' stdin
-- (NSFileHandle *)fileHandleForReading; // child processes' stdout
+// child processes' stdin/stdin
+@property (nonatomic, retain, readonly) NSFileHandle *tty;
 @end
