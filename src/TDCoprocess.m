@@ -85,25 +85,19 @@ static void sig_pipe(int signo) {
 
 - (int)spawnWithError:(NSError **)outErr {
     NSAssert(!_hasRun, @"");
+    NSAssert([_commandString length], @"");
+    NSAssert(!_tty, @"");
+    
+    int status = -1;
     
     // programmer error.
     if (_hasRun) {
         [NSException raise:@"NSException" format:@"each %@ object is one-shot. this one has already run. you should create a new one for running instead of reusing this one.", NSStringFromClass([self class])];
-        return -1;
+        goto done;
     }
     
     self.hasRun = YES;
     
-    NSLog(@"%@", _commandString);
-    
-    NSAssert([_commandString length], @"");
-    NSAssert(!_tty, @"");
-    
-    if (signal(SIGPIPE, sig_pipe) < 0) {
-        if (outErr) *outErr = [self errorWithFormat:@"could not set SIGPIE handler: %s", strerror(errno)];
-        return -1;
-    }
-
     pid_t pid;
 //    pid = fork();
     
@@ -116,7 +110,7 @@ static void sig_pipe(int signo) {
     
     if (pid < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not fork coprocess"];
-        return -1;
+        goto done;
     }
     
     // parent
@@ -125,7 +119,8 @@ static void sig_pipe(int signo) {
 
         self.tty = [[[NSFileHandle alloc] initWithFileDescriptor:master[0] closeOnDealloc:NO] autorelease];
         
-        return 0;
+        status = 0;
+        goto done;
         
 //        int status;
 //        if (waitpid(pid, &status, 0) != pid) {
@@ -173,7 +168,8 @@ static void sig_pipe(int signo) {
         }
     }
 
-    return 0;
+done:
+    return status;
 }
 
 @end
