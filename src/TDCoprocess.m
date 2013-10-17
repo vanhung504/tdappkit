@@ -23,8 +23,8 @@
 }
 
 
-- (id)init {
-    TDAssert(0);
+- (instancetype)init {
+    NSAssert(0, @"use `-initWithCommandString:` instead");
     return nil;
 }
 
