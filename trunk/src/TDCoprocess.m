@@ -7,6 +7,7 @@
 //
 
 #import "TDCoprocess.h"
+#import <util.h>
 
 static void sig_pipe(int signo) {
     NSLog(@"SIGPIPE Caught!");
@@ -179,9 +180,13 @@ static void sig_pipe(int signo) {
     self.childStdinPipe = [NSPipe pipe];
     self.childStdoutPipe = [NSPipe pipe];
     
+    self.childWriter = [_childStdinPipe fileHandleForReading];
+    self.childReader = [_childStdoutPipe fileHandleForWriting];
+
     pid_t pid;
+    pid = fork();
     
-    if ((pid = fork()) < 0) {
+    if (pid < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not fork coprocess"];
         return -1;
     }
