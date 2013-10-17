@@ -67,10 +67,30 @@
     // programmer error.
     if (_hasRun) {
         [NSException raise:@"NSException" format:@"each %@ object is one-shot. this one has already run. you should create a new one for running instead of reusing this one.", NSStringFromClass([self class])];
-        goto done;
+        return pid;
     }
     
     self.hasRun = YES;
+    
+    // parse exec args. yes, do this in the parent, cuz using Cocoa in in the child after-fork/before-exec is scary.
+    NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSUInteger argc = [args count];
+    NSAssert(argc > 1, @"");
+    
+    NSString *exePath = args[0];
+    const char *zexePath = [exePath UTF8String];
+    NSString *exeName = [exePath lastPathComponent];
+    
+    const char *argv[argc+1];
+    argv[0] = [exeName UTF8String];
+    
+    NSUInteger i = 1;
+    for (NSString *arg in [args subarrayWithRange:NSMakeRange(1, argc-1)]) {
+        NSAssert([arg isKindOfClass:[NSString class]], @"");
+        arg = [arg stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"'\""]];
+        argv[i++] = [arg UTF8String];
+    }
+    argv[i] = NULL;
     
     // fork pseudo terminal
     int master;
@@ -78,49 +98,24 @@
     
     if (pid < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not fork coprocess"];
-        goto done;
     }
     
     // parent
     else if (pid > 0) {
         self.tty = [[[NSFileHandle alloc] initWithFileDescriptor:master closeOnDealloc:YES] autorelease];
-        goto done;
     }
     
     // child
     else {
-        @autoreleasepool {
-            NSAssert(0 == pid, @"");
-            
-            // parse exec args
-            NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-            NSUInteger argc = [args count];
-            NSAssert(argc > 1, @"");
-            
-            NSString *exePath = args[0];
-            NSString *exeName = [exePath lastPathComponent];
-            
-            const char *argv[argc+1];
-            argv[0] = [exeName UTF8String];
-            
-            NSUInteger i = 1;
-            for (NSString *arg in [args subarrayWithRange:NSMakeRange(1, argc-1)]) {
-                NSAssert([arg isKindOfClass:[NSString class]], @"");
-                arg = [arg stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"'\""]];
-                argv[i++] = [arg UTF8String];
-            }
-            argv[i] = NULL;
-            
-            // exec
-            if (execv([exePath UTF8String], (char * const *)argv)) {
-                printf("error while execing command string: `%s`\n%s\n", [_commandString UTF8String], strerror(errno));
-            }
-            
-            NSAssert1(0, @"failed to exec string: `%@`", _commandString);
+        assert(0 == pid);
+        
+        // exec
+        if (execv(zexePath, (char * const *)argv)) {
+            printf("error while execing command string: `%s`\n%s\n", [_commandString UTF8String], strerror(errno));
         }
+        assert(0); // should not reach
     }
 
-done:
     return pid;
 }
 
