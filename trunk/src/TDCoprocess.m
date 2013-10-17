@@ -68,11 +68,6 @@ static void sig_pipe(int signo) {
 }
 
 
-- (void)spawnWithCompletion:(void (^)(int status, NSError *err))completion {
-    
-}
-
-
 - (NSFileHandle *)fileHandleForWriting {
     return _tty;
 }
@@ -80,6 +75,11 @@ static void sig_pipe(int signo) {
 
 - (NSFileHandle *)fileHandleForReading {
     return _tty;
+}
+
+
+- (void)spawnWithCompletion:(void (^)(int status, NSError *err))completion {
+    
 }
 
 
@@ -145,17 +145,13 @@ static void sig_pipe(int signo) {
         @autoreleasepool {
             NSAssert(0 == pid, @"");
             
-            printf("in coprocess child 1:\n");
-            printf("in coprocess child 5, _commandString: %s\n", [_commandString UTF8String]); //fflush(stdout);
             // exec
             NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
             NSUInteger argc = [args count];
             NSAssert(argc > 1, @"");
-            printf("in coprocess 6: len: %lu\n", argc); //fflush(stdout);
             
             NSString *exePath = args[0];
             NSString *exeName = [exePath lastPathComponent];
-            printf("in coprocess: %s %s\n", [exePath UTF8String], [exeName UTF8String]); //fflush(stdout);
             
             const char *argv[argc+1];
             argv[0] = [exeName UTF8String];
@@ -164,20 +160,15 @@ static void sig_pipe(int signo) {
             for (NSString *arg in [args subarrayWithRange:NSMakeRange(1, argc-1)]) {
                 NSAssert([arg isKindOfClass:[NSString class]], @"");
                 arg = [arg stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"'\""]];
-                printf("arg %lu: %s\n", i, [arg UTF8String]); //fflush(stdout);
                 argv[i++] = [arg UTF8String];
             }
             argv[i] = NULL;
             
-            for (NSUInteger i =0 ; i < argc+1; ++i) {
-                const char *s = argv[i];
-                printf("arg %lu: %s\n", i, s); //fflush(stdout);
-            }
-            
             if (execv([exePath UTF8String], (char * const *)argv)) {
                 printf("error while execing command string: `%s`\n%s\n", [_commandString UTF8String], strerror(errno));
             }
-            printf("did exec string: `%s`\n", [_commandString UTF8String]);
+            
+            NSAssert1(0, @"failed to exec string: `%@`", _commandString);
         }
     }
 
