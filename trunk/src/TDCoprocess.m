@@ -9,6 +9,8 @@
 #import "TDCoprocess.h"
 #import <util.h>
 
+#define MAX_ARGC 10
+
 @interface TDCoprocess ()
 @property (nonatomic, copy) NSString *commandString;
 @property (nonatomic, retain, readwrite) NSFileHandle *tty;
@@ -61,7 +63,8 @@
     
     NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSUInteger argc = [args count];
-    NSAssert(argc > 1, @"");
+    NSAssert(argc > 0, @"");
+    NSAssert(argc < MAX_ARGC, @""); // needs +1 for NULL terminator
     
     NSString *exePath = args[0];
     NSString *exeName = [exePath lastPathComponent];
@@ -103,7 +106,7 @@
     
     // parse exec args. yes, do this in the parent, cuz using Cocoa in the child after-fork/before-exec is scary.
     const char *exePath;
-    const char *argv[20];
+    const char *argv[MAX_ARGC];
     
     if (![self getExePath:&exePath getArguments:argv]) {
         [NSException raise:@"NSException" format:@"invalid comand string"];
