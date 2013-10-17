@@ -31,30 +31,7 @@
 - (instancetype)initWithCommandString:(NSString *)cmdString {
     self = [super init];
     if (self) {
-        NSArray *comps = [cmdString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        NSUInteger c = [comps count];
-        NSAssert(c > 0 && NSNotFound != c, @"");
-        
-        self.exePath = comps[0];
-        NSString *exeName = [_exePath lastPathComponent];
-        
-        // parse args
-        if (c > 1) {
-            NSCharacterSet *quoteSet = [NSCharacterSet characterSetWithCharactersInString:@"'\""];
-            NSMutableArray *margs = [NSMutableArray arrayWithCapacity:c];
-            
-            for (NSUInteger i = 1; i < c; ++i) { // skip exePath at index 0
-                NSString *comp = comps[i];
-                NSAssert([comp isKindOfClass:[NSString class]], @"");
-                
-                NSString *arg = [comp stringByTrimmingCharactersInSet:quoteSet]; // trim quotes
-                [margs addObject:arg];
-            }
-
-            [margs insertObject:exeName atIndex:0]; // insert exeName
-            self.args = [[margs copy] autorelease];
-            NSAssert([_args count] == c, @"");
-        }
+        [self parseArgsFromCommandString:cmdString];
     }
     return self;
 }
@@ -70,6 +47,34 @@
 
 #pragma mark -
 #pragma mark Private
+
+- (void)parseArgsFromCommandString:(NSString *)cmdString {
+    NSArray *comps = [cmdString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSUInteger c = [comps count];
+    NSAssert(c > 0 && NSNotFound != c, @"");
+    
+    self.exePath = comps[0];
+    NSString *exeName = [_exePath lastPathComponent];
+    
+    // parse args
+    if (c > 1) {
+        NSCharacterSet *quoteSet = [NSCharacterSet characterSetWithCharactersInString:@"'\""];
+        NSMutableArray *margs = [NSMutableArray arrayWithCapacity:c];
+        
+        for (NSUInteger i = 1; i < c; ++i) { // skip exePath at index 0
+            NSString *comp = comps[i];
+            NSAssert([comp isKindOfClass:[NSString class]], @"");
+            
+            NSString *arg = [comp stringByTrimmingCharactersInSet:quoteSet]; // trim quotes
+            [margs addObject:arg];
+        }
+        
+        [margs insertObject:exeName atIndex:0]; // insert exeName
+        self.args = [[margs copy] autorelease];
+        NSAssert([_args count] == c, @"");
+    }
+}
+
 
 - (NSError *)errorWithFormat:(NSString *)fmt, ... {
     NSParameterAssert([fmt length]);
@@ -110,7 +115,7 @@
     pid_t pid = forkpty(&master, NULL, NULL, NULL);
     
     if (pid < 0) {
-        if (outErr) *outErr = [self errorWithFormat:@"could not fork coprocess"];
+        if (outErr) *outErr = [self errorWithFormat:@"could not fork coprocess, %s", strerror(errno)];
     }
     
     // parent
