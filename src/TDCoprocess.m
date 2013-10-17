@@ -98,17 +98,10 @@ static void sig_pipe(int signo) {
     
     self.hasRun = YES;
     
-    pid_t pid;
-//    pid = fork();
-    
     int master[2];
-//    struct winsize win = {
-//        .ws_col = 80, .ws_row = 24,
-//        .ws_xpixel = 480, .ws_ypixel = 192,
-//    };
-    pid = forkpty(master, NULL, NULL, NULL); //&win);
-    
-    if (pid < 0) {
+    pid_t pid;
+
+    if ((pid = forkpty(master, NULL, NULL, NULL)) < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not fork coprocess"];
         goto done;
     }
