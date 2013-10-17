@@ -62,19 +62,23 @@
     BOOL success = NO;
     
     NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSUInteger argc = [args count];
+    NSUInteger argc = [args count]; // doesn't include NULL terminator. does include 1st exeName arg
     NSAssert(argc > 0, @"");
     NSAssert(argc < MAX_ARGC, @""); // needs +1 for NULL terminator
     
     NSString *exePath = args[0];
     NSString *exeName = [exePath lastPathComponent];
     
-    argv[0] = [exeName UTF8String];
+    argv[0] = [exeName UTF8String]; // insert exeName
+    
+    args = [args subarrayWithRange:NSMakeRange(1, argc-1)]; // trim exePath
+    
+    NSCharacterSet *quoteSet = [NSCharacterSet characterSetWithCharactersInString:@"'\""];
     
     NSUInteger i = 1;
-    for (NSString *arg in [args subarrayWithRange:NSMakeRange(1, argc-1)]) {
+    for (NSString *arg in args) {
         NSAssert([arg isKindOfClass:[NSString class]], @"");
-        arg = [arg stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"'\""]];
+        arg = [arg stringByTrimmingCharactersInSet:quoteSet];
         argv[i++] = [arg UTF8String];
     }
     argv[i] = NULL;
