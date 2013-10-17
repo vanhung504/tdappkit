@@ -91,8 +91,6 @@
     NSAssert([_exePath length], @"");
     NSAssert(!_tty, @"");
     
-    pid_t pid = -1;
-    
     // parse exec args. yes, do this in the parent, cuz doing Cocoa (or anything, really) in the child process after-fork/before-exec is scary.
     const char *exePath = [_exePath UTF8String];
     
@@ -109,7 +107,7 @@
     
     // fork pseudo terminal
     int master;
-    pid = forkpty(&master, NULL, NULL, NULL);
+    pid_t pid = forkpty(&master, NULL, NULL, NULL);
     
     if (pid < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not fork coprocess"];
