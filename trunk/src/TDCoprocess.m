@@ -54,9 +54,10 @@
 }
 
 
-// caller must free retval
-- (const char **)createArgumentsAndGetExePath:(const char **)outExePath {
+- (BOOL)getExePath:(const char **)outExePath getArguments:(const char **)argv {
     NSAssert([_commandString length], @"");
+    
+    BOOL success = NO;
     
     NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSUInteger argc = [args count];
@@ -65,8 +66,6 @@
     NSString *exePath = args[0];
     NSString *exeName = [exePath lastPathComponent];
     
-    const char **argv = malloc(argc+1 * sizeof(char *)); // +1 for NULL terminator
-    //static const char *argv[128];
     argv[0] = [exeName UTF8String];
     
     NSUInteger i = 1;
@@ -79,7 +78,8 @@
     
     if (outExePath) *outExePath = [exePath UTF8String];
 
-    return argv;
+    success = YES;
+    return success;
 }
 
 
@@ -103,11 +103,18 @@
     
     // parse exec args. yes, do this in the parent, cuz using Cocoa in the child after-fork/before-exec is scary.
     const char *exePath;
-    const char **argv = [self createArgumentsAndGetExePath:&exePath];
-    if (!argv) {
+    const char *argv[20];
+    
+    if (![self getExePath:&exePath getArguments:argv]) {
         [NSException raise:@"NSException" format:@"invalid comand string"];
         return pid;
     }
+    
+//    NSLog(@"%s", exePath);
+//    NSLog(@"%s", argv[0]);
+//    NSLog(@"%s", argv[1]);
+//    NSLog(@"%s", argv[2]);
+//    NSLog(@"%s", argv[3]);
     
     // fork pseudo terminal
     int master;
@@ -133,7 +140,6 @@
         assert(0); // should not reach
     }
     
-    if (argv) free(argv);
     return pid;
 }
 
