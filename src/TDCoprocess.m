@@ -16,9 +16,6 @@ static void sig_pipe(int signo) {
 
 @interface TDCoprocess ()
 @property (nonatomic, copy) NSString *commandString;
-@property (nonatomic, retain) NSPipe *childStdinPipe;
-@property (nonatomic, retain) NSPipe *childStdoutPipe;
-
 @property (nonatomic, retain) NSFileHandle *childReader;
 @property (nonatomic, retain) NSFileHandle *childWriter;
 
@@ -45,8 +42,6 @@ static void sig_pipe(int signo) {
     printf("in coprocess child dealloc\n"); fflush(stdout);
 
     self.commandString = nil;
-    self.childStdinPipe = nil;
-    self.childStdoutPipe = nil;
 
     self.childReader = nil;
     self.childWriter = nil;
@@ -141,20 +136,6 @@ static void sig_pipe(int signo) {
 //    }
 //}
 
-
-
-//- (NSFileHandle *)fileHandleForWriting {
-//    NSAssert(_childStdinPipe, @"");
-//    return [_childStdinPipe fileHandleForWriting];
-//}
-//
-//
-//- (NSFileHandle *)fileHandleForReading {
-//    NSAssert(_childStdoutPipe, @"");
-//    return [_childStdoutPipe fileHandleForReading];
-//}
-
-
 - (int)spawnWithError:(NSError **)outErr {
     NSAssert(!_hasRun, @"");
     
@@ -169,19 +150,13 @@ static void sig_pipe(int signo) {
     NSLog(@"%@", _commandString);
     
     NSAssert([_commandString length], @"");
-    NSAssert(!_childStdinPipe, @"");
-    NSAssert(!_childStdoutPipe, @"");
+    NSAssert(!_childReader, @"");
+    NSAssert(!_childWriter, @"");
     
     if (signal(SIGPIPE, sig_pipe) < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not set SIGPIE handler: %s", strerror(errno)];
         return -1;
     }
-    
-//    self.childStdinPipe = [NSPipe pipe];
-//    self.childStdoutPipe = [NSPipe pipe];
-    
-//    self.childWriter = [_childStdinPipe fileHandleForReading];
-//    self.childReader = [_childStdoutPipe fileHandleForWriting];
 
     pid_t pid;
 //    pid = fork();
@@ -201,8 +176,6 @@ static void sig_pipe(int signo) {
     // parent
     else if (pid > 0) {
         // close unused file descs
-//        [[_childStdinPipe fileHandleForReading] closeFile];
-//        [[_childStdoutPipe fileHandleForWriting] closeFile];
 
         self.childReader = [[[NSFileHandle alloc] initWithFileDescriptor:master[0] closeOnDealloc:NO] autorelease];
         self.childWriter = [[[NSFileHandle alloc] initWithFileDescriptor:master[0] closeOnDealloc:NO] autorelease];
@@ -224,42 +197,10 @@ static void sig_pipe(int signo) {
     
     // child
     else {
-//        execl("/usr/bin/python", "/Users/itod/Documents/foo/source/main.py", (char *)0);
         @autoreleasepool {
             NSAssert(0 == pid, @"");
             
             printf("in coprocess child 1:\n");
-            
-//            // close unused file descs
-//            [[_childStdinPipe fileHandleForWriting] closeFile];
-//            [[_childStdoutPipe fileHandleForReading] closeFile];
-//            
-//            printf("in coprocess child 2\n");
-//            // attach pipe to stdin
-//            NSFileHandle *childStdinHandle = [_childStdinPipe fileHandleForReading];
-//            if ([childStdinHandle fileDescriptor] != STDIN_FILENO) {
-//                if (dup2([childStdinHandle fileDescriptor], STDIN_FILENO) != STDIN_FILENO) {
-//                    printf("error while attching pipe to child stdin\n");
-//                }
-//                [childStdinHandle closeFile];
-//            }
-//            
-//            printf("in coprocess child 3\n");
-//            // attach pipe to stdout
-//            NSFileHandle *childStdoutHandle = [_childStdoutPipe fileHandleForWriting];
-//            if ([childStdoutHandle fileDescriptor] != STDOUT_FILENO) {
-//                if (dup2([childStdoutHandle fileDescriptor], STDOUT_FILENO) != STDOUT_FILENO) {
-//                    printf("error while attching pipe to child stdout\n");
-//                }
-//                [childStdoutHandle closeFile];
-//            }
-//            
-//            // set stdout to be line buffered instead of fully buffered
-//            if (setvbuf(stdout, NULL, _IOLBF, 0) != 0) {
-//                printf("setvbug error\n");
-//            }
-            
-            printf("in coprocess child 4\n"); //fflush(stdout);
             printf("in coprocess child 5, _commandString: %s\n", [_commandString UTF8String]); //fflush(stdout);
             // exec
             NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
