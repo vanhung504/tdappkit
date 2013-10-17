@@ -34,7 +34,7 @@
     if (self) {
         NSArray *comps = [cmdString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         NSUInteger c = [comps count];
-        TDAssert(c > 0 && NSNotFound != c);
+        NSAssert(c > 0 && NSNotFound != c, @"");
         
         self.exePath = comps[0];
         NSString *exeName = [_exePath lastPathComponent];
@@ -46,7 +46,7 @@
             
             for (NSUInteger i = 1; i < c; ++i) { // skip exePath at index 0
                 NSString *comp = comps[i];
-                TDAssert([comp isKindOfClass:[NSString class]]);
+                NSAssert([comp isKindOfClass:[NSString class]], @"");
                 
                 NSString *arg = [comp stringByTrimmingCharactersInSet:quoteSet]; // trim quotes
                 [margs addObject:arg];
@@ -54,7 +54,7 @@
 
             [margs insertObject:exeName atIndex:0]; // insert exeName
             self.args = [[margs copy] autorelease];
-            TDAssert([_args count] == c);
+            NSAssert([_args count] == c, @"");
         }
     }
     return self;
@@ -73,7 +73,7 @@
 #pragma mark Private
 
 - (NSError *)errorWithFormat:(NSString *)fmt, ... {
-    TDAssert([fmt length]);
+    NSParameterAssert([fmt length]);
     
     va_list vargs;
     va_start(vargs, fmt);
@@ -89,9 +89,9 @@
 #pragma mark Public
 
 - (pid_t)spawnWithError:(NSError **)outErr {
-    TDAssert(!_hasRun);
-    TDAssert([_exePath length]);
-    TDAssert(!_tty);
+    NSAssert(!_hasRun, @"");
+    NSAssert([_exePath length], @"");
+    NSAssert(!_tty, @"");
     
     pid_t pid = -1;
     
@@ -111,10 +111,10 @@
     
     NSUInteger i = 0;
     for (NSString *arg in _args) {
-        TDAssert([arg isKindOfClass:[NSString class]]);
+        NSAssert([arg isKindOfClass:[NSString class]], @"");
         argv[i++] = [arg UTF8String];
     }
-    TDAssert(i == argc);
+    NSAssert(i == argc, @"");
     argv[i] = NULL; // add NULL terminator
     
     // fork pseudo terminal
