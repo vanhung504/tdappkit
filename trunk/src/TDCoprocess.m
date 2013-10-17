@@ -9,15 +9,9 @@
 #import "TDCoprocess.h"
 #import <util.h>
 
-static void sig_pipe(int signo) {
-    NSLog(@"SIGPIPE Caught!");
-    exit(1);
-}
-
 @interface TDCoprocess ()
 @property (nonatomic, copy) NSString *commandString;
-@property (nonatomic, retain) NSFileHandle *tty;
-
+@property (nonatomic, retain, readwrite) NSFileHandle *tty;
 @property (nonatomic, assign) BOOL hasRun;
 @end
 
@@ -38,18 +32,10 @@ static void sig_pipe(int signo) {
 
 
 - (void)dealloc {
-    printf("in coprocess child dealloc\n"); fflush(stdout);
-
     self.commandString = nil;
-
     self.tty = nil;
     [super dealloc];
 }
-
-
-#pragma mark -
-#pragma mark Public
-
 
 
 #pragma mark -
@@ -68,27 +54,15 @@ static void sig_pipe(int signo) {
 }
 
 
-- (NSFileHandle *)fileHandleForWriting {
-    return _tty;
-}
+#pragma mark -
+#pragma mark Public
 
-
-- (NSFileHandle *)fileHandleForReading {
-    return _tty;
-}
-
-
-- (void)spawnWithCompletion:(void (^)(int status, NSError *err))completion {
-    
-}
-
-
-- (int)spawnWithError:(NSError **)outErr {
+- (pid_t)spawnWithError:(NSError **)outErr {
     NSAssert(!_hasRun, @"");
     NSAssert([_commandString length], @"");
     NSAssert(!_tty, @"");
     
-    int status = -1;
+    pid_t pid = -1;
     
     // programmer error.
     if (_hasRun) {
@@ -100,7 +74,7 @@ static void sig_pipe(int signo) {
     
     // fork pseudo terminal
     int master;
-    pid_t pid = forkpty(&master, NULL, NULL, NULL);
+    pid = forkpty(&master, NULL, NULL, NULL);
     
     if (pid < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not fork coprocess"];
@@ -109,20 +83,7 @@ static void sig_pipe(int signo) {
     
     // parent
     else if (pid > 0) {
-        // close unused file descs
-
         self.tty = [[[NSFileHandle alloc] initWithFileDescriptor:master closeOnDealloc:YES] autorelease];
-        
-        status = 0;
-        
-//        if (waitpid(pid, &status, 0) != pid) {
-//            if (outErr) *outErr = [self errorWithFormat:@"waitpid error %s", strerror(errno)];
-//        } else {
-//            if (status != 0) {
-//                if (outErr) *outErr = [self errorWithFormat:@"child process exit status: %d: %s", status, strerror(errno)];
-//            }
-//        }
-        
         goto done;
     }
     
@@ -155,13 +116,12 @@ static void sig_pipe(int signo) {
                 printf("error while execing command string: `%s`\n%s\n", [_commandString UTF8String], strerror(errno));
             }
             
-            NSAssert(-1 == status, @"");
             NSAssert1(0, @"failed to exec string: `%@`", _commandString);
         }
     }
 
 done:
-    return status;
+    return pid;
 }
 
 @end
