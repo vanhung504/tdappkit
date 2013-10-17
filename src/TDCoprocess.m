@@ -120,19 +120,16 @@ static void sig_pipe(int signo) {
         self.tty = [[[NSFileHandle alloc] initWithFileDescriptor:master[0] closeOnDealloc:NO] autorelease];
         
         status = 0;
-        goto done;
         
-//        int status;
 //        if (waitpid(pid, &status, 0) != pid) {
-//            if (outErr) *outErr = [self errorWithFormat:@"waitpid error"];
-//            return -1;
+//            if (outErr) *outErr = [self errorWithFormat:@"waitpid error %s", strerror(errno)];
 //        } else {
 //            if (status != 0) {
-//                char *errstr = strerror(errno);
-//                if (outErr) *outErr = [self errorWithFormat:@"child process exit status: %d: %s", status, errstr];
+//                if (outErr) *outErr = [self errorWithFormat:@"child process exit status: %d: %s", status, strerror(errno)];
 //            }
-//            return status;
 //        }
+        
+        goto done;
     }
     
     // child
@@ -164,6 +161,7 @@ static void sig_pipe(int signo) {
                 printf("error while execing command string: `%s`\n%s\n", [_commandString UTF8String], strerror(errno));
             }
             
+            NSAssert(-1 == status, @"");
             NSAssert1(0, @"failed to exec string: `%@`", _commandString);
         }
     }
