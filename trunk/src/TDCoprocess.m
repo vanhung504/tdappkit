@@ -97,10 +97,7 @@
     
     // programmer error.
     NSAssert1(!_hasRun, @"each %@ object is one-shot. this one has already run. you should create a new one for running instead of reusing this one.", NSStringFromClass([self class]));
-    if (_hasRun) {
-        return pid;
-    }
-    
+    if (_hasRun) return pid;
     self.hasRun = YES;
     
     // parse exec args. yes, do this in the parent, cuz doing Cocoa (or anything, really) in the child process after-fork/before-exec is scary.
