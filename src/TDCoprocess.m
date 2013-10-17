@@ -205,7 +205,7 @@ static void sig_pipe(int signo) {
 //        [[_childStdoutPipe fileHandleForWriting] closeFile];
 
         self.childReader = [[[NSFileHandle alloc] initWithFileDescriptor:master[0] closeOnDealloc:NO] autorelease];
-        self.childWriter = [[[NSFileHandle alloc] initWithFileDescriptor:master[1] closeOnDealloc:NO] autorelease];
+        self.childWriter = [[[NSFileHandle alloc] initWithFileDescriptor:master[0] closeOnDealloc:NO] autorelease];
         
         return 0;
         
