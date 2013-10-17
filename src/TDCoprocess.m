@@ -145,7 +145,7 @@ static void sig_pipe(int signo) {
 
 - (NSFileHandle *)fileHandleForWriting {
     NSAssert(_childStdinPipe, @"");
-    return [_childStdinPipe fileHandleForReading];
+    return [_childStdinPipe fileHandleForWriting];
 }
 
 
@@ -180,8 +180,8 @@ static void sig_pipe(int signo) {
     self.childStdinPipe = [NSPipe pipe];
     self.childStdoutPipe = [NSPipe pipe];
     
-    self.childWriter = [_childStdinPipe fileHandleForReading];
-    self.childReader = [_childStdoutPipe fileHandleForWriting];
+//    self.childWriter = [_childStdinPipe fileHandleForReading];
+//    self.childReader = [_childStdoutPipe fileHandleForWriting];
 
     pid_t pid;
     pid = fork();
