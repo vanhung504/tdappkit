@@ -54,6 +54,33 @@
 }
 
 
+- (const char **)getArgumentsAndExePath:(const char **)outExePath {
+    NSAssert([_commandString length], @"");
+    
+    NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSUInteger argc = [args count];
+    NSAssert(argc > 1, @"");
+    
+    NSString *exePath = args[0];
+    NSString *exeName = [exePath lastPathComponent];
+    
+    const char **argv = malloc(argc+1 * sizeof(char *)); // +1 for NULL terminator
+    argv[0] = [exeName UTF8String];
+    
+    NSUInteger i = 1;
+    for (NSString *arg in [args subarrayWithRange:NSMakeRange(1, argc-1)]) {
+        NSAssert([arg isKindOfClass:[NSString class]], @"");
+        arg = [arg stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"'\""]];
+        argv[i++] = [arg UTF8String];
+    }
+    argv[i] = NULL;
+    
+    if (outExePath) *outExePath = [exePath UTF8String];
+
+    return argv;
+}
+
+
 #pragma mark -
 #pragma mark Public
 
@@ -73,24 +100,12 @@
     self.hasRun = YES;
     
     // parse exec args. yes, do this in the parent, cuz using Cocoa in in the child after-fork/before-exec is scary.
-    NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSUInteger argc = [args count];
-    NSAssert(argc > 1, @"");
-    
-    NSString *exePath = args[0];
-    const char *zexePath = [exePath UTF8String];
-    NSString *exeName = [exePath lastPathComponent];
-    
-    const char *argv[argc+1];
-    argv[0] = [exeName UTF8String];
-    
-    NSUInteger i = 1;
-    for (NSString *arg in [args subarrayWithRange:NSMakeRange(1, argc-1)]) {
-        NSAssert([arg isKindOfClass:[NSString class]], @"");
-        arg = [arg stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"'\""]];
-        argv[i++] = [arg UTF8String];
+    const char *exePath;
+    const char **argv = [self getArgumentsAndExePath:&exePath];
+    if (!argv) {
+        [NSException raise:@"NSException" format:@"invalid comand string"];
+        return pid;
     }
-    argv[i] = NULL;
     
     // fork pseudo terminal
     int master;
@@ -110,12 +125,13 @@
         assert(0 == pid);
         
         // exec
-        if (execv(zexePath, (char * const *)argv)) {
+        if (execv(exePath, (char * const *)argv)) {
             printf("error while execing command string: `%s`\n%s\n", [_commandString UTF8String], strerror(errno));
         }
         assert(0); // should not reach
     }
-
+    
+    if (argv) free(argv);
     return pid;
 }
 
