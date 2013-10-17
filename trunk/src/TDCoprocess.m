@@ -99,7 +99,7 @@
     
     self.hasRun = YES;
     
-    // parse exec args. yes, do this in the parent, cuz using Cocoa in in the child after-fork/before-exec is scary.
+    // parse exec args. yes, do this in the parent, cuz using Cocoa in the child after-fork/before-exec is scary.
     const char *exePath;
     const char **argv = [self getArgumentsAndExePath:&exePath];
     if (!argv) {
