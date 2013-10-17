@@ -145,7 +145,7 @@ static void sig_pipe(int signo) {
         @autoreleasepool {
             NSAssert(0 == pid, @"");
             
-            // exec
+            // parse exec args
             NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
             NSUInteger argc = [args count];
             NSAssert(argc > 1, @"");
@@ -164,6 +164,7 @@ static void sig_pipe(int signo) {
             }
             argv[i] = NULL;
             
+            // exec
             if (execv([exePath UTF8String], (char * const *)argv)) {
                 printf("error while execing command string: `%s`\n%s\n", [_commandString UTF8String], strerror(errno));
             }
