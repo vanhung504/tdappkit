@@ -55,7 +55,7 @@
 
 
 // caller must free retval
-- (const char **)getArgumentsAndExePath:(const char **)outExePath {
+- (const char **)createArgumentsAndGetExePath:(const char **)outExePath {
     NSAssert([_commandString length], @"");
     
     NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -103,7 +103,7 @@
     
     // parse exec args. yes, do this in the parent, cuz using Cocoa in the child after-fork/before-exec is scary.
     const char *exePath;
-    const char **argv = [self getArgumentsAndExePath:&exePath];
+    const char **argv = [self createArgumentsAndGetExePath:&exePath];
     if (!argv) {
         [NSException raise:@"NSException" format:@"invalid comand string"];
         return pid;
