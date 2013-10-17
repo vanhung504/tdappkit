@@ -61,7 +61,7 @@
 #pragma mark Private
 
 - (NSError *)errorWithFormat:(NSString *)fmt, ... {
-    NSAssert([fmt length], @"");
+    TDAssert([fmt length]);
     
     va_list vargs;
     va_start(vargs, fmt);
@@ -77,15 +77,15 @@
 #pragma mark Public
 
 - (pid_t)spawnWithError:(NSError **)outErr {
-    NSAssert(!_hasRun, @"");
-    NSAssert([_exePath length], @"");
-    NSAssert(!_tty, @"");
+    TDAssert(!_hasRun);
+    TDAssert([_exePath length]);
+    TDAssert(!_tty);
     
     pid_t pid = -1;
     
     // programmer error.
+    NSAssert1(!_hasRun, @"each %@ object is one-shot. this one has already run. you should create a new one for running instead of reusing this one.", NSStringFromClass([self class]));
     if (_hasRun) {
-        [NSException raise:@"NSException" format:@"each %@ object is one-shot. this one has already run. you should create a new one for running instead of reusing this one.", NSStringFromClass([self class])];
         return pid;
     }
     
