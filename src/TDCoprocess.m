@@ -9,10 +9,9 @@
 #import "TDCoprocess.h"
 #import <util.h>
 
-#define MAX_ARGC 10
-
 @interface TDCoprocess ()
-@property (nonatomic, copy) NSString *commandString;
+@property (nonatomic, retain) NSString *exePath;
+@property (nonatomic, retain) NSArray *args;
 @property (nonatomic, retain, readwrite) NSFileHandle *tty;
 @property (nonatomic, assign) BOOL hasRun;
 @end
@@ -24,17 +23,35 @@
 }
 
 
+- (id)init {
+    TDAssert(0);
+    return nil;
+}
+
+
 - (instancetype)initWithCommandString:(NSString *)cmdString {
     self = [super init];
     if (self) {
-        self.commandString = cmdString;
+        NSArray *comps = [cmdString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        NSUInteger c = [comps count];
+        TDAssert(c > 0 && NSNotFound != c);
+        
+        self.exePath = comps[0];
+        NSString *exeName = [_exePath lastPathComponent];
+        
+        if (c > 1) {
+            NSMutableArray *margs = [NSMutableArray arrayWithArray:[comps subarrayWithRange:NSMakeRange(1, c-1)]]; // trim exePath
+            [margs insertObject:exeName atIndex:0]; // insert exeName
+            self.args = [[margs copy] autorelease];
+        }
     }
     return self;
 }
 
 
 - (void)dealloc {
-    self.commandString = nil;
+    self.exePath = nil;
+    self.args = nil;
     self.tty = nil;
     [super dealloc];
 }
@@ -56,46 +73,12 @@
 }
 
 
-- (BOOL)getExePath:(const char **)outExePath getArguments:(const char **)argv {
-    NSAssert([_commandString length], @"");
-    
-    BOOL success = NO;
-    
-    NSArray *args = [_commandString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSUInteger argc = [args count]; // doesn't include NULL terminator. does include 1st exeName arg
-    NSAssert(argc > 0, @"");
-    NSAssert(argc < MAX_ARGC, @""); // needs +1 for NULL terminator
-    
-    NSString *exePath = args[0];
-    NSString *exeName = [exePath lastPathComponent];
-    
-    argv[0] = [exeName UTF8String]; // insert exeName
-    
-    args = [args subarrayWithRange:NSMakeRange(1, argc-1)]; // trim exePath
-    
-    NSCharacterSet *quoteSet = [NSCharacterSet characterSetWithCharactersInString:@"'\""];
-    
-    NSUInteger i = 1;
-    for (NSString *arg in args) {
-        NSAssert([arg isKindOfClass:[NSString class]], @"");
-        arg = [arg stringByTrimmingCharactersInSet:quoteSet];
-        argv[i++] = [arg UTF8String];
-    }
-    argv[i] = NULL;
-    
-    if (outExePath) *outExePath = [exePath UTF8String];
-
-    success = YES;
-    return success;
-}
-
-
 #pragma mark -
 #pragma mark Public
 
 - (pid_t)spawnWithError:(NSError **)outErr {
     NSAssert(!_hasRun, @"");
-    NSAssert([_commandString length], @"");
+    NSAssert([_exePath length], @"");
     NSAssert(!_tty, @"");
     
     pid_t pid = -1;
@@ -108,14 +91,21 @@
     
     self.hasRun = YES;
     
-    // parse exec args. yes, do this in the parent, cuz using Cocoa in the child after-fork/before-exec is scary.
-    const char *exePath;
-    const char *argv[MAX_ARGC];
+    // parse exec args. yes, do this in the parent, cuz doing Cocoa (or anything, really) in the child process after-fork/before-exec is scary.
+    const char *exePath = [_exePath UTF8String];
     
-    if (![self getExePath:&exePath getArguments:argv]) {
-        [NSException raise:@"NSException" format:@"invalid comand string"];
-        return pid;
+    NSUInteger argc = [_args count];
+    const char *argv[argc+1]; // +1 for NULL terminator
+    
+    NSCharacterSet *quoteSet = [NSCharacterSet characterSetWithCharactersInString:@"'\""];
+    
+    NSUInteger i = 0;
+    for (NSString *arg in _args) {
+        TDAssert([arg isKindOfClass:[NSString class]]);
+        argv[i++] = [[arg stringByTrimmingCharactersInSet:quoteSet] UTF8String];
     }
+    TDAssert(i == argc);
+    argv[i] = NULL; // add NULL terminator
     
 //    NSLog(@"%s", exePath);
 //    NSLog(@"%s", argv[0]);
@@ -142,7 +132,7 @@
         
         // exec
         if (execv(exePath, (char * const *)argv)) {
-            printf("error while execing command string: `%s`\n%s\n", [_commandString UTF8String], strerror(errno));
+            printf("error while execing : `%s`\n%s\n", exePath, strerror(errno));
         }
         assert(0); // should not reach
     }
