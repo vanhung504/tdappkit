@@ -13,7 +13,6 @@
 @property (nonatomic, retain) NSString *exePath;
 @property (nonatomic, retain) NSArray *args;
 @property (nonatomic, retain, readwrite) NSFileHandle *tty;
-@property (nonatomic, assign) BOOL hasRun;
 @end
 
 @implementation TDCoprocess
@@ -89,16 +88,10 @@
 #pragma mark Public
 
 - (pid_t)spawnWithError:(NSError **)outErr {
-    NSAssert(!_hasRun, @"");
     NSAssert([_exePath length], @"");
     NSAssert(!_tty, @"");
     
     pid_t pid = -1;
-    
-    // programmer error.
-    NSAssert1(!_hasRun, @"each %@ object is one-shot. this one has already run. you should create a new one for running instead of reusing this one.", NSStringFromClass([self class]));
-    if (_hasRun) return pid;
-    self.hasRun = YES;
     
     // parse exec args. yes, do this in the parent, cuz doing Cocoa (or anything, really) in the child process after-fork/before-exec is scary.
     const char *exePath = [_exePath UTF8String];
