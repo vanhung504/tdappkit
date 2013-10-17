@@ -39,10 +39,22 @@
         self.exePath = comps[0];
         NSString *exeName = [_exePath lastPathComponent];
         
+        // parse args
         if (c > 1) {
-            NSMutableArray *margs = [NSMutableArray arrayWithArray:[comps subarrayWithRange:NSMakeRange(1, c-1)]]; // trim exePath
+            NSCharacterSet *quoteSet = [NSCharacterSet characterSetWithCharactersInString:@"'\""];
+            NSMutableArray *margs = [NSMutableArray arrayWithCapacity:c];
+            
+            for (NSUInteger i = 1; i < c; ++i) { // skip exePath at index 0
+                NSString *comp = comps[i];
+                TDAssert([comp isKindOfClass:[NSString class]]);
+                
+                NSString *arg = [comp stringByTrimmingCharactersInSet:quoteSet]; // trim quotes
+                [margs addObject:arg];
+            }
+
             [margs insertObject:exeName atIndex:0]; // insert exeName
             self.args = [[margs copy] autorelease];
+            TDAssert([_args count] == c);
         }
     }
     return self;
@@ -97,21 +109,13 @@
     NSUInteger argc = [_args count];
     const char *argv[argc+1]; // +1 for NULL terminator
     
-    NSCharacterSet *quoteSet = [NSCharacterSet characterSetWithCharactersInString:@"'\""];
-    
     NSUInteger i = 0;
     for (NSString *arg in _args) {
         TDAssert([arg isKindOfClass:[NSString class]]);
-        argv[i++] = [[arg stringByTrimmingCharactersInSet:quoteSet] UTF8String];
+        argv[i++] = [arg UTF8String];
     }
     TDAssert(i == argc);
     argv[i] = NULL; // add NULL terminator
-    
-//    NSLog(@"%s", exePath);
-//    NSLog(@"%s", argv[0]);
-//    NSLog(@"%s", argv[1]);
-//    NSLog(@"%s", argv[2]);
-//    NSLog(@"%s", argv[3]);
     
     // fork pseudo terminal
     int master;
