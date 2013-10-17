@@ -16,8 +16,7 @@ static void sig_pipe(int signo) {
 
 @interface TDCoprocess ()
 @property (nonatomic, copy) NSString *commandString;
-@property (nonatomic, retain) NSFileHandle *childReader;
-@property (nonatomic, retain) NSFileHandle *childWriter;
+@property (nonatomic, retain) NSFileHandle *tty;
 
 @property (nonatomic, assign) BOOL hasRun;
 @end
@@ -43,8 +42,7 @@ static void sig_pipe(int signo) {
 
     self.commandString = nil;
 
-    self.childReader = nil;
-    self.childWriter = nil;
+    self.tty = nil;
     [super dealloc];
 }
 
@@ -76,12 +74,12 @@ static void sig_pipe(int signo) {
 
 
 - (NSFileHandle *)fileHandleForWriting {
-    return _childWriter;
+    return _tty;
 }
 
 
 - (NSFileHandle *)fileHandleForReading {
-    return _childReader;
+    return _tty;
 }
 
 
@@ -99,8 +97,7 @@ static void sig_pipe(int signo) {
     NSLog(@"%@", _commandString);
     
     NSAssert([_commandString length], @"");
-    NSAssert(!_childReader, @"");
-    NSAssert(!_childWriter, @"");
+    NSAssert(!_tty, @"");
     
     if (signal(SIGPIPE, sig_pipe) < 0) {
         if (outErr) *outErr = [self errorWithFormat:@"could not set SIGPIE handler: %s", strerror(errno)];
@@ -126,8 +123,7 @@ static void sig_pipe(int signo) {
     else if (pid > 0) {
         // close unused file descs
 
-        self.childReader = [[[NSFileHandle alloc] initWithFileDescriptor:master[0] closeOnDealloc:NO] autorelease];
-        self.childWriter = [[[NSFileHandle alloc] initWithFileDescriptor:master[0] closeOnDealloc:NO] autorelease];
+        self.tty = [[[NSFileHandle alloc] initWithFileDescriptor:master[0] closeOnDealloc:NO] autorelease];
         
         return 0;
         
