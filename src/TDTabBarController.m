@@ -61,6 +61,7 @@
 - (void)loadView {
     TDTabBarControllerView *tbcv = [[[TDTabBarControllerView alloc] initWithFrame:NSZeroRect] autorelease];
     self.view = tbcv;
+    tbcv.color = [NSColor windowBackgroundColor];
     [tbcv setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [tbcv setWantsLayer:NO];
     
@@ -68,9 +69,11 @@
     [tabBar setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
     [tbcv addSubview:tabBar];
     
-    self.containerView = [[[TDFlippedColorView alloc] initWithFrame:NSZeroRect] autorelease];
-    [self.containerView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    [tbcv addSubview:containerView];
+    TDFlippedColorView *cv = [[[TDFlippedColorView alloc] initWithFrame:NSZeroRect] autorelease];
+    cv.color = [NSColor windowBackgroundColor];
+    [cv setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+    [tbcv addSubview:cv];
+    self.containerView = cv;
     
     tbcv.tabBar = self.tabBar;
     tbcv.containerView = self.containerView;
