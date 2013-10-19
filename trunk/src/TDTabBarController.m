@@ -50,8 +50,8 @@
     self.tabBar = nil;
     self.containerView = nil;
     self.delegate = nil;
-    self.viewControllers = nil;
     self.selectedViewController = nil;
+    self.viewControllers = nil;
     self.tabBarItems = nil;
     self.selectedTabBarItem = nil;
     [super dealloc];
