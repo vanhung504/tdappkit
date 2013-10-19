@@ -41,7 +41,7 @@
 @property (nonatomic, retain) NSView *containerView;
 @property (nonatomic, assign) id <TDTabBarControllerDelegate>delegate;
 @property (nonatomic, copy) NSArray *viewControllers;
-@property (nonatomic, assign) TDViewController *selectedViewController;
+@property (nonatomic, retain) TDViewController *selectedViewController;
 @property (nonatomic) NSUInteger selectedIndex;
 @end
 
