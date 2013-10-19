@@ -20,4 +20,6 @@
 
 @property (nonatomic, copy) NSString *badgeValue;    // default is nil
 @property (nonatomic, retain) NSButton *button;
+
+- (BOOL)displaysTitle;
 @end

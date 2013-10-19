@@ -23,10 +23,22 @@
 #define BUTTON_MARGIN_TOP 0.0
 #define BUTTON_MARGIN_BOTTOM 1.0
 
+#define BUTTON_TITLE_PADDING_X 2.0
+
 @implementation TDTabBar
 
 + (CGFloat)defaultHeight {
     return TABBAR_HEIGHT;
+}
+
+
++ (NSDictionary *)defaultButtonTitleAttributes {
+    TDAssertMainThread();
+    static NSDictionary *sAttrs = nil;
+    if (!sAttrs) {
+        sAttrs = [@{NSFontAttributeName: [NSFont systemFontOfSize:13.0]} retain];
+    }
+    return sAttrs;
 }
 
 
@@ -61,14 +73,29 @@
     TDAssert(c);
     
     if (c > 0) {
-        CGFloat totalWidth = BUTTON_WIDTH*c + BUTTON_MARGIN_X*(c-1);
-
-        CGFloat x = floor(CGRectGetWidth(bounds)/2.0 - totalWidth/2.0);
+        CGFloat widths[c];
         CGFloat y = floor(CGRectGetMinY(bounds) + BUTTON_MARGIN_BOTTOM);
-        CGFloat w = BUTTON_WIDTH;
         CGFloat h = ceil(CGRectGetHeight(bounds) - (BUTTON_MARGIN_TOP + BUTTON_MARGIN_TOP));
         
+        NSUInteger i = 0;
+        CGFloat totalWidth = 0.0;
         for (NSButton *b in buttons) {
+            CGFloat w = BUTTON_WIDTH;
+            if (![[b title] isEqualToString:@"Button"]) {
+                NSDictionary *attrs = [TDTabBar defaultButtonTitleAttributes];
+                CGRect r = [[b title] boundingRectWithSize:CGSizeMake(200.0, h) options:NSStringDrawingUsesLineFragmentOrigin attributes:attrs];
+                w = r.size.width + BUTTON_TITLE_PADDING_X * 2.0;
+            }
+            widths[i++] = w;
+            totalWidth += w + BUTTON_MARGIN_X;
+        }
+        totalWidth -= BUTTON_MARGIN_X;
+
+        CGFloat x = floor(CGRectGetWidth(bounds)/2.0 - totalWidth/2.0);
+        
+        i = 0;
+        for (NSButton *b in buttons) {
+            CGFloat w = widths[i++];
             CGRect r = CGRectMake(x, y, w, h);
             [b setFrame:r];
             x += floor(w + BUTTON_MARGIN_X - 1.0);

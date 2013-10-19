@@ -17,4 +17,5 @@
 @interface TDTabBar : TDBar
 
 + (CGFloat)defaultHeight;
++ (NSDictionary *)defaultButtonTitleAttributes;
 @end
