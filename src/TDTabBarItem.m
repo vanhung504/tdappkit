@@ -41,6 +41,11 @@
 }
 
 
+- (BOOL)displaysTitle {
+    return YES;
+}
+
+
 - (void)setEnabled:(BOOL)yn {
     [super setEnabled:yn];
     [_button setEnabled:yn];
@@ -69,7 +74,11 @@
 
 - (void)setTitle:(NSString *)aTitle {
     [super setTitle:aTitle];
-    [_button setTitle:aTitle];
+    if ([self displaysTitle]) {
+        [_button setTitle:aTitle];
+    } else {
+        [_button setTitle:@""];
+    }
 }
 
 
