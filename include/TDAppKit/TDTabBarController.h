@@ -17,23 +17,7 @@
 @class TDTabBar;
 @protocol TDTabBarControllerDelegate;
 
-@interface TDTabBarController : TDViewController {
-    TDTabBar *tabBar;
-    NSView *containerView;
-    
-    id <TDTabBarControllerDelegate>delegate;
-
-    NSArray *viewControllers;
-    TDViewController *selectedViewController;
-    NSUInteger selectedIndex;
-
-    BOOL tabBarHiddenBottom;
-    BOOL tabBarHiddenLeft;
-    BOOL tabBarHidden;
-    
-    NSArray *tabBarItems;
-    TDTabBarItem *selectedTabBarItem;
-}
+@interface TDTabBarController : TDViewController
 
 - (void)setViewControllers:(NSArray *)vcs animated:(BOOL)animated;
 
