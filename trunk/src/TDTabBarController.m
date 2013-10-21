@@ -242,6 +242,7 @@
     
     self.tabBarItems = [[items copy] autorelease];
     [self highlightButtonAtIndex:_selectedIndex];
+    [self layoutTabBarItems];
 }
 
 
