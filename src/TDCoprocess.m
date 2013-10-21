@@ -122,15 +122,15 @@
     
     // parse env vars
     NSUInteger envc = [_envVars count];
-    const char *envVars[envc*2+1]; // +1 for NULL terminator
+    const char *envVars[envc+1]; // +1 for NULL terminator
 
     i = 0;
     for (NSString *key in _envVars) {
         NSString *val = _envVars[key];
         NSAssert([key isKindOfClass:[NSString class]], @"");
         NSAssert([val isKindOfClass:[NSString class]], @"");
-        envVars[i++] = [key UTF8String];
-        envVars[i++] = [val UTF8String];
+        NSString *item = [NSString stringWithFormat:@"%@=%@", key, val];
+        envVars[i++] = [item UTF8String];
     }
     envVars[i] = NULL;
     
