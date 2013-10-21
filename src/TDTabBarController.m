@@ -176,7 +176,9 @@
     }
     
     _selectedIndex = [_viewControllers indexOfObject:vc];
-    _selectedViewController = vc;
+
+    [_selectedViewController release];
+    _selectedViewController = [vc retain];
         
     if (_delegate && [_delegate respondsToSelector:@selector(tabBarController:willSelectViewController:)]) {
         [_delegate tabBarController:self willSelectViewController:_selectedViewController];
