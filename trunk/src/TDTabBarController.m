@@ -210,6 +210,9 @@
     if (_viewControllers != vcs) {
         [_viewControllers release];
         _viewControllers = [vcs copy];
+
+        // giggle handle for selectectViewController
+        _selectedIndex = NSNotFound;
         self.selectedIndex = 0;
         
         [self setUpTabBarItems];
