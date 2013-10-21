@@ -68,6 +68,9 @@
             NSAssert([comp isKindOfClass:[NSString class]], @"");
             
             NSString *arg = [comp stringByTrimmingCharactersInSet:quoteSet]; // trim quotes
+            if ([arg isAbsolutePath]) {
+                arg = [arg stringByStandardizingPath];
+            }
             [margs addObject:arg];
         }
         
