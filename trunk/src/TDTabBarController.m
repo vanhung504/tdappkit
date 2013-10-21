@@ -33,27 +33,33 @@
 
 - (id)init {
     if (self = [super init]) {
-        selectedIndex = -1;
+        _selectedIndex = -1;
     }
     return self;
 }
 
 
 - (void)dealloc {
-    [tabBar removeFromSuperview];
-    [containerView removeFromSuperview];
+    [_tabBar removeFromSuperview];
+    [_containerView removeFromSuperview];
     
-    for (TDTabBarItem *item in tabBarItems) {
+    for (TDTabBarItem *item in _tabBarItems) {
         [item.button removeFromSuperview];
     }
 
     self.tabBar = nil;
     self.containerView = nil;
     self.delegate = nil;
-    self.selectedViewController = nil;
-    self.viewControllers = nil;
     self.tabBarItems = nil;
     self.selectedTabBarItem = nil;
+
+    TDAssert(_viewControllers);
+    TDAssert([_viewControllers count]);
+    TDAssert([_viewControllers containsObject:_selectedViewController]);
+    // don't go thru setters
+    [_selectedViewController release];
+    [_viewControllers release];
+
     [super dealloc];
 }
 
@@ -66,8 +72,8 @@
     [tbcv setWantsLayer:NO];
     
     self.tabBar = [[[TDTabBar alloc] initWithFrame:NSMakeRect(0, 0, 0, [TDTabBar defaultHeight])] autorelease];
-    [tabBar setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
-    [tbcv addSubview:tabBar];
+    [_tabBar setAutoresizingMask:NSViewWidthSizable|NSViewMinYMargin];
+    [tbcv addSubview:_tabBar];
     
     TDFlippedColorView *cv = [[[TDFlippedColorView alloc] initWithFrame:NSZeroRect] autorelease];
     cv.color = [NSColor windowBackgroundColor];
@@ -108,7 +114,7 @@
 - (IBAction)tabBarItemClick:(id)sender {
     //NSParameterAssert([tabBarItems containsObject:sender]);
     NSInteger i = -1;
-    for (TDTabBarItem *item in tabBarItems) {
+    for (TDTabBarItem *item in _tabBarItems) {
         i++;
         if (item.button == sender) break;
     }
@@ -142,53 +148,53 @@
 #pragma mark Properties
 
 - (void)setSelectedIndex:(NSUInteger)i {
-    NSParameterAssert(0 == i || i < [viewControllers count]);
-    if (i == selectedIndex) return;
+    NSParameterAssert(0 == i || i < [_viewControllers count]);
+    if (i == _selectedIndex) return;
     
-    selectedIndex = i;
-    self.selectedViewController = [viewControllers objectAtIndex:i];
+    _selectedIndex = i;
+    self.selectedViewController = [_viewControllers objectAtIndex:i];
 }
 
 
 - (void)setSelectedViewController:(TDViewController *)vc {
-    NSParameterAssert(nil == vc || [viewControllers containsObject:vc]);
+    NSParameterAssert(nil == vc || [_viewControllers containsObject:vc]);
     
-    if (selectedViewController && vc == selectedViewController) {
+    if (_selectedViewController && vc == _selectedViewController) {
         return; // Dont re-show the same view controller
     }
     
-    if (delegate && [delegate respondsToSelector:@selector(tabBarController:shouldSelectViewController:)]) {
-        if (![delegate tabBarController:self shouldSelectViewController:selectedViewController]) {
+    if (_delegate && [_delegate respondsToSelector:@selector(tabBarController:shouldSelectViewController:)]) {
+        if (![_delegate tabBarController:self shouldSelectViewController:_selectedViewController]) {
             return;
         }
     }
     
-    if (selectedViewController) {
-        [selectedViewController viewWillDisappear:NO];
-        [selectedViewController.view removeFromSuperview];
-        [selectedViewController viewDidDisappear:NO];
+    if (_selectedViewController) {
+        [_selectedViewController viewWillDisappear:NO];
+        [_selectedViewController.view removeFromSuperview];
+        [_selectedViewController viewDidDisappear:NO];
     }
     
-    selectedIndex = [viewControllers indexOfObject:vc];
-    selectedViewController = vc;
+    _selectedIndex = [_viewControllers indexOfObject:vc];
+    _selectedViewController = vc;
         
-    if (delegate && [delegate respondsToSelector:@selector(tabBarController:willSelectViewController:)]) {
-        [delegate tabBarController:self willSelectViewController:selectedViewController];
+    if (_delegate && [_delegate respondsToSelector:@selector(tabBarController:willSelectViewController:)]) {
+        [_delegate tabBarController:self willSelectViewController:_selectedViewController];
     }
     
     [self view]; // trigger view load if necessary
     
-    [selectedViewController.view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    [selectedViewController.view setFrame:[containerView bounds]];
+    [_selectedViewController.view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+    [_selectedViewController.view setFrame:[_containerView bounds]];
     
-    [selectedViewController viewWillAppear:NO];
-    [containerView addSubview:selectedViewController.view];
-    [selectedViewController viewDidAppear:NO];
+    [_selectedViewController viewWillAppear:NO];
+    [_containerView addSubview:_selectedViewController.view];
+    [_selectedViewController viewDidAppear:NO];
     
-    [self highlightButtonAtIndex:selectedIndex];
+    [self highlightButtonAtIndex:_selectedIndex];
     
-    if (delegate && [delegate respondsToSelector:@selector(tabBarController:didSelectViewController:)]) {
-        [delegate tabBarController:self didSelectViewController:selectedViewController]; // TODO NO?
+    if (_delegate && [_delegate respondsToSelector:@selector(tabBarController:didSelectViewController:)]) {
+        [_delegate tabBarController:self didSelectViewController:_selectedViewController]; // TODO NO?
     }
 }
 
@@ -199,9 +205,9 @@
 
 
 - (void)setViewControllers:(NSArray *)vcs {
-    if (viewControllers != vcs) {
-        [viewControllers release];
-        viewControllers = [vcs copy];
+    if (_viewControllers != vcs) {
+        [_viewControllers release];
+        _viewControllers = [vcs copy];
         self.selectedIndex = 0;
         
         [self setUpTabBarItems];
@@ -210,12 +216,12 @@
 
 
 - (void)setUpTabBarItems {
-    NSInteger c = [viewControllers count];
+    NSInteger c = [_viewControllers count];
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:c];
     
     if (c > 0) {
         NSInteger tag = 0;
-        for (TDViewController *vc in viewControllers) {
+        for (TDViewController *vc in _viewControllers) {
             
             TDTabBarItem *item = [vc tabBarItem];
             if (!item) {
@@ -227,39 +233,31 @@
             [item.button setTarget:self];
             [item.button setAction:@selector(tabBarItemClick:)];
             
-            [tabBar addSubview:item.button];
+            [_tabBar addSubview:item.button];
             [items addObject:item];
         }
     }
     
     self.tabBarItems = [[items copy] autorelease];
-    [self highlightButtonAtIndex:selectedIndex];
+    [self highlightButtonAtIndex:_selectedIndex];
 }
 
 
 - (void)highlightButtonAtIndex:(NSInteger)i {
-    if (i < 0 || ![tabBarItems count] || i > [tabBarItems count] - 1) {
+    NSUInteger c = [_tabBarItems count];
+    if (i < 0 || 0 == c || i > c - 1) {
         return;
     }
 
-    TDTabBarItem *newItem = [tabBarItems objectAtIndex:i];
+    TDTabBarItem *newItem = [_tabBarItems objectAtIndex:i];
     
-    if (selectedTabBarItem != newItem) {
-        [selectedTabBarItem.button setState:NSOffState];
-        [[selectedTabBarItem.button cell] setHighlighted:NO];
+    if (_selectedTabBarItem != newItem) {
+        [_selectedTabBarItem.button setState:NSOffState];
+        [[_selectedTabBarItem.button cell] setHighlighted:NO];
         self.selectedTabBarItem = newItem;
     }
-    [selectedTabBarItem.button setState:NSOnState];
-    [[selectedTabBarItem.button cell] setHighlighted:YES];
+    [_selectedTabBarItem.button setState:NSOnState];
+    [[_selectedTabBarItem.button cell] setHighlighted:YES];
 }
 
-
-@synthesize tabBar;
-@synthesize containerView;
-@synthesize delegate;
-@synthesize viewControllers;
-@synthesize selectedViewController;
-@synthesize selectedIndex;
-@synthesize tabBarItems;
-@synthesize selectedTabBarItem;
 @end
