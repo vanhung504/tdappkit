@@ -24,7 +24,7 @@
 
 
 - (instancetype)init {
-    NSAssert(0, @"use `-initWithCommandString:` instead");
+    NSAssert(0, @"use `-initWithCommandString:environmentVariables:` instead");
     return nil;
 }
 
