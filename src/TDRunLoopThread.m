@@ -62,40 +62,45 @@
 }
 
 
-- (void)_runOnThread:(NSArray *)args {
+- (void)_performAsync:(NSArray *)args {
     TDAssertMainThread();
     TDAssert(args);
     TDAssert(_thread);
-    [self performSelector:@selector(_run:) onThread:_thread withObject:args waitUntilDone:NO];
+    [self performSelector:@selector(_async:) onThread:_thread withObject:args waitUntilDone:NO];
 }
 
 
-- (void)_executeOnThread:(NSArray *)args waitUntilDone:(BOOL)wait {
+- (void)_performSync:(NSArray *)args {
     TDAssertMainThread();
     TDAssert(args);
     TDAssert(_thread);
-    [self performSelector:@selector(_execute:) onThread:_thread withObject:args waitUntilDone:wait];
+    [self performSelector:@selector(_sync:) onThread:_thread withObject:args waitUntilDone:YES];
 }
 
 
-- (void)_run:(NSArray *)args {
+- (void)_async:(NSArray *)args {
     TDAssert([NSThread currentThread] == _thread);
     TDAssertNotMainThread();
-    TDAssert(2 == [args count]);
+    
+    NSUInteger c = [args count];
+    TDAssert(1 == c || 2 == c);
     TDRunBlock block = args[0];
-    TDCompletionBlock completion = args[1];
     
     NSError *err = nil;
     id result = block(&err);
     //NSLog(@"%@", result);
     
-    TDPerformOnMainThread(^{
-        completion(result, err);
-    });
+    TDCompletionBlock completion = nil;
+    if (2 == c) {
+        completion = args[1];
+        TDPerformOnMainThread(^{
+            completion(result, err);
+        });
+    }
 }
 
 
-- (void)_execute:(NSArray *)args {
+- (void)_sync:(NSArray *)args {
     assert([NSThread currentThread] == _thread);
     TDAssertNotMainThread();
     TDAssert(1 == [args count]);
@@ -105,29 +110,34 @@
 }
 
 
-- (void)runOnThread:(TDRunBlock)block completion:(TDCompletionBlock)completion {
+- (void)performAsync:(TDBlock)block {
+    TDAssertMainThread();
+    NSParameterAssert(block);
+    TDAssert(_thread);
+    
+    NSArray *args = @[[[block copy] autorelease]];
+    [self _performAsync:args];
+}
+
+
+- (void)performAsync:(TDRunBlock)block completion:(TDCompletionBlock)completion {
     TDAssertMainThread();
     NSParameterAssert(block);
     NSParameterAssert(completion);
     TDAssert(_thread);
     
     NSArray *args = @[[[block copy] autorelease], [[completion copy] autorelease]];
-    [self _runOnThread:args];
+    [self _performAsync:args];
 }
 
 
-- (void)executeOnThread:(TDBlock)block {
-    [self executeOnThread:block waitUntilDone:NO];
-}
-
-
-- (void)executeOnThread:(TDBlock)block waitUntilDone:(BOOL)wait {
+- (void)performSync:(TDBlock)block {
     TDAssertMainThread();
     NSParameterAssert(block);
     TDAssert(_thread);
     
     NSArray *args = @[[[block copy] autorelease]];
-    [self _executeOnThread:args waitUntilDone:wait];
+    [self _performSync:args];
 }
 
 @end
