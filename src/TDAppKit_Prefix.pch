@@ -13,5 +13,5 @@
 //#define FU_BUILD_TARGET_LEOPARD !defined(MAC_OS_X_VERSION_10_6) || (defined(MAC_OS_X_VERSION_10_6) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_6))
 
 #define TDAssertMainThread() NSAssert1([NSThread isMainThread], @"%s should be called on the main thread only.", __PRETTY_FUNCTION__);
-
+#define TDAssertNotMainThread() NSAssert1(![NSThread isMainThread], @"%s should never be called on the main thread.", __PRETTY_FUNCTION__);
 #define TDAssert(expr) NSAssert((expr), @"assertion failure in %s.", __PRETTY_FUNCTION__);
