@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef void (^TDBlock)(void);
+
 typedef id (^TDRunBlock)(NSError **outErr);
 typedef void (^TDCompletionBlock)(id result, NSError *err);
 
@@ -17,8 +18,8 @@ typedef void (^TDCompletionBlock)(id result, NSError *err);
 - (void)start;
 - (void)stop;
 
-- (void)runOnThread:(TDRunBlock)block completion:(TDCompletionBlock)completion;
+- (void)performAsync:(TDBlock)block;
+- (void)performSync:(TDBlock)block;
 
-- (void)executeOnThread:(TDBlock)block; // wait=NO
-- (void)executeOnThread:(TDBlock)block waitUntilDone:(BOOL)wait;
+- (void)performAsync:(TDRunBlock)block completion:(TDCompletionBlock)completion;
 @end
