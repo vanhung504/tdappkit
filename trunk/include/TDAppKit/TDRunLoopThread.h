@@ -15,6 +15,7 @@ typedef void (^TDCompletionBlock)(id result, NSError *err);
 @interface TDRunLoopThread : NSObject
 
 - (void)start;
+- (void)stop;
 
 - (void)runOnThread:(TDRunBlock)block completion:(TDCompletionBlock)completion;
 
