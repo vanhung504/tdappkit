@@ -10,8 +10,8 @@
 #import <TDAppKit/TDUtils.h>
 
 @interface TDRunLoopThread ()
-@property (nonatomic, retain) NSThread *thread;
-
+@property (retain) NSThread *thread;
+@property (assign) BOOL flag;
 @end
 
 @implementation TDRunLoopThread
@@ -33,17 +33,31 @@
 - (void)start {
     TDAssertMainThread();
     
-    self.thread = [[NSThread alloc] initWithTarget:self selector:@selector(_threadMain) object:nil];
+    self.thread = [[[NSThread alloc] initWithTarget:self selector:@selector(_threadMain) object:nil] autorelease];
     [_thread start];
 }
 
 
+- (void)stop {
+    TDAssertMainThread();
+    @synchronized(self) {
+        self.flag = YES;
+    }
+}
+
+
 - (void)_threadMain {
-    assert([NSThread currentThread] == _thread);
+    TDAssertNotMainThread();
+    TDAssert([NSThread currentThread] == _thread);
     
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
     while ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
-        
+        @synchronized(self) {
+            if (self.flag) {
+                self.flag = NO;
+                break;
+            }
+        }
     }
 }
 
