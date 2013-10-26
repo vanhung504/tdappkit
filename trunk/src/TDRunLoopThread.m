@@ -24,6 +24,7 @@
     return self;
 }
 
+
 - (void)dealloc {
     self.thread = nil;
     [super dealloc];
@@ -35,6 +36,7 @@
     
     self.thread = [[[NSThread alloc] initWithTarget:self selector:@selector(_threadMain) object:nil] autorelease];
     [_thread start];
+    TDAssert([_thread isExecuting]);
 }
 
 
@@ -51,6 +53,8 @@
     TDAssert([NSThread currentThread] == _thread);
     
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
+    [loop addPort:[NSPort port] forMode:NSDefaultRunLoopMode]; // ??
+
     while ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
         @synchronized(self) {
             if (self.flag) {
@@ -66,6 +70,7 @@
     TDAssertMainThread();
     TDAssert(args);
     TDAssert(_thread);
+    TDAssert([_thread isExecuting]);
     [self performSelector:@selector(_async:) onThread:_thread withObject:args waitUntilDone:NO];
 }
 
@@ -74,6 +79,7 @@
     TDAssertMainThread();
     TDAssert(args);
     TDAssert(_thread);
+    TDAssert([_thread isExecuting]);
     [self performSelector:@selector(_sync:) onThread:_thread withObject:args waitUntilDone:YES];
 }
 
@@ -114,7 +120,8 @@
     TDAssertMainThread();
     NSParameterAssert(block);
     TDAssert(_thread);
-    
+    TDAssert([_thread isExecuting]);
+
     NSArray *args = @[[[block copy] autorelease]];
     [self _performAsync:args];
 }
@@ -125,7 +132,8 @@
     NSParameterAssert(block);
     NSParameterAssert(completion);
     TDAssert(_thread);
-    
+    TDAssert([_thread isExecuting]);
+
     NSArray *args = @[[[block copy] autorelease], [[completion copy] autorelease]];
     [self _performAsync:args];
 }
@@ -135,7 +143,8 @@
     TDAssertMainThread();
     NSParameterAssert(block);
     TDAssert(_thread);
-    
+    TDAssert([_thread isExecuting]);
+
     NSArray *args = @[[[block copy] autorelease]];
     [self _performSync:args];
 }
