@@ -110,7 +110,7 @@
     TDCompletionBlock completion = nil;
     if (2 == c) {
         completion = args[1];
-        TDPerformOnMainThread(^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             completion(result, err);
         });
     }
