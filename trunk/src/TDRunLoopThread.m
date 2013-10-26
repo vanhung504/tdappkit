@@ -55,7 +55,13 @@
     
     @autoreleasepool {
         NSRunLoop *loop = [NSRunLoop currentRunLoop];
-        [loop addPort:[NSPort port] forMode:NSDefaultRunLoopMode]; // ??
+        NSTimer *dummySrc = [[[NSTimer alloc] initWithFireDate:[NSDate distantFuture]
+                                                      interval:0.0
+                                                        target:self
+                                                      selector:@selector(_threadMain)
+                                                      userInfo:nil
+                                                       repeats:NO] autorelease];
+        [loop addTimer:dummySrc forMode:NSDefaultRunLoopMode];
         
         while ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
             @synchronized(self) {
