@@ -37,6 +37,7 @@
     self.thread = [[[NSThread alloc] initWithTarget:self selector:@selector(_threadMain) object:nil] autorelease];
     [_thread start];
     TDAssert([_thread isExecuting]);
+    TDAssert(![_thread isFinished]);
 }
 
 
@@ -52,14 +53,16 @@
     TDAssertNotMainThread();
     TDAssert([NSThread currentThread] == _thread);
     
-    NSRunLoop *loop = [NSRunLoop currentRunLoop];
-    [loop addPort:[NSPort port] forMode:NSDefaultRunLoopMode]; // ??
-
-    while ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
-        @synchronized(self) {
-            if (self.flag) {
-                self.flag = NO;
-                break;
+    @autoreleasepool {
+        NSRunLoop *loop = [NSRunLoop currentRunLoop];
+        [loop addPort:[NSPort port] forMode:NSDefaultRunLoopMode]; // ??
+        
+        while ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
+            @synchronized(self) {
+                if (self.flag) {
+                    self.flag = NO;
+                    break;
+                }
             }
         }
     }
@@ -71,6 +74,7 @@
     TDAssert(args);
     TDAssert(_thread);
     TDAssert([_thread isExecuting]);
+    TDAssert(![_thread isFinished]);
     [self performSelector:@selector(_async:) onThread:_thread withObject:args waitUntilDone:NO];
 }
 
@@ -80,6 +84,7 @@
     TDAssert(args);
     TDAssert(_thread);
     TDAssert([_thread isExecuting]);
+    TDAssert(![_thread isFinished]);
     [self performSelector:@selector(_sync:) onThread:_thread withObject:args waitUntilDone:YES];
 }
 
@@ -121,6 +126,7 @@
     NSParameterAssert(block);
     TDAssert(_thread);
     TDAssert([_thread isExecuting]);
+    TDAssert(![_thread isFinished]);
 
     NSArray *args = @[[[block copy] autorelease]];
     [self _performAsync:args];
@@ -133,6 +139,7 @@
     NSParameterAssert(completion);
     TDAssert(_thread);
     TDAssert([_thread isExecuting]);
+    TDAssert(![_thread isFinished]);
 
     NSArray *args = @[[[block copy] autorelease], [[completion copy] autorelease]];
     [self _performAsync:args];
@@ -144,6 +151,7 @@
     NSParameterAssert(block);
     TDAssert(_thread);
     TDAssert([_thread isExecuting]);
+    TDAssert(![_thread isFinished]);
 
     NSArray *args = @[[[block copy] autorelease]];
     [self _performSync:args];
