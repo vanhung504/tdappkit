@@ -32,17 +32,17 @@
 
 
 - (void)start {
-    TDAssertMainThread();
+    NSAssert([NSThread isMainThread], @"");
     
     self.thread = [[[NSThread alloc] initWithTarget:self selector:@selector(_threadMain) object:nil] autorelease];
     [_thread start];
-    TDAssert([_thread isExecuting]);
-    TDAssert(![_thread isFinished]);
+    NSAssert([_thread isExecuting], @"");
+    NSAssert(![_thread isFinished], @"");
 }
 
 
 - (void)stop {
-    TDAssertMainThread();
+    NSAssert([NSThread isMainThread], @"");
     @synchronized(self) {
         self.flag = YES;
     }
@@ -50,8 +50,8 @@
 
 
 - (void)_threadMain {
-    TDAssertNotMainThread();
-    TDAssert([NSThread currentThread] == _thread);
+    NSAssert(![NSThread isMainThread], @"");
+    NSAssert([NSThread currentThread] == _thread, @"");
     
     @autoreleasepool {
         NSRunLoop *loop = [NSRunLoop currentRunLoop];
@@ -76,31 +76,31 @@
 
 
 - (void)_performAsync:(NSArray *)args {
-    TDAssertMainThread();
-    TDAssert(args);
-    TDAssert(_thread);
-    TDAssert([_thread isExecuting]);
-    TDAssert(![_thread isFinished]);
+    NSAssert([NSThread isMainThread], @"");
+    NSAssert(args, @"");
+    NSAssert(_thread, @"");
+    NSAssert([_thread isExecuting], @"");
+    NSAssert(![_thread isFinished], @"");
     [self performSelector:@selector(_async:) onThread:_thread withObject:args waitUntilDone:NO];
 }
 
 
 - (void)_performSync:(NSArray *)args {
-    TDAssertMainThread();
-    TDAssert(args);
-    TDAssert(_thread);
-    TDAssert([_thread isExecuting]);
-    TDAssert(![_thread isFinished]);
+    NSAssert([NSThread isMainThread], @"");
+    NSAssert(args, @"");
+    NSAssert(_thread, @"");
+    NSAssert([_thread isExecuting], @"");
+    NSAssert(![_thread isFinished], @"");
     [self performSelector:@selector(_sync:) onThread:_thread withObject:args waitUntilDone:YES];
 }
 
 
 - (void)_async:(NSArray *)args {
-    TDAssert([NSThread currentThread] == _thread);
-    TDAssertNotMainThread();
+    NSAssert([NSThread currentThread] == _thread, @"");
+    NSAssert(![NSThread isMainThread], @"");
     
     NSUInteger c = [args count];
-    TDAssert(1 == c || 2 == c);
+    NSAssert(1 == c || 2 == c, @"");
     TDRunBlock block = args[0];
     
     NSError *err = nil;
@@ -118,9 +118,9 @@
 
 
 - (void)_sync:(NSArray *)args {
-    assert([NSThread currentThread] == _thread);
-    TDAssertNotMainThread();
-    TDAssert(1 == [args count]);
+    NSAssert([NSThread currentThread] == _thread, @"");
+    NSAssert(![NSThread isMainThread], @"");
+    NSAssert(1 == [args count], @"");
     TDBlock block = args[0];
     
     block();
@@ -128,11 +128,11 @@
 
 
 - (void)performAsync:(TDBlock)block {
-    TDAssertMainThread();
+    NSAssert([NSThread isMainThread], @"");
     NSParameterAssert(block);
-    TDAssert(_thread);
-    TDAssert([_thread isExecuting]);
-    TDAssert(![_thread isFinished]);
+    NSAssert(_thread, @"");
+    NSAssert([_thread isExecuting], @"");
+    NSAssert(![_thread isFinished], @"");
 
     NSArray *args = @[[[block copy] autorelease]];
     [self _performAsync:args];
@@ -140,12 +140,12 @@
 
 
 - (void)performAsync:(TDRunBlock)block completion:(TDCompletionBlock)completion {
-    TDAssertMainThread();
+    NSAssert([NSThread isMainThread], @"");
     NSParameterAssert(block);
     NSParameterAssert(completion);
-    TDAssert(_thread);
-    TDAssert([_thread isExecuting]);
-    TDAssert(![_thread isFinished]);
+    NSAssert(_thread, @"");
+    NSAssert([_thread isExecuting], @"");
+    NSAssert(![_thread isFinished], @"");
 
     NSArray *args = @[[[block copy] autorelease], [[completion copy] autorelease]];
     [self _performAsync:args];
@@ -153,11 +153,11 @@
 
 
 - (void)performSync:(TDBlock)block {
-    TDAssertMainThread();
+    NSAssert([NSThread isMainThread], @"");
     NSParameterAssert(block);
-    TDAssert(_thread);
-    TDAssert([_thread isExecuting]);
-    TDAssert(![_thread isFinished]);
+    NSAssert(_thread, @"");
+    NSAssert([_thread isExecuting], @"");
+    NSAssert(![_thread isFinished], @"");
 
     NSArray *args = @[[[block copy] autorelease]];
     [self _performSync:args];
