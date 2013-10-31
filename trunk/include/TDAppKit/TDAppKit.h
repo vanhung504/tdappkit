@@ -44,7 +44,6 @@
 
 // Multiprocess stuff
 #import <TDAppKit/TDSemaphore.h>
-#import <TDAppKit/TDCoprocess.h>
 
 // Tabbed App stuff
 #import <TDAppKit/TDTabbedDocumentController.h>
