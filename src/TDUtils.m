@@ -223,11 +223,11 @@ NSNib *TDLoadNib(id owner, NSString *nibName, NSBundle *bundle) {
         bundle = [NSBundle mainBundle];
     }
     NSNib *nib = [[[NSNib alloc] initWithNibNamed:nibName bundle:bundle] autorelease];
-#if FU_BUILD_TARGET_MTN_LION
-    if (![nib instantiateWithOwner:owner topLevelObjects:nil]) {  
-#else
-    if (![nib instantiateNibWithOwner:owner topLevelObjects:nil]) {
-#endif
+
+    NSArray *objs = nil;
+    if ([nib instantiateWithOwner:owner topLevelObjects:&objs]) {
+        [objs retain];
+    } else {
         NSLog(@"Could not load nib named %@", nibName);
         return nil;
     }
