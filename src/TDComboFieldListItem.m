@@ -7,7 +7,7 @@
 //
 
 #import "TDComboFieldListItem.h"
-#import <NSBezierPath+TDAdditions.h>
+#import "NSBezierPath+TDAdditions.h"
 
 #define LABEL_MARGIN_X 5.0
 #define LABEL_MARGIN_Y 2.0

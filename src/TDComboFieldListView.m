@@ -7,7 +7,7 @@
 //
 
 #import "TDComboFieldListView.h"
-#import <NSBezierPath+TDAdditions.h>
+#import "NSBezierPath+TDAdditions.h"
 
 #define RADIUS 3.0
 
