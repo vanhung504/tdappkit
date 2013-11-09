@@ -256,6 +256,8 @@ BOOL TDIsSnowLeopardOrLater() {
 }
 
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 void TDGetSystemVersion(NSUInteger *major, NSUInteger *minor, NSUInteger *bugfix) {
 //    // Version 10.8 (Build 12A239)
 //    NSString *version = [[NSProcessInfo processInfo] operatingSystemVersionString];
@@ -309,6 +311,7 @@ fail:
     if (minor) *minor = 0;
     if (bugfix) *bugfix = 0;
 }
+#pragma clang diagnostic pop
 
 
 NSStringEncoding TDNSStringEncodingFromTextEncodingName(NSString *encName) {
