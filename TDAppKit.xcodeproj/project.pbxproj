@@ -37,6 +37,7 @@
 		D31CC05E10EFC80B0013347D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D31CC05D10EFC80B0013347D /* main.m */; };
 		D31CC0B010EFC9750013347D /* ListViewDemoMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D31CC0AF10EFC9750013347D /* ListViewDemoMainMenu.xib */; };
 		D32F3D9A166020AD00EF8284 /* TDStatusBarButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D32F3D98166020AD00EF8284 /* TDStatusBarButtonCell.m */; };
+		D33767D01833DA290054E464 /* TDTabListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = D33767CF1833DA290054E464 /* TDTabListItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D33B19F111168A3300F754AD /* TDScroller.h in Headers */ = {isa = PBXBuildFile; fileRef = D33B19EF11168A3300F754AD /* TDScroller.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D33B19F211168A3300F754AD /* TDScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = D33B19F011168A3300F754AD /* TDScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D33B19F511168A3A00F754AD /* TDScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = D33B19F311168A3A00F754AD /* TDScroller.m */; };
@@ -126,7 +127,6 @@
 		D3E1320A110403D5007FE89E /* TDColorView.h in Headers */ = {isa = PBXBuildFile; fileRef = D3E13208110403D5007FE89E /* TDColorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3E1320B110403D5007FE89E /* TDColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E13209110403D5007FE89E /* TDColorView.m */; };
 		D3EAAFD8128B4137006EDFF7 /* TDTabsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EAAFD6128B4137006EDFF7 /* TDTabsListViewController.m */; };
-		D3EAAFE3128B42B3006EDFF7 /* TDTabListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = D3EAAFE1128B42B3006EDFF7 /* TDTabListItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3EAAFE4128B42B3006EDFF7 /* TDTabListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EAAFE2128B42B3006EDFF7 /* TDTabListItem.m */; };
 		D3EAB027128B45ED006EDFF7 /* TDTabsListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3EAB025128B45ED006EDFF7 /* TDTabsListView.xib */; };
 		D3EAB088128B5352006EDFF7 /* TDTabsListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D3EAB087128B5352006EDFF7 /* TDTabsListViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -224,6 +224,7 @@
 		D31CC05D10EFC80B0013347D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = demo/listview/main.m; sourceTree = "<group>"; };
 		D31CC0AF10EFC9750013347D /* ListViewDemoMainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ListViewDemoMainMenu.xib; path = demo/listview/ListViewDemoMainMenu.xib; sourceTree = "<group>"; };
 		D32F3D98166020AD00EF8284 /* TDStatusBarButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDStatusBarButtonCell.m; path = src/TDStatusBarButtonCell.m; sourceTree = "<group>"; };
+		D33767CF1833DA290054E464 /* TDTabListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDTabListItem.h; path = include/TDAppKit/TDTabListItem.h; sourceTree = "<group>"; };
 		D33B19EF11168A3300F754AD /* TDScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDScroller.h; path = include/TDAppKit/TDScroller.h; sourceTree = "<group>"; };
 		D33B19F011168A3300F754AD /* TDScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDScrollView.h; path = include/TDAppKit/TDScrollView.h; sourceTree = "<group>"; };
 		D33B19F311168A3A00F754AD /* TDScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDScroller.m; path = src/TDScroller.m; sourceTree = "<group>"; };
@@ -322,7 +323,6 @@
 		D3E13208110403D5007FE89E /* TDColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDColorView.h; path = include/TDAppKit/TDColorView.h; sourceTree = "<group>"; };
 		D3E13209110403D5007FE89E /* TDColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDColorView.m; path = src/TDColorView.m; sourceTree = "<group>"; };
 		D3EAAFD6128B4137006EDFF7 /* TDTabsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDTabsListViewController.m; path = src/TDTabsListViewController.m; sourceTree = "<group>"; };
-		D3EAAFE1128B42B3006EDFF7 /* TDTabListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDTabListItem.h; path = src/TDTabListItem.h; sourceTree = "<group>"; };
 		D3EAAFE2128B42B3006EDFF7 /* TDTabListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDTabListItem.m; path = src/TDTabListItem.m; sourceTree = "<group>"; };
 		D3EAB026128B45ED006EDFF7 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TDTabsListView.xib; sourceTree = "<group>"; };
 		D3EAB087128B5352006EDFF7 /* TDTabsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDTabsListViewController.h; path = include/TDAppKit/TDTabsListViewController.h; sourceTree = "<group>"; };
@@ -606,7 +606,7 @@
 				D3EAAFD6128B4137006EDFF7 /* TDTabsListViewController.m */,
 				D38ED9D815583D8E0004F9AE /* TDTabsListView.h */,
 				D38ED9D915583D8E0004F9AE /* TDTabsListView.m */,
-				D3EAAFE1128B42B3006EDFF7 /* TDTabListItem.h */,
+				D33767CF1833DA290054E464 /* TDTabListItem.h */,
 				D3EAAFE2128B42B3006EDFF7 /* TDTabListItem.m */,
 				D3740A0B155354500057FBEF /* Styles */,
 			);
@@ -825,6 +825,7 @@
 				D366C1B71128FF2400547FD6 /* NSAppleEventDescriptor+NDAppleScriptObject.h in Headers */,
 				D366C1B81128FF2400547FD6 /* NSAppleEventDescriptor+TDAdditions.h in Headers */,
 				D366C1EF112902E500547FD6 /* NSURL+NDCarbonUtilities.h in Headers */,
+				D33767D01833DA290054E464 /* TDTabListItem.h in Headers */,
 				D36E1EAC11702E6A00110DBA /* TDComboField.h in Headers */,
 				D36E1ED911703A1000110DBA /* TDComboFieldListItem.h in Headers */,
 				D36E20951170D0D400110DBA /* TDFlippedView.h in Headers */,
@@ -851,7 +852,6 @@
 				D36A3633128B260F00AB56C9 /* TDTabViewController.h in Headers */,
 				D36A3635128B261D00AB56C9 /* TDTabModel.h in Headers */,
 				D36A3662128B27DC00AB56C9 /* TDTabbedWindowController.h in Headers */,
-				D3EAAFE3128B42B3006EDFF7 /* TDTabListItem.h in Headers */,
 				D3EAB088128B5352006EDFF7 /* TDTabsListViewController.h in Headers */,
 				D38F3D27128B8BD300DC5FDB /* TDViewController.h in Headers */,
 				D38F4A17128CDB0800DC5FDB /* TDHintView.h in Headers */,
