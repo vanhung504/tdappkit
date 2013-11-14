@@ -943,6 +943,11 @@
 				CLASSPREFIX = TD;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Todd Ditchendorf";
+				TargetAttributes = {
+					8DC2EF4F0486A6940098B216 = {
+						DevelopmentTeam = 9867TNT66D;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "TDAppKit" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1140,7 +1145,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "Developer ID Application: Todd Ditchendorf (9867TNT66D)";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1157,6 +1162,7 @@
 				INFOPLIST_FILE = res/conf/Info.plist;
 				INSTALL_PATH = "build/$(CONFIGURATION)";
 				PRODUCT_NAME = TDAppKit;
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1166,7 +1172,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "Developer ID Application: Todd Ditchendorf (9867TNT66D)";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1182,6 +1188,7 @@
 				INSTALL_PATH = "build/$(CONFIGURATION)";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = TDAppKit;
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
 			};
