@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		D30098491656FB7E009D25D8 /* TDStatusBarPopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = D30098471656FB7E009D25D8 /* TDStatusBarPopUpView.m */; };
 		D300984B1656FC77009D25D8 /* TDStatusBarPopUpView.h in Headers */ = {isa = PBXBuildFile; fileRef = D300984A1656FC77009D25D8 /* TDStatusBarPopUpView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -189,7 +188,6 @@
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* TDAppKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDAppKit_Prefix.pch; path = src/TDAppKit_Prefix.pch; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = res/conf/Info.plist; sourceTree = "<group>"; };
@@ -722,7 +720,6 @@
 		D3EAB017128B4582006EDFF7 /* nib */ = {
 			isa = PBXGroup;
 			children = (
-				D7E0751E183FC1A800B21413 /* InfoPlist.strings */,
 				D7E07518183FC1A200B21413 /* TDRegisterWindow.xib */,
 				D7E0751A183FC1A200B21413 /* TDTabsListView.xib */,
 				D7E07515183FC19C00B21413 /* TDTabView.xib */,
@@ -755,7 +752,7 @@
 		D3EAB01A128B459B006EDFF7 /* strings */ = {
 			isa = PBXGroup;
 			children = (
-				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+				D7E0751E183FC1A800B21413 /* InfoPlist.strings */,
 			);
 			name = strings;
 			sourceTree = "<group>";
@@ -983,7 +980,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				D7E07520183FC1A800B21413 /* InfoPlist.strings in Resources */,
 				D7E0751D183FC1A200B21413 /* TDTabsListView.xib in Resources */,
 				D7E07517183FC19C00B21413 /* TDTabView.xib in Resources */,
@@ -1123,14 +1119,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				089C1667FE841158C02AAC07 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		D7E07515183FC19C00B21413 /* TDTabView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
