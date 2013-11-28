@@ -54,6 +54,26 @@ id TDCGHexaColor(NSUInteger x) {
 }
 
 
+NSString *TDHexStringFromColor(NSColor *c) {
+    assert([c isKindOfClass:[NSColor class]]);
+    
+    NSString *result = nil;
+    
+    NSColor *convertedColor = [c colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+    
+    if (convertedColor) {
+        result = [NSString stringWithFormat:@"%02X%02X%02X%02X",
+                  (int) ([convertedColor redComponent] * 0xFF),
+                  (int) ([convertedColor greenComponent] * 0xFF),
+                  (int) ([convertedColor blueComponent] * 0xFF),
+                  (int) ([convertedColor alphaComponent] * 0xFF)
+                  ];
+    }
+    
+    return result;
+}
+
+
 void TDPerformOnMainThread(void (^block)(void)) {
     //assert(block);
     dispatch_async(dispatch_get_main_queue(), block);
