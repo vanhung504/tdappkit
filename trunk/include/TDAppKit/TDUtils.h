@@ -26,6 +26,7 @@ NSColor *TDHexColor(NSUInteger x);
 NSColor *TDHexaColor(NSUInteger x);
 id TDCGHexColor(NSUInteger x);
 id TDCGHexaColor(NSUInteger x);
+NSString *TDHexStringFromColor(NSColor *c);
 
 void TDPerformOnMainThread(void (^block)(void));
 void TDPerformOnBackgroundThread(void (^block)(void));
