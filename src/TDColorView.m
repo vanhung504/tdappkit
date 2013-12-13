@@ -23,7 +23,7 @@
 
 
 - (void)drawRect:(NSRect)dirtyRect {
-    [_color setFill];
+    [self.color setFill];
     NSRectFill(dirtyRect);
 }
 
