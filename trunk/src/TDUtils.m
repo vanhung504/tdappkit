@@ -339,6 +339,11 @@ NSStringEncoding TDNSStringEncodingFromTextEncodingName(NSString *encName) {
 }
 
 
+NSString *TDTextEncodingNameFromNSStringEncoding(NSStringEncoding enc) {
+    return (id)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(enc));
+}
+
+
 TDEdgeInsets TDEdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat right) {
     TDEdgeInsets e;
     e.top = top;
