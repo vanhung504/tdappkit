@@ -55,6 +55,7 @@ BOOL TDIsSnowLeopardOrLater();
 void TDGetSystemVersion(NSUInteger *major, NSUInteger *minor, NSUInteger *bugfix);
 
 NSStringEncoding TDNSStringEncodingFromTextEncodingName(NSString *encName);
+NSString *TDTextEncodingNameFromNSStringEncoding(NSStringEncoding enc);
 
 typedef struct {
     CGFloat top; 
