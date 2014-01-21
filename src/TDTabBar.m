@@ -70,7 +70,6 @@
     NSArray *buttons = [self subviews];
     TDAssert(buttons);
     NSInteger c = [[self subviews] count];
-    TDAssert(c);
     
     if (c > 0) {
         CGFloat widths[c];
