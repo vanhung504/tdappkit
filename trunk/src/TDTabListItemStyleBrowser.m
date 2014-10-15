@@ -221,7 +221,7 @@ static NSDictionary *sHints = nil;
     NSImage *scaledImg = tabModel.scaledImage;
     if (!scaledImg || !NSEqualSizes(scaledImgSize, imgSize)) {
         
-        [img setFlipped:[item isFlipped]];
+        //[img setFlipped:[item isFlipped]];
         
         scaledImg = [img scaledImageOfSize:scaledImgSize alpha:1.0 hiRez:YES cornerRadius:NORMAL_RADIUS];
         tabModel.scaledImage = scaledImg;
