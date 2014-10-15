@@ -374,7 +374,7 @@ static NSMutableDictionary *sClassNameForListItemStyleDict = nil;
 //    
 //    FUWindowController *wc = [self windowController];
 //    for (FUTabController *tc in [wc tabControllers]) {
-//        [self startObserveringTabController:tc];
+//        [self startObservingTabController:tc];
 //    }
 //    
 //    [self updateSelectedTabModel];

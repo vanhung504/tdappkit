@@ -14,8 +14,8 @@
 
 @interface TDTabListItem ()
 - (NSImage *)imageNamed:(NSString *)name scaledToSize:(NSSize)size;
-- (void)startObserveringModel:(TDTabModel *)m;
-- (void)stopObserveringModel:(TDTabModel *)m;
+- (void)startObservingModel:(TDTabModel *)m;
+- (void)stopObservingModel:(TDTabModel *)m;
 
 - (void)startDrawHiRezTimer;
 - (void)drawHiRezTimerFired:(NSTimer *)t;
@@ -146,7 +146,7 @@
 }
 
 
-- (void)startObserveringModel:(TDTabModel *)m {
+- (void)startObservingModel:(TDTabModel *)m {
     if (m) {
         [m addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:NULL];
         [m addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
@@ -155,7 +155,7 @@
 }
 
 
-- (void)stopObserveringModel:(TDTabModel *)m {
+- (void)stopObservingModel:(TDTabModel *)m {
     if (m) {
         [m removeObserver:self forKeyPath:@"image"];
         [m removeObserver:self forKeyPath:@"title"];
@@ -177,12 +177,12 @@
 - (void)setTabModel:(TDTabModel *)tm {
     if (tm != tabModel) {
         [self willChangeValueForKey:@"tabModel"];
-        [self stopObserveringModel:tabModel];
+        [self stopObservingModel:tabModel];
         
         [tabModel autorelease];
         tabModel = [tm retain];
         
-        [self startObserveringModel:tabModel];
+        [self startObservingModel:tabModel];
         [self didChangeValueForKey:@"tabModel"];
     }
 }
